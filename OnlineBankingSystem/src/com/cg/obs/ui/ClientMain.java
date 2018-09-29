@@ -4,14 +4,18 @@ import java.util.Scanner;
 
 import org.apache.log4j.PropertyConfigurator;
 
+import com.cg.obs.service.ICustomerService;
+import com.cg.obs.service.OBSServiceFactory;
+
 
 
 public class ClientMain {
 	
+	
+	private static ICustomerService customerService =OBSServiceFactory.getCustomerBean();
+	
 	public static void main(String[] args) {
 		
-		
-
 		Scanner scan = new Scanner(System.in);
 		PropertyConfigurator.configure("res/log4j.properties");
 		
@@ -26,13 +30,15 @@ public class ClientMain {
 			
 			if(choice==1){
 				System.out.print("UserName? ");
-				String userName = scan.next();
+				String adminUserName = scan.next();
 				System.out.print("Password? ");
-				String password = scan.next();
+				String adminPassword = scan.next();
 				loginAttempts++;				
 			}else if(choice==2){
 				System.out.println("Username? ");
+				String customerUserName = scan.next();
 				System.out.println("Password? ");
+				String customerPassword = scan.next();
 			}
 		
 			

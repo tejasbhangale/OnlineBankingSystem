@@ -6,6 +6,6 @@ public interface ICustomerDao {
 
 	public Customer getCustomerDetails(int id);
 
-	public void updateCustomerDetails(Customer customer);
+	public boolean updateCustomerDetails(Customer customer);
 
 }

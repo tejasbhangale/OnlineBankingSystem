@@ -2,6 +2,7 @@ package com.cg.obs.service;
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.exception.InvalidDetailsEntered;
+import com.cg.obs.exception.InvalidPasswordEntered;
 import com.cg.obs.exception.UpdateCustomerException;
 
 public interface ICustomerService {
@@ -10,6 +11,8 @@ public interface ICustomerService {
 
 	public Customer getCustomerDetails(int id);
 
-	public void updateCustomerDetails(Customer customer) throws UpdateCustomerException;
+	public boolean updateCustomerDetails(Customer customer) throws UpdateCustomerException;
+
+	void validatePassword(String oldPass, String newPass1, String newPass2) throws InvalidPasswordEntered;
 
 }

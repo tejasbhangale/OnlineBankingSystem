@@ -6,6 +6,7 @@ import java.util.Scanner;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.InvalidChoiceException;
+import com.cg.obs.exception.InvalidPasswordEntered;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
@@ -61,6 +62,20 @@ public class UserClient {
 
 				break;
 			case 2:
+				
+				System.out.println("Enter your old Password:");
+				String oldPass = scan.nextLine();
+				System.out.println("Enter new Password:");
+				String newPass1 = scan.nextLine();
+				System.out.println("Enter new Password again:");
+				String newPass2 = scan.nextLine();
+				
+				try {
+					cService.validatePassword(oldPass,newPass1,newPass2);
+				} catch (InvalidPasswordEntered e) {
+					System.err.println("Invalid ");
+				}
+				
 				break;
 			case 3:
 				System.out

@@ -3,6 +3,7 @@ package com.cg.obs.service;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.InvalidDetailsEntered;
+import com.cg.obs.exception.InvalidPasswordEntered;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.util.OBSDaoFactory;
 
@@ -28,6 +29,13 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Override
 	public boolean updateCustomerDetails(Customer customer)  throws UpdateCustomerException {
 		return cDao.updateCustomerDetails(customer);
+	}
+
+	@Override
+	public void validatePassword(String oldPass, String newPass1,
+			String newPass2) throws InvalidPasswordEntered {
+		//cDao.checkPass(oldPass);
+		
 	}
 
 }

@@ -26,18 +26,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		cDao.updateCustomerDetails(customer);
 	}
 
-	@Override
-	public boolean getAdminLogin(String username, String password) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getUserLogin(String username, String password) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	
 
 }

@@ -5,12 +5,7 @@ import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.UpdateCustomerException;
 
 public interface ICustomerService {
-
-	public boolean getAdminLogin(String username,String password);
 	
-	public boolean getUserLogin(String username,String password);
-	
-
 	void validate(long mobile, String address) throws InvalidDetailsEntered;
 
 	public Customer getCustomerDetails(int id);

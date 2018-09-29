@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.cg.obs.bean.Customer;
-import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.InvalidCredentialsException;
 import com.cg.obs.util.ConnectionProvider;
 
 public class CustomerDaoImpl implements ICustomerDao {
@@ -18,7 +18,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			PreparedStatement pt = conn.prepareStatement(query);
 			pt.setInt(1, id);
 			
-		} catch (OnlineBankingException e) {
+		} catch (InvalidCredentialsException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();

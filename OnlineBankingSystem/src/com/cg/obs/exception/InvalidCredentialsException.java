@@ -1,13 +1,13 @@
 package com.cg.obs.exception;
 
-public class OnlineBankingException extends Exception {
+public class InvalidCredentialsException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public OnlineBankingException(String message){
+	public InvalidCredentialsException(String message){
 		super(message);
 	}
 

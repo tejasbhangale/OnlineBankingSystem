@@ -9,4 +9,6 @@ public class Messages {
 	public static final String CONNECTION_CONFIGURATION_FAILURE="Connection Configuaration Not Loaded!";
 	public static final String CONNECTION_ESTABILISHED_FAILURE="Connection is not established!";
 	public static final String UPDATE_CUSTOMER_FAILED = "Unexpected Error! Failed to update Details. Please try again!";
+	public static final String INVALID_USERNAME="No Such UserName";
+	public static final String INVALID_PASSWORD="Password Mismatch";
 }

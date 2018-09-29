@@ -4,15 +4,15 @@ import java.util.Scanner;
 
 import org.apache.log4j.PropertyConfigurator;
 
-import com.cg.obs.service.ICustomerService;
-
+import com.cg.obs.exception.InvalidCredentialsException;
+import com.cg.obs.service.ILoginService;
+import com.cg.obs.util.OBSServiceFactory;
 
 
 
 public class ClientMain {
 	
-	
-	
+	private static ILoginService loginService=OBSServiceFactory.getLoginService();
 	
 	public static void main(String[] args) {
 		
@@ -33,14 +33,39 @@ public class ClientMain {
 				String adminUserName = scan.next();
 				System.out.print("Password? ");
 				String adminPassword = scan.next();
-				loginAttempts++;				
+								
+				try{
+					boolean success=loginService.getAdminLogin(adminUserName, adminPassword);
+					
+					if(success){
+						System.out.println("successfully logged in");
+					}
+				
+				}catch(InvalidCredentialsException e){
+					System.err.println(e.getMessage());
+				}
+				
 			}else if(choice==2){
 				System.out.println("Username? ");
 				String customerUserName = scan.next();
 				System.out.println("Password? ");
 				String customerPassword = scan.next();
+				loginAttempts++;
+				
+				try{
+					boolean success=loginService.getUserLogin(customerUserName, customerPassword);
+					
+					if(success){
+						UserClient userClient=new UserClient();
+						userClient.startClient();
+					}
+				
+				}catch(InvalidCredentialsException e){
+					System.err.println(e.getMessage());
+				}
+	
 			}
-		
+			
 			
 		}
 		scan.close();

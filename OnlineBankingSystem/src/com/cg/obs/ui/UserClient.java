@@ -90,6 +90,12 @@ public class UserClient {
 		}
 		return choice;
 
+	}
+
+	public void startClient() {
+		// TODO Auto-generated method stub
+		System.out.println("done for user");
+		
 	} 
 	
 

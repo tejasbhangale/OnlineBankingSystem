@@ -1,4 +1,6 @@
-package com.cg.obs.service;
+package com.cg.obs.util;
+
+import com.cg.obs.service.CustomerServiceImpl;
 
 public class OBSServiceFactory {
 	

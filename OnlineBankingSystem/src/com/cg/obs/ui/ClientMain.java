@@ -5,14 +5,14 @@ import java.util.Scanner;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.cg.obs.service.ICustomerService;
-import com.cg.obs.service.OBSServiceFactory;
+
 
 
 
 public class ClientMain {
 	
 	
-	private static ICustomerService customerService =OBSServiceFactory.getCustomerBean();
+	
 	
 	public static void main(String[] args) {
 		

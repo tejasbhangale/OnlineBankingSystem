@@ -12,7 +12,6 @@ import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.util.DBUtil;
-import com.cg.obs.util.QueryMapper;
 
 public class AdminDAOImpl implements IAdminDAO {
 
@@ -24,7 +23,7 @@ public class AdminDAOImpl implements IAdminDAO {
 		
 		
 		try {
-			PreparedStatement pstm = conn.prepareStatement(QueryMapper.INSERT_ACCOUNT_DETAILS);
+			PreparedStatement pstm = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_DETAILS);
 			pstm.setLong(1, cust.getAccountId());
 			pstm.setString(2, cust.getCustomerName());
             pstm.setLong(3, cust.getMobile());
@@ -58,7 +57,7 @@ public class AdminDAOImpl implements IAdminDAO {
 		
 
 		try {
-			PreparedStatement pstm = conn.prepareStatement(QueryMapper.INSERT_ACCOUNT_MASTER);
+			PreparedStatement pstm = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_MASTER);
 			pstm.setLong(1, account.getAccountId());
 			pstm.setString(2, account.getAccountType());
             pstm.setDouble(3, account.getOpeningBalance());
@@ -95,7 +94,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 
 		try {
-			PreparedStatement pstm = conn.prepareStatement(QueryMapper.GET_TRANSACTION_DETAILS);
+			PreparedStatement pstm = conn.prepareStatement(IQueryMapper.GET_TRANSACTION_DETAILS);
 			
 			
 			pstm.setDate(1, startDate);

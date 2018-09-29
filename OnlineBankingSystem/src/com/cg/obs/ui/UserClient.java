@@ -7,6 +7,7 @@ import com.cg.obs.bean.Customer;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.InvalidChoiceException;
 import com.cg.obs.exception.InvalidPasswordEntered;
+import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
@@ -16,11 +17,11 @@ public class UserClient {
 
 	private static ICustomerService cService = OBSServiceFactory
 			.getCustomerBean();
-	public static String[] ar = { "1001", "1002", "1003" };
+	public static int ar = 1001;
 
 	public static int countPassTries = 0;
 
-	public static void main(String[] ar) {
+	public static void main(String[] args) {
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
@@ -65,27 +66,43 @@ public class UserClient {
 
 				break;
 			case 2:
-				
-				while (true) {
-					if(doCountCheck()) break;
+				boolean validPass = false;
+				while (!validPass) {
+
+					if (!doCountCheck())
+						break;
 					
 					String oldPass = getOldPass(scan);
-					boolean validPass = cService.checkOldPass(oldPass, ar[0]);
-					
-					if(!validPass){
-						System.err.println("Your old-password is invalid! Please Try Again");
+					validPass = cService.checkOldPass(oldPass, ar);
+					if (validPass)
+						break;
+					System.err
+							.println("Your old-password is invalid! Please Try Again");
+					scan.next();
+					countPassTries++;
+				}
+
+				if (!doCountCheck())
+					break;
+
+				boolean validNewPass = false;
+				countPassTries = 0;
+				while (!validNewPass) {
+					if (doCountCheck())
+						break;
+					String newPass = getNewPass(scan);
+					validNewPass = cService.checkNewPass(newPass);
+					try {
+						if (!validNewPass) {
+							cService.updatePassword(newPass,ar);
+							System.out.println("Your password has been successfully updated!");
+							break;
+						}
+					} catch (PasswordUpdateException e) {
+						System.err.println("Error while updating Password!");
 						scan.next();
-						countPassTries++;
-						continue;
 					}
-					
-					String[] newPass = getNewPass(scan).split(" ");
-					
-					/*if(!validNewPass(newPass[0]),newPass[1]){
-						
-					}*/
-					System.out.println("Your password has been successfully updated!");
-				}	//("You have exceeded the maximum number of tries!");
+				}
 				break;
 			case 3:
 				System.out
@@ -137,7 +154,8 @@ public class UserClient {
 
 	private static String getOldPass(Scanner scan) {
 		System.out.println("Enter your old Password:");
-		return scan.nextLine();
+		String pass = scan.next();
+		return pass;
 	}
 
 	private static boolean doCountCheck() {

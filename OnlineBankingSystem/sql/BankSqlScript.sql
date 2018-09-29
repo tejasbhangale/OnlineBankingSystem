@@ -4,7 +4,7 @@ CREATE TABLE Customer(Account_ID NUMBER(10) references Account_Master(Account_ID
 
 CREATE TABLE Transactions(Transaction_ID NUMBER(5) primary key,Tran_description VARCHAR2(100), DateofTransaction DATE , TransactionType VARCHAR2(1), TranAmount NUMBER(15) ,Account_ID NUMBER(10) references Account_Master(Account_ID));
 
-CREATE TABLE Service_Tracker(Service_ID NUMBER primary key, Service_Description VARCHAR2(100),Account_ID NUMBER references Account_Master(Account_ID), Service_Raised_Date DATE ,Service_status VARCHAR2(20));
+CREATE TABLE Service_Tracker(Service_ID NUMBER primary key, Service_Description VARCHAR2(100),Account_ID NUMBER references Account_Master(Account_ID), Service_Raised_Date DATE ,Service_status VARCHAR2(40));
 
 CREATE TABLE User_Table(Account_ID NUMBER references Account_Master(Account_ID),user_id NUMBER primary key,login_password VARCHAR2(15),secret_answer VARCHAR2(50),secret_question VARCHAR2(50),Transaction_password VARCHAR2(15),lock_status VARCHAR2(1));
 

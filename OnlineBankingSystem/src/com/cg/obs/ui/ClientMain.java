@@ -5,6 +5,7 @@ import java.util.Scanner;
 import org.apache.log4j.PropertyConfigurator;
 
 
+
 public class ClientMain {
 	
 	public static void main(String[] args) {
@@ -29,7 +30,12 @@ public class ClientMain {
 				System.out.print("Password? ");
 				String password = scan.next();
 				loginAttempts++;				
+			}else if(choice==2){
+				System.out.println("Username? ");
+				System.out.println("Password? ");
 			}
+		
+			
 		}
 		scan.close();
 		System.out.println("Program Terminated");

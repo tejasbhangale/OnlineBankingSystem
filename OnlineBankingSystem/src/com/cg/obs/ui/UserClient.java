@@ -7,9 +7,9 @@ import com.cg.obs.bean.Customer;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.InvalidChoiceException;
 import com.cg.obs.exception.UpdateCustomerException;
-import com.cg.obs.service.OBSServiceFactory;
 import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
+import com.cg.obs.util.OBSServiceFactory;
 
 public class UserClient {
 

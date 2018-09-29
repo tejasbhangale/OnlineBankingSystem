@@ -1,27 +1,28 @@
 package com.cg.obs.service;
 
 import com.cg.obs.bean.Customer;
+import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.UpdateCustomerException;
+import com.cg.obs.util.OBSDaoFactory;
 
 public class CustomerServiceImpl implements ICustomerService {
-
+	
+	private static ICustomerDao cDao = OBSDaoFactory.getCustomerDao(); 
+	
 	@Override
 	public void validate(long mobile, String address) throws InvalidDetailsEntered {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Customer getCustomerDetails(int id){
-		// TODO Auto-generated method stub
-		return null;
+		return cDao.getCustomerDetails(id);
 	}
 
 	@Override
 	public void updateCustomerDetails(Customer customer)  throws UpdateCustomerException {
-		// TODO Auto-generated method stub
-		
+		cDao.updateCustomerDetails(customer);
 	}
 
 }

@@ -4,10 +4,16 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.cg.obs.exception.InvalidChoiceException;
+import com.cg.obs.service.CustomerFactory;
+import com.cg.obs.service.CustomerServiceImpl;
+import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
 
 public class UserClient {
 
+	private CustomerFactory cFactory;
+	//private ICustomerService cService = new CustomerFactoryGetBean();
+	
 	public static void main(String[] args) {
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
@@ -15,7 +21,7 @@ public class UserClient {
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:
-
+				
 				break;
 			case 2:
 				break;
@@ -54,5 +60,5 @@ public class UserClient {
 		}
 		return choice;
 	}
-
+	
 }

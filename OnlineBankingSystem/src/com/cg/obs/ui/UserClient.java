@@ -59,6 +59,6 @@ public class UserClient {
 			System.err.println(e.getMessage());
 		}
 		return choice;
-	}
+	} 
 	
 }

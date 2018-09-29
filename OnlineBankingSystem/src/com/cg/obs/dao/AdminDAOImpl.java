@@ -8,22 +8,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import oracle.jdbc.driver.Message;
+
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.util.DBUtil;
+import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.util.ConnectionProvider;
+import com.cg.obs.util.Messages;
 
 public class AdminDAOImpl implements IAdminDAO {
 
 	@Override
-	public boolean addAccountDetails(Customer cust) {
+	public boolean addAccountDetails(Customer cust) throws JDBCConnectionError {
 		
-		Connection conn = DBUtil.getConnection();
+		
+				
+				
 		int status = 0;
 		
 		
-		try {
-			PreparedStatement pstm = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_DETAILS);
+		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_DETAILS);) {
+			
 			pstm.setLong(1, cust.getAccountId());
 			pstm.setString(2, cust.getCustomerName());
             pstm.setLong(3, cust.getMobile());
@@ -35,10 +44,14 @@ public class AdminDAOImpl implements IAdminDAO {
             
             
             
-		} catch (SQLException e) {
+		} catch (SQLException e ) {
 
+          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			
+		} catch (OnlineBankingException e1) {
+			
+	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 
-			e.printStackTrace();
 		}
 		
 		if(status>0)
@@ -50,14 +63,16 @@ public class AdminDAOImpl implements IAdminDAO {
 	}
 
 	@Override
-	public boolean addAccountMaster(AccountMaster account) {
+	public boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError {
 		
-		Connection conn = DBUtil.getConnection();
+		
 		int status = 0;
 		
 
-		try {
-			PreparedStatement pstm = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_MASTER);
+		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_MASTER);) {
+			
 			pstm.setLong(1, account.getAccountId());
 			pstm.setString(2, account.getAccountType());
             pstm.setDouble(3, account.getOpeningBalance());
@@ -67,12 +82,15 @@ public class AdminDAOImpl implements IAdminDAO {
             status = pstm.executeUpdate();
             
             
-            
-		} catch (SQLException e) {
+				} catch (SQLException e ) {
 
+			          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+						
+					} catch (OnlineBankingException e1) {
+						
+				          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 
-			e.printStackTrace();
-		}
+					}
 		
 		if(status>0)
 		{
@@ -86,15 +104,17 @@ public class AdminDAOImpl implements IAdminDAO {
 
 	@Override
 	public List<Transactions> getTransactionDetails(
-			Date startDate, Date endDate) {
+			Date startDate, Date endDate) throws JDBCConnectionError {
 		
 		List<Transactions> list = new ArrayList<Transactions>();
 
-		Connection conn = DBUtil.getConnection();
+		
 
 
-		try {
-			PreparedStatement pstm = conn.prepareStatement(IQueryMapper.GET_TRANSACTION_DETAILS);
+		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.GET_TRANSACTION_DETAILS);) {
+			
 			
 			
 			pstm.setDate(1, startDate);
@@ -122,11 +142,15 @@ public class AdminDAOImpl implements IAdminDAO {
             
             
             
-		} catch (SQLException e) {
+		} catch (SQLException e ) {
 
+	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+				
+			} catch (OnlineBankingException e1) {
+				
+		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 
-			e.printStackTrace();
-		}
+			}
 		
 	
 		

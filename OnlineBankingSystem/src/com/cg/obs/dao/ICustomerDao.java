@@ -8,4 +8,6 @@ public interface ICustomerDao {
 
 	public boolean updateCustomerDetails(Customer customer);
 
+	public boolean checkOldPass(String oldPass, String string);
+
 }

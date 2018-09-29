@@ -32,10 +32,9 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public void validatePassword(String oldPass, String newPass1,
-			String newPass2) throws InvalidPasswordEntered {
-		//cDao.checkPass(oldPass);
-		
+	public boolean checkOldPass(String oldPass, String string){
+		return cDao.checkOldPass(oldPass,string);
 	}
+
 
 }

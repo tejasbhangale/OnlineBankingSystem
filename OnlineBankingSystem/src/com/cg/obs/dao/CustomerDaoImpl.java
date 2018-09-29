@@ -63,4 +63,10 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	}
 
+	@Override
+	public boolean checkOldPass(String oldPass, String string) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -16,8 +16,11 @@ public class UserClient {
 
 	private static ICustomerService cService = OBSServiceFactory
 			.getCustomerBean();
+	public static String[] ar = { "1001", "1002", "1003" };
 
-	public static void main(String[] args) {
+	public static int countPassTries = 0;
+
+	public static void main(String[] ar) {
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
@@ -63,19 +66,26 @@ public class UserClient {
 				break;
 			case 2:
 				
-				System.out.println("Enter your old Password:");
-				String oldPass = scan.nextLine();
-				System.out.println("Enter new Password:");
-				String newPass1 = scan.nextLine();
-				System.out.println("Enter new Password again:");
-				String newPass2 = scan.nextLine();
-				
-				try {
-					cService.validatePassword(oldPass,newPass1,newPass2);
-				} catch (InvalidPasswordEntered e) {
-					System.err.println("Invalid ");
-				}
-				
+				while (true) {
+					if(doCountCheck()) break;
+					
+					String oldPass = getOldPass(scan);
+					boolean validPass = cService.checkOldPass(oldPass, ar[0]);
+					
+					if(!validPass){
+						System.err.println("Your old-password is invalid! Please Try Again");
+						scan.next();
+						countPassTries++;
+						continue;
+					}
+					
+					String[] newPass = getNewPass(scan).split(" ");
+					
+					/*if(!validNewPass(newPass[0]),newPass[1]){
+						
+					}*/
+					System.out.println("Your password has been successfully updated!");
+				}	//("You have exceeded the maximum number of tries!");
 				break;
 			case 3:
 				System.out
@@ -114,6 +124,29 @@ public class UserClient {
 			System.err.println(e.getMessage());
 		}
 		return choice;
+	}
+
+	private static String getNewPass(Scanner scan) {
+		System.out.println("Enter new Password:");
+		String newPass1 = scan.nextLine();
+		System.out.println("Enter new Password again:");
+		String newPass2 = scan.nextLine();
+		String res = newPass1 + " " + newPass2;
+		return res;
+	}
+
+	private static String getOldPass(Scanner scan) {
+		System.out.println("Enter your old Password:");
+		return scan.nextLine();
+	}
+
+	private static boolean doCountCheck() {
+		if (countPassTries >= 3) {
+			System.err.println("Maximum tries exceeded! Try Again.");
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

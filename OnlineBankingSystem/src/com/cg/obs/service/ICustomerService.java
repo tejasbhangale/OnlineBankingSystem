@@ -13,6 +13,6 @@ public interface ICustomerService {
 
 	public boolean updateCustomerDetails(Customer customer) throws UpdateCustomerException;
 
-	void validatePassword(String oldPass, String newPass1, String newPass2) throws InvalidPasswordEntered;
+	boolean checkOldPass(String oldPass, String string);
 
 }

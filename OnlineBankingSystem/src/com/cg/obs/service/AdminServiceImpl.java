@@ -8,6 +8,7 @@ import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.dao.AdminDAOImpl;
 import com.cg.obs.dao.IAdminDAO;
+import com.cg.obs.exception.JDBCConnectionError;
 
 public class AdminServiceImpl implements IAdminService {
 
@@ -15,14 +16,14 @@ public class AdminServiceImpl implements IAdminService {
 	
 	
 	@Override
-	public boolean addAccountDetails(Customer cust) {
+	public boolean addAccountDetails(Customer cust) throws JDBCConnectionError {
 	
 		return adminDAO.addAccountDetails(cust);
 	}
 
 
 	@Override
-	public boolean addAccountMaster(AccountMaster account) {
+	public boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError {
 		
 		return adminDAO.addAccountMaster(account);
 	}
@@ -30,7 +31,7 @@ public class AdminServiceImpl implements IAdminService {
 
 	@Override
 	public List<Transactions> getTransactionDetails(
-			Date startDate, Date endDate) {
+			Date startDate, Date endDate) throws JDBCConnectionError {
 		
 		return adminDAO.getTransactionDetails(
 				startDate,endDate);

@@ -1,15 +1,16 @@
 package com.cg.obs.ui;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.service.AdminServiceImpl;
 import com.cg.obs.service.IAdminService;
 
@@ -26,7 +27,7 @@ public class AdminConsole {
 	}
 
 	public void adminConsole() {
-		
+
 		String choice;
 
 		while (true) {
@@ -48,8 +49,8 @@ public class AdminConsole {
 				admin.getTransactionDetails();
 
 				break;
-			case "0":
-
+			case "3":
+				System.out.println("Thank you for usining our service");
 				System.exit(0);
 				break;
 			default:
@@ -74,9 +75,7 @@ public class AdminConsole {
 		double openingBalance;
 		Date currentDate = new Date();
 		java.sql.Date openDate = new java.sql.Date(currentDate.getTime());
-		
-		
-		
+
 		System.out.println("Account Number : ");
 		accNumber = sc.nextInt();
 		System.out.println("Customer Name :");
@@ -93,69 +92,84 @@ public class AdminConsole {
 		panDetail = sc.next();
 		System.out.println("Opening Balance : ");
 		openingBalance = sc.nextDouble();
-		
-		Customer cust = new Customer(accNumber,customerName,  customerMobileNum, customerEmail,customerAddress, panDetail );
-		
-		AccountMaster account = new AccountMaster(accNumber, accountType, openingBalance, openDate);
-		
-		boolean statusAdd  = adminService.addAccountMaster(account);
-		
-		boolean status = adminService.addAccountDetails(cust);
-		
-		if(status==true && statusAdd==true)
-		{
+
+		Customer cust = new Customer(accNumber, customerName,
+				customerMobileNum, customerEmail, customerAddress, panDetail);
+
+		AccountMaster account = new AccountMaster(accNumber, accountType,
+				openingBalance, openDate);
+
+		boolean statusAdd = false;
+		try {
+
+			statusAdd = adminService.addAccountMaster(account);
+
+		} catch (JDBCConnectionError e1) {
+
+			System.out.println(e1.getMessage());
+
+		}
+
+		boolean status = false;
+		try {
+
+			status = adminService.addAccountDetails(cust);
+
+		} catch (JDBCConnectionError e) {
+
+			System.out.println(e.getMessage());
+
+		}
+
+		if (status == true && statusAdd == true) {
 			System.out.println("Data added");
 		}
-		
-		
+
 	}
 
 	private void getTransactionDetails() {
 
-		
 		String sDate;
 		String eDate;
-		
+
 		java.sql.Date startDate = null;
 		java.sql.Date endDate = null;
-		
+
 		List<Transactions> list = new ArrayList<Transactions>();
-		
-		
+
 		System.out.println("Enter the starting date : ");
 		sDate = sc.next();
 		System.out.println("Enter the end date : ");
 		eDate = sc.next();
-		
-		
+
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			
-			
-			 Date stDate = format.parse(sDate);
-			 startDate = new java.sql.Date(stDate.getTime());
-			 
-			 Date edDate = format.parse(eDate);
-			 endDate = new java.sql.Date(edDate.getTime());
-			
-			 
+
+			Date stDate = format.parse(sDate);
+			startDate = new java.sql.Date(stDate.getTime());
+
+			Date edDate = format.parse(eDate);
+			endDate = new java.sql.Date(edDate.getTime());
+
 		} catch (ParseException e) {
-			
+
 			e.printStackTrace();
 		}
-		
-		
-		list = adminService.getTransactionDetails(startDate, endDate);
-		
-    for (Transactions tra : list) {
-    	
-    	System.out.println(tra.toString());
-		
-	}		
-		
-	
-		
-		
+
+		try {
+			list = adminService.getTransactionDetails(startDate, endDate);
+		} catch (JDBCConnectionError e) {
+
+			System.out.println(e.getMessage());
+
+		}
+
+		for (Transactions tra : list) {
+
+			System.out.println(tra.toString());
+
+		}
+
 	}
 
 }

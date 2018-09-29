@@ -6,13 +6,14 @@ import java.util.List;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.exception.JDBCConnectionError;
 
 public interface IAdminDAO {
 
-	boolean addAccountDetails(Customer cust);
+	boolean addAccountDetails(Customer cust) throws JDBCConnectionError;
 
-	boolean addAccountMaster(AccountMaster account);
+	boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError;
 
-	List<Transactions> getTransactionDetails(Date startDate, Date endDate);
+	List<Transactions> getTransactionDetails(Date startDate, Date endDate) throws JDBCConnectionError;
 
 }

@@ -27,6 +27,17 @@ INSERT INTO Customer Values(1003,'Andrea',8011744401,'andrea@gmail.com','Whitefe
 INSERT INTO Customer Values(1004,'Teja',9405771110,'teja@gmail.com','Whitefeild','dchr22');
 
 INSERT INTO Transactions Values(78965,'SUCCESSFUL','13-JAN-2016','c',5000,1001);
-INSERT INTO Transactions Values(52021,'SUCCESSFUL','16-FEB-2019','d',5000,1001);
-INSERT INTO Transactions Values(56821,'Failed','18-JAN-2018','d',5000,1001);
-INSERT INTO Transactions Values(53698,'SUCCESSFUL','15-DEC-2017','c',5000,1001);
+INSERT INTO Transactions Values(52021,'SUCCESSFUL','16-FEB-2019','d',5002,1001);
+INSERT INTO Transactions Values(56821,'Failed','18-JAN-2018','d',5040,1001);
+INSERT INTO Transactions Values(53698,'SUCCESSFUL','15-DEC-2017','c',5100,1001);
+
+INSERT INTO Service_Tracker Values(150,'Service1',1001,'19-JAN-2018','Done Sevice Request');
+INSERT INTO Service_Tracker Values(151,'Service2',1002,'15-AUG-2018','Done Sevice Request');
+INSERT INTO Service_Tracker Values(152,'Service3',1003,'20-JAN-2000','Incomplete Sevice Request');
+INSERT INTO Service_Tracker Values(153,'Service4',1004,'19-FEB-2015','Done Sevice Request');
+
+INSERT INTO User_Table Values(1001,120,'loginpwd','Pitbul','What is your pet name','tranpwd','l');
+INSERT INTO User_Table Values(1002,125,'loginpwd','Scarlet','What is your pet name','tranpwd','l');
+INSERT INTO User_Table Values(1003,170,'loginpwd','Fluffy','What is your pet name','tranpwd','l');
+INSERT INTO User_Table Values(1005,130,'loginpwd','Teju','What is your pet name','tranpwd','l');
+

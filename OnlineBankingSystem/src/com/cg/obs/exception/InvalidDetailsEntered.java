@@ -1,12 +1,12 @@
 package com.cg.obs.exception;
 
-public class InvaliDetailsEntered extends Exception {
+public class InvalidDetailsEntered extends Exception {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public InvaliDetailsEntered(String message) {
+	public InvalidDetailsEntered(String message) {
 		super(message);
 	}
 }

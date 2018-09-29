@@ -3,8 +3,10 @@ package com.cg.obs.ui;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.cg.obs.exception.InvaliDetailsEntered;
+import com.cg.obs.bean.Customer;
+import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.InvalidChoiceException;
+import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.OBSServiceFactory;
 import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
@@ -34,7 +36,10 @@ public class UserClient {
 
 				try {
 					cService.validate(mobile, address);
-				} catch (InvaliDetailsEntered e) {
+					customer.setMobile(mobile);
+					customer.setAddress(address);
+					cService.updateCustomerDetails(customer);
+				} catch (InvalidDetailsEntered e) {
 					if (e.getMessage().equals("mobile")) {
 						System.err.println(Messages.INCORRECT_MOBILE_NUMBER);
 						scan.next();
@@ -42,6 +47,9 @@ public class UserClient {
 						System.err.println(Messages.INCORRECT_CUSTOMER_ADDRESS);
 						scan.next();
 					}
+				} catch(UpdateCustomerException e){
+					System.err.println(Messages.UPDATE_CUSTOMER_FAILED);
+					scan.next();
 				}
 				
 				break;

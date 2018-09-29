@@ -71,9 +71,12 @@ public class CustomerDaoImpl implements ICustomerDao {
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.CHECK_OLD_PASSWORD);) {
 			pt.setInt(1, id);
+			
 			ResultSet res = pt.executeQuery();
 			if(res.next()){
-				if(res.getString(1).equals(oldPass)) return true;
+				if(res.getString(1).equals(oldPass)) {
+					return true;
+				}
 			}
 			
 		} catch (OnlineBankingException e) {

@@ -39,5 +39,5 @@ INSERT INTO Service_Tracker Values(153,'Service4',1004,'19-FEB-2015','Done Sevic
 INSERT INTO User_Table Values(1001,120,'loginpwd','Pitbul','What is your pet name','tranpwd','l');
 INSERT INTO User_Table Values(1002,125,'loginpwd','Scarlet','What is your pet name','tranpwd','l');
 INSERT INTO User_Table Values(1003,170,'loginpwd','Fluffy','What is your pet name','tranpwd','l');
-INSERT INTO User_Table Values(1005,130,'loginpwd','Teju','What is your pet name','tranpwd','l');
+INSERT INTO User_Table Values(1004,130,'loginpwd','Teju','What is your pet name','tranpwd','l');
 

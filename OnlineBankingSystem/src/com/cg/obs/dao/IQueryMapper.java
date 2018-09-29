@@ -16,6 +16,6 @@ public interface IQueryMapper {
 
 	public static final String CHECK_OLD_PASSWORD = "select login_password from user_table where account_id=?";
 
-	public static final String UPDATE_CUSTOMER_PASSWORD = "UPDATE USER_TABLE set login_password=? where id=?";
+	public static final String UPDATE_CUSTOMER_PASSWORD = "UPDATE USER_TABLE set login_password=? where account_id=?";
 
 }

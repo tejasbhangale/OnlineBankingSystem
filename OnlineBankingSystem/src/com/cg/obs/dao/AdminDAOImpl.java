@@ -25,12 +25,12 @@ public class AdminDAOImpl implements IAdminDAO {
 		
 		try {
 			PreparedStatement pstm = conn.prepareStatement(QueryMapper.INSERT_ACCOUNT_DETAILS);
-			pstm.setLong(1, cust.getAccNumber());
+			pstm.setLong(1, cust.getAccountId());
 			pstm.setString(2, cust.getCustomerName());
-            pstm.setLong(3, cust.getCustomerMobileNum());
-            pstm.setString(4, cust.getCustomerEmail());
-            pstm.setString(5, cust.getCustomerAddress());
-            pstm.setString(6, cust.getPanDetail());
+            pstm.setLong(3, cust.getMobile());
+            pstm.setString(4, cust.getEmail());
+            pstm.setString(5, cust.getAddress());
+            pstm.setString(6, cust.getPancard());
             
             status = pstm.executeUpdate();
             

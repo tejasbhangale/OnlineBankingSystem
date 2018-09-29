@@ -66,7 +66,7 @@ public class AdminConsole {
 
 	private void createAccount() {
 
-		long accNumber;
+		int accNumber;
 		String customerName;
 		String customerAddress;
 		long customerMobileNum;
@@ -80,7 +80,7 @@ public class AdminConsole {
 		
 		
 		System.out.println("Account Number : ");
-		accNumber = sc.nextLong();
+		accNumber = sc.nextInt();
 		System.out.println("Customer Name :");
 		customerName = sc.next();
 		System.out.println("Customer Address : ");
@@ -96,7 +96,7 @@ public class AdminConsole {
 		System.out.println("Opening Balance : ");
 		openingBalance = sc.nextDouble();
 		
-		Customer cust = new Customer(accNumber,customerName, customerAddress,  customerMobileNum, customerEmail, panDetail );
+		Customer cust = new Customer(accNumber,customerName,  customerMobileNum, customerEmail,customerAddress, panDetail );
 		
 		AccountMaster account = new AccountMaster(accNumber, accountType, openingBalance, openDate);
 		

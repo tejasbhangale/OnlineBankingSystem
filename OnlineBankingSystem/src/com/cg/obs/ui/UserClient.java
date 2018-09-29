@@ -23,23 +23,27 @@ public class UserClient {
 			case 1:
 				System.out.println("Enter your customer id:");
 				int id = scan.nextInt();
+				
 				System.out.println("Displaying Existing Details:");
-				//Customer customer = cService.getCustomerDetails(id);
-				//System.out.println(customer);
+				Customer customer = cService.getCustomerDetails(id);
+				System.out.println(customer);
 				System.out.println("Enter new Mobile Number:");
 				long mobile = scan.nextLong();
 				System.out.println("Enter new Address:");
 				String address = scan.next();
-				
-				/*try{
-					//cService.validate(mobile,address);
+
+				try {
+					cService.validate(mobile, address);
+				} catch (InvaliDetailsEntered e) {
+					if (e.getMessage().equals("mobile")) {
+						System.err.println(Messages.INCORRECT_MOBILE_NUMBER);
+						scan.next();
+					} else {
+						System.err.println(Messages.INCORRECT_CUSTOMER_ADDRESS);
+						scan.next();
+					}
 				}
-				catch(InvaliDetailsEntered e){
-					//if(e.getMessage().equals(anObject))
-					System.err.println(Messages.INCORRECT_CUSTOMER_DETAILS);
-					scan.next();
-				}*/
-		
+				
 				break;
 			case 2:
 				break;

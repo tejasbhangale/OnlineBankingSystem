@@ -45,10 +45,10 @@ public enum ConnectionProvider {
 			if (url != null && username != null && password != null) {
 				con = DriverManager.getConnection(url, username, password);
 			}else
-				throw new OnlineBankingException("Connection Configuaration Not Loaded!");
+				throw new OnlineBankingException(Messages.CONNECTION_CONFIGURATION_FAILURE);
 		} catch (SQLException e) {
 			log.error(e);
-			throw new OnlineBankingException("Connection is not established!");
+			throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
 		return con;
 	}

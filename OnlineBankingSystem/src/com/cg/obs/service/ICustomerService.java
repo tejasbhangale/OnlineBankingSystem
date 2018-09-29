@@ -10,6 +10,6 @@ public interface ICustomerService {
 
 	public Customer getCustomerDetails(int id);
 
-	public void updateCustomerDetails(Customer customer) throws UpdateCustomerException;
+	public boolean updateCustomerDetails(Customer customer) throws UpdateCustomerException;
 
 }

@@ -12,7 +12,12 @@ public class CustomerServiceImpl implements ICustomerService {
 	
 	@Override
 	public void validate(long mobile, String address) throws InvalidDetailsEntered {
-		
+		if(mobile<Long.valueOf("7000000000")){
+			throw new InvalidDetailsEntered("mobile");
+		}
+		else if(address.equals("") | address.length()<3){
+			throw new InvalidDetailsEntered("address");
+		}
 	}
 
 	@Override
@@ -21,8 +26,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public void updateCustomerDetails(Customer customer)  throws UpdateCustomerException {
-		cDao.updateCustomerDetails(customer);
+	public boolean updateCustomerDetails(Customer customer)  throws UpdateCustomerException {
+		return cDao.updateCustomerDetails(customer);
 	}
 
 }

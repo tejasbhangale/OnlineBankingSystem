@@ -25,7 +25,7 @@ public class UserClient {
 			case 1:
 				System.out.println("Enter your customer id:");
 				int id = scan.nextInt();
-				
+
 				System.out.println("Displaying Existing Details:");
 				Customer customer = cService.getCustomerDetails(id);
 				System.out.println(customer);
@@ -38,7 +38,14 @@ public class UserClient {
 					cService.validate(mobile, address);
 					customer.setMobile(mobile);
 					customer.setAddress(address);
-					cService.updateCustomerDetails(customer);
+					boolean result = cService.updateCustomerDetails(customer);
+					if (result)
+						System.out
+								.println("Your Details have been successfully updated!");
+					else
+						System.out
+								.println("Sorry!, Your details could not be updated. Please try again.");
+
 				} catch (InvalidDetailsEntered e) {
 					if (e.getMessage().equals("mobile")) {
 						System.err.println(Messages.INCORRECT_MOBILE_NUMBER);
@@ -47,15 +54,18 @@ public class UserClient {
 						System.err.println(Messages.INCORRECT_CUSTOMER_ADDRESS);
 						scan.next();
 					}
-				} catch(UpdateCustomerException e){
+				} catch (UpdateCustomerException e) {
 					System.err.println(Messages.UPDATE_CUSTOMER_FAILED);
 					scan.next();
 				}
-				
+
 				break;
 			case 2:
 				break;
 			case 3:
+				System.out
+						.println("Thank you for using ONLINE BANKING SYSTEM!!!");
+				System.exit(1);
 				break;
 			default:
 				System.out.println("Invalid choice, please try again!");

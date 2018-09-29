@@ -10,29 +10,41 @@ public class User {
 	private int userId;
 	private String loginPassword;
 	private String secretQuestion;
+	private String secretAnswer;
 	private String transactionPassword;
 	private char lockStatus;
+	
+	
 	
 	@Override
 	public String toString() {
 		return "User [accountId=" + accountId + ", userId=" + userId
 				+ ", loginPassword=" + loginPassword + ", secretQuestion="
-				+ secretQuestion + ", transactionPassword="
-				+ transactionPassword + ", lockStatus=" + lockStatus + "]";
-	}
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
+				+ secretQuestion + ", secretAnswer=" + secretAnswer
+				+ ", transactionPassword=" + transactionPassword
+				+ ", lockStatus=" + lockStatus + "]";
 	}
 	public User(int accountId, int userId, String loginPassword,
-			String secretQuestion, String transactionPassword, char lockStatus) {
+			String secretQuestion, String secretAnswer,
+			String transactionPassword, char lockStatus) {
 		super();
 		this.accountId = accountId;
 		this.userId = userId;
 		this.loginPassword = loginPassword;
 		this.secretQuestion = secretQuestion;
+		this.secretAnswer = secretAnswer;
 		this.transactionPassword = transactionPassword;
 		this.lockStatus = lockStatus;
+	}
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public String getSecretAnswer() {
+		return secretAnswer;
+	}
+	public void setSecretAnswer(String secretAnswer) {
+		this.secretAnswer = secretAnswer;
 	}
 	public int getAccountId() {
 		return accountId;

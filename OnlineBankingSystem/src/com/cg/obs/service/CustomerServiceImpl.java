@@ -16,4 +16,10 @@ public class CustomerServiceImpl implements ICustomerService {
 		return false;
 	}
 
+	@Override
+	public void validate(long mobile, String address) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

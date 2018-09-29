@@ -6,4 +6,6 @@ public interface ICustomerService {
 	
 	public boolean getUserLogin(String username,String password);
 	
+	void validate(long mobile, String address);
+
 }

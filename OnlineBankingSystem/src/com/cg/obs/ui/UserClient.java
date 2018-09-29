@@ -3,17 +3,18 @@ package com.cg.obs.ui;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.cg.obs.bean.Customer;
+import com.cg.obs.exception.InvaliDetailsEntered;
 import com.cg.obs.exception.InvalidChoiceException;
-import com.cg.obs.service.CustomerFactory;
-import com.cg.obs.service.CustomerServiceImpl;
+import com.cg.obs.service.OBSServiceFactory;
 import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
 
 public class UserClient {
 
-	private CustomerFactory cFactory;
-	//private ICustomerService cService = new CustomerFactoryGetBean();
-	
+	private static ICustomerService cService = OBSServiceFactory
+			.getCustomerBean();
+
 	public static void main(String[] args) {
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
@@ -21,6 +22,28 @@ public class UserClient {
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:
+				System.out.println("Enter your customer id:");
+				int id = scan.nextInt();
+				
+				System.out.println("Displaying Existing Details:");
+				Customer customer = cService.getCustomerDetails(id);
+				System.out.println(customer);
+				System.out.println("Enter new Mobile Number:");
+				long mobile = scan.nextLong();
+				System.out.println("Enter new Address:");
+				String address = scan.next();
+
+				try {
+					cService.validate(mobile, address);
+				} catch (InvaliDetailsEntered e) {
+					if (e.getMessage().equals("mobile")) {
+						System.err.println(Messages.INCORRECT_MOBILE_NUMBER);
+						scan.next();
+					} else {
+						System.err.println(Messages.INCORRECT_CUSTOMER_ADDRESS);
+						scan.next();
+					}
+				}
 				
 				break;
 			case 2:
@@ -59,6 +82,11 @@ public class UserClient {
 			System.err.println(e.getMessage());
 		}
 		return choice;
+<<<<<<< HEAD
 	} 
 	
+=======
+	}
+
+>>>>>>> 520f6ba5b2e73a0bb777414edd91551d61e0f3a2
 }

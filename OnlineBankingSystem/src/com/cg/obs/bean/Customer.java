@@ -4,7 +4,7 @@ public class Customer {
 
 	private int accountId;
 	private String customerName;
-	private int mobile;
+	private long mobile;
 	private String email;
 	private String address;
 	private String pancard ;
@@ -19,7 +19,7 @@ public class Customer {
 		super();
 		
 	}
-	public Customer(int accountId, String customerName, int mobile,
+	public Customer(int accountId, String customerName, long mobile,
 			String email, String address, String pancard) {
 		super();
 		this.accountId = accountId;
@@ -41,10 +41,10 @@ public class Customer {
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
-	public int getMobile() {
+	public long getMobile() {
 		return mobile;
 	}
-	public void setMobile(int mobile) {
+	public void setMobile(long mobile) {
 		this.mobile = mobile;
 	}
 	public String getEmail() {

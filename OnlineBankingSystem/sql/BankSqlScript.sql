@@ -4,7 +4,7 @@ CREATE TABLE Customer(Account_ID NUMBER(10) references Account_Master(Account_ID
 
 CREATE TABLE Transactions(Transaction_ID NUMBER(5) primary key,Tran_description VARCHAR2(100), DateofTransaction DATE , TransactionType VARCHAR2(1), TranAmount NUMBER(15) ,Account_ID NUMBER(10) references Account_Master(Account_ID));
 
-CREATE TABLE Service_Tracker(Service_ID NUMBER primary key, Service_Description VARCHAR2(100),Account_ID NUMBER references Account_Master(Account_ID), Service_Raised_Date DATE ,Service_status VARCHAR2(20));
+CREATE TABLE Service_Tracker(Service_ID NUMBER primary key, Service_Description VARCHAR2(100),Account_ID NUMBER references Account_Master(Account_ID), Service_Raised_Date DATE ,Service_status VARCHAR2(40));
 
 CREATE TABLE User_Table(Account_ID NUMBER references Account_Master(Account_ID),user_id NUMBER primary key,login_password VARCHAR2(15),secret_answer VARCHAR2(50),secret_question VARCHAR2(50),Transaction_password VARCHAR2(15),lock_status VARCHAR2(1));
 
@@ -39,5 +39,5 @@ INSERT INTO Service_Tracker Values(153,'Service4',1004,'19-FEB-2015','Done Sevic
 INSERT INTO User_Table Values(1001,120,'loginpwd','Pitbul','What is your pet name','tranpwd','l');
 INSERT INTO User_Table Values(1002,125,'loginpwd','Scarlet','What is your pet name','tranpwd','l');
 INSERT INTO User_Table Values(1003,170,'loginpwd','Fluffy','What is your pet name','tranpwd','l');
-INSERT INTO User_Table Values(1005,130,'loginpwd','Teju','What is your pet name','tranpwd','l');
+INSERT INTO User_Table Values(1004,130,'loginpwd','Teju','What is your pet name','tranpwd','l');
 

@@ -6,6 +6,7 @@ import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.ValidationException;
 
 public interface IAdminService {
 
@@ -14,6 +15,8 @@ public interface IAdminService {
 	boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError;
 
 	List<Transactions> getTransactionDetails(java.sql.Date startDate, java.sql.Date endDate) throws JDBCConnectionError;
+
+	void isValidate(Customer customer, AccountMaster account) throws ValidationException;
 
 
 

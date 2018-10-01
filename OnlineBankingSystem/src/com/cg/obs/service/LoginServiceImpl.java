@@ -15,6 +15,7 @@ public class LoginServiceImpl implements ILoginService {
 		// TODO Auto-generated method stub
 		boolean success=false;
 		
+		
 		Admin admin=loginDao.getAdminLogin(username);
 		
 		if(admin==null){

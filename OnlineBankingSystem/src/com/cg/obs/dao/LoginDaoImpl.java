@@ -1,5 +1,6 @@
 package com.cg.obs.dao;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ public class LoginDaoImpl implements ILoginDao {
 
 	private ResultSet resultset;
 	
+	
 	public LoginDaoImpl() {
 		super();
 		
@@ -23,8 +25,9 @@ public class LoginDaoImpl implements ILoginDao {
 
 	@Override
 	public Admin getAdminLogin(String userId) {
+	
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
-				PreparedStatement st =con.prepareStatement(IQueryMapper.ADMIN_CREDENTIALS);) {
+				PreparedStatement st=con.prepareStatement(IQueryMapper.ADMIN_CREDENTIALS);) {
 			
 			st.setString(1, userId);
 			resultset=st.executeQuery();
@@ -32,6 +35,7 @@ public class LoginDaoImpl implements ILoginDao {
 			Admin admin=new Admin();
 			
 			if(resultset.next()){
+			
 			
 				admin.setAdminId(resultset.getInt(1));
 				admin.setUserId(resultset.getString(2));
@@ -43,10 +47,10 @@ public class LoginDaoImpl implements ILoginDao {
 			
 		} catch (InvalidCredentialsException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		
 		
@@ -56,16 +60,18 @@ public class LoginDaoImpl implements ILoginDao {
 
 	@Override
 	public User getUserLogin(String userId) {
-		try {
-			Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
-			PreparedStatement st =con.prepareStatement(IQueryMapper.USER_CREDENTIALS);
+		
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+			PreparedStatement st =con.prepareStatement(IQueryMapper.USER_CREDENTIALS);) {
+			
 			st.setString(1, userId);
 			resultset=st.executeQuery();
 			
 			User user=new User();
 			
 			if(resultset.next()){
-				user.setUserId(resultset.getInt(1));
+				user.setUserId(resultset.getInt(2));
+				
 				
 			}
 			
@@ -83,3 +89,4 @@ public class LoginDaoImpl implements ILoginDao {
 	
 
 }
+

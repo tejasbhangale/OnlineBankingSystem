@@ -27,9 +27,9 @@ public enum ConnectionProvider {
 		try {
 			Properties props = new Properties();
 			props.load(new FileInputStream("res/db.properties"));
-			username = props.getProperty("db.unm");
+			username = props.getProperty("db.username");
 			driver = props.getProperty("db.driver");
-			password = props.getProperty("db.pwd");
+			password = props.getProperty("db.password");
 			url = props.getProperty("db.url");
 			Class.forName(driver);
 			log.info("Driver Loaded");

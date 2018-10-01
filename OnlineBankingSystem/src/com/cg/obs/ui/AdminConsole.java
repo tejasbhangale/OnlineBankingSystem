@@ -44,7 +44,7 @@ public class AdminConsole {
 			case "1":
 
 				admin.createAccount();
-				//admin.test();
+				// admin.test();
 
 				break;
 			case "2":
@@ -80,9 +80,9 @@ public class AdminConsole {
 		java.sql.Date openDate = new java.sql.Date(currentDate.getTime());
 
 		try {
-			
+
 			String check;
-			
+
 			System.out.println("Account Number : ");
 			check = sc.next();
 			accNumber = Integer.parseInt(check);
@@ -104,7 +104,8 @@ public class AdminConsole {
 			openingBalance = Double.parseDouble(check);
 
 			Customer cust = new Customer(accNumber, customerName,
-					customerMobileNum, customerEmail, customerAddress, panDetail);
+					customerMobileNum, customerEmail, customerAddress,
+					panDetail);
 
 			AccountMaster account = new AccountMaster(accNumber, accountType,
 					openingBalance, openDate);
@@ -130,14 +131,12 @@ public class AdminConsole {
 				System.err.println(e1.getMessage());
 
 			}
-			
+
 		} catch (NumberFormatException e) {
-			
+
 			System.err.println("Enter valid Input");
-			
+
 		}
-		
-		
 
 	}
 
@@ -169,11 +168,11 @@ public class AdminConsole {
 				list = adminService.getTransactionDetails(startDate, endDate);
 
 				if (list.size() == 0) {
-					
+
 					System.out.println("No Transaction exist for given dates");
-					
+
 				} else {
-					
+
 					for (Transactions tra : list) {
 
 						System.out.println(tra.toString());
@@ -181,13 +180,14 @@ public class AdminConsole {
 					}
 				}
 			} else {
-				System.err.println("Start date can not be greater than end date");
+				System.err
+						.println("Start date can not be greater than end date");
 			}
 
 		} catch (ParseException e) {
 
 			System.err.println("Enter valid date format");
-			
+
 		} catch (JDBCConnectionError e) {
 
 			System.err.println(e.getMessage());
@@ -195,22 +195,5 @@ public class AdminConsole {
 		}
 
 	}
-	
-	public void test()
-	{
-		
-		System.out.println("Enter");
-		
-		try {
-			double s = sc.nextDouble();
-
-		} catch (InputMismatchException e) {
-			System.out.println("enter valid");
-		}
-	
-		
-		
-	}
-	
 
 }

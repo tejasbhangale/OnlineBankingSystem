@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.ValidationException;
 import com.cg.obs.service.AdminServiceImpl;
 import com.cg.obs.service.IAdminService;
 
@@ -42,6 +44,7 @@ public class AdminConsole {
 			case "1":
 
 				admin.createAccount();
+				//admin.test();
 
 				break;
 			case "2":
@@ -50,7 +53,7 @@ public class AdminConsole {
 
 				break;
 			case "3":
-				System.out.println("Thank you for usining our service");
+				System.out.println("Thank you for using our service");
 				System.exit(0);
 				break;
 			default:
@@ -76,54 +79,65 @@ public class AdminConsole {
 		Date currentDate = new Date();
 		java.sql.Date openDate = new java.sql.Date(currentDate.getTime());
 
-		System.out.println("Account Number : ");
-		accNumber = sc.nextInt();
-		System.out.println("Customer Name :");
-		customerName = sc.next();
-		System.out.println("Customer Address : ");
-		customerAddress = sc.next();
-		System.out.println("Customer Mobile Number : ");
-		customerMobileNum = sc.nextLong();
-		System.out.println("Customer Email Id : ");
-		customerEmail = sc.next();
-		System.out.println("Account Type : ");
-		accountType = sc.next();
-		System.out.println("PAN Card Number : ");
-		panDetail = sc.next();
-		System.out.println("Opening Balance : ");
-		openingBalance = sc.nextDouble();
-
-		Customer cust = new Customer(accNumber, customerName,
-				customerMobileNum, customerEmail, customerAddress, panDetail);
-
-		AccountMaster account = new AccountMaster(accNumber, accountType,
-				openingBalance, openDate);
-
-		boolean statusAdd = false;
 		try {
+			
+			String check;
+			
+			System.out.println("Account Number : ");
+			check = sc.next();
+			accNumber = Integer.parseInt(check);
+			System.out.println("Customer Name :");
+			customerName = sc.next();
+			System.out.println("Customer Address : ");
+			customerAddress = sc.next();
+			System.out.println("Customer Mobile Number : ");
+			check = sc.next();
+			customerMobileNum = Long.parseLong(check);
+			System.out.println("Customer Email Id : ");
+			customerEmail = sc.next();
+			System.out.println("Account Type : ");
+			accountType = sc.next();
+			System.out.println("PAN Card Number : ");
+			panDetail = sc.next();
+			System.out.println("Opening Balance : ");
+			check = sc.next();
+			openingBalance = Double.parseDouble(check);
 
-			statusAdd = adminService.addAccountMaster(account);
+			Customer cust = new Customer(accNumber, customerName,
+					customerMobileNum, customerEmail, customerAddress, panDetail);
 
-		} catch (JDBCConnectionError e1) {
+			AccountMaster account = new AccountMaster(accNumber, accountType,
+					openingBalance, openDate);
 
-			System.out.println(e1.getMessage());
+			boolean statusAdd = false;
+			boolean status = false;
 
+			try {
+
+				adminService.isValidate(cust, account);
+				statusAdd = adminService.addAccountMaster(account);
+				status = adminService.addAccountDetails(cust);
+
+				if (status == true && statusAdd == true) {
+					System.out.println("Data added");
+				}
+
+			} catch (ValidationException e2) {
+
+				System.err.println(e2.getMessage());
+			} catch (JDBCConnectionError e1) {
+
+				System.err.println(e1.getMessage());
+
+			}
+			
+		} catch (NumberFormatException e) {
+			
+			System.err.println("Enter valid Input");
+			
 		}
-
-		boolean status = false;
-		try {
-
-			status = adminService.addAccountDetails(cust);
-
-		} catch (JDBCConnectionError e) {
-
-			System.out.println(e.getMessage());
-
-		}
-
-		if (status == true && statusAdd == true) {
-			System.out.println("Data added");
-		}
+		
+		
 
 	}
 
@@ -151,25 +165,52 @@ public class AdminConsole {
 			Date edDate = format.parse(eDate);
 			endDate = new java.sql.Date(edDate.getTime());
 
+			if (startDate.before(endDate)) {
+				list = adminService.getTransactionDetails(startDate, endDate);
+
+				if (list.size() == 0) {
+					
+					System.out.println("No Transaction exist for given dates");
+					
+				} else {
+					
+					for (Transactions tra : list) {
+
+						System.out.println(tra.toString());
+
+					}
+				}
+			} else {
+				System.err.println("Start date can not be greater than end date");
+			}
+
 		} catch (ParseException e) {
 
-			e.printStackTrace();
-		}
-
-		try {
-			list = adminService.getTransactionDetails(startDate, endDate);
+			System.err.println("Enter valid date format");
+			
 		} catch (JDBCConnectionError e) {
 
-			System.out.println(e.getMessage());
-
-		}
-
-		for (Transactions tra : list) {
-
-			System.out.println(tra.toString());
+			System.err.println(e.getMessage());
 
 		}
 
 	}
+	
+	public void test()
+	{
+		
+		System.out.println("Enter");
+		
+		try {
+			double s = sc.nextDouble();
+
+		} catch (InputMismatchException e) {
+			System.out.println("enter valid");
+		}
+	
+		
+		
+	}
+	
 
 }

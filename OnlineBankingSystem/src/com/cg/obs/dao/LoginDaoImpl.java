@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import com.cg.obs.bean.Admin;
 import com.cg.obs.bean.User;
-import com.cg.obs.exception.InvalidCredentialsException;
+import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.util.ConnectionProvider;
 
 public class LoginDaoImpl implements ILoginDao {
@@ -45,7 +45,7 @@ public class LoginDaoImpl implements ILoginDao {
 			
 			return admin;
 			
-		} catch (InvalidCredentialsException e) {
+		} catch (JDBCConnectionError e) {
 			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
 		} catch (SQLException e) {
@@ -76,7 +76,7 @@ public class LoginDaoImpl implements ILoginDao {
 			}
 			
 			
-		} catch (InvalidCredentialsException e) {
+		} catch (JDBCConnectionError e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {

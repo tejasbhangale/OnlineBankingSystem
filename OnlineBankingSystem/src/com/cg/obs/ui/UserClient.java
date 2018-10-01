@@ -5,9 +5,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.cg.obs.bean.Customer;
-import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.InvalidChoiceException;
-import com.cg.obs.exception.InvalidPasswordEntered;
+import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;
@@ -21,7 +20,7 @@ public class UserClient {
 
 	public static int countPassTries = 0;
 
-	public static void main(String[] args) {
+	public void clientConsole(){
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
@@ -122,9 +121,9 @@ public class UserClient {
 
 			}
 		}
-
+		
 	}
-
+	
 	private static int getChoice(Scanner scan) {
 		int choice = 0;
 		System.out.println("**************WELCOME TO ONLINE BANKING SYSTEM**************");

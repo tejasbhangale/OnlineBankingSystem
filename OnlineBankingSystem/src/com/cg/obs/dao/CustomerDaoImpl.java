@@ -7,15 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.cg.obs.bean.Customer;
-import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
-import com.cg.obs.util.ConnectionProvider;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import com.cg.obs.bean.Customer;
-import com.cg.obs.exception.InvalidCredentialsException;
 import com.cg.obs.util.ConnectionProvider;
 
 public class CustomerDaoImpl implements ICustomerDao {
@@ -40,7 +33,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				return customer;
 			}
 
-		} catch (OnlineBankingException e) {
+		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,7 +57,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			if (res >= 1)
 				return true;
 
-		} catch (OnlineBankingException e) {
+		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,7 +81,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				}
 			}
 			
-		} catch (OnlineBankingException e) {
+		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -107,7 +100,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setString(1, pass[0]);
 			pt.setInt(2, id);
 			pt.executeUpdate();
-		} catch (OnlineBankingException e) {
+		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();

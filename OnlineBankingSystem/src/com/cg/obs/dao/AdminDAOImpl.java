@@ -8,13 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import oracle.jdbc.driver.Message;
-
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.JDBCConnectionError;
-import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.ConnectionProvider;
 import com.cg.obs.util.Messages;
 
@@ -48,10 +45,6 @@ public class AdminDAOImpl implements IAdminDAO {
 
           throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 			
-		} catch (OnlineBankingException e1) {
-			
-	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-
 		}
 		
 		if(status>0)
@@ -86,11 +79,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 			          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 						
-					} catch (OnlineBankingException e1) {
-						
-				          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-
-					}
+					} 
 		
 		if(status>0)
 		{
@@ -146,11 +135,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 				
-			} catch (OnlineBankingException e1) {
-				
-		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-
-			}
+			} 
 		
 	
 		

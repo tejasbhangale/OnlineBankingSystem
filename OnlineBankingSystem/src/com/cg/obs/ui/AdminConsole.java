@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,11 +21,11 @@ public class AdminConsole {
 	Scanner sc = new Scanner(System.in);
 	IAdminService adminService = new AdminServiceImpl();
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 		admin.adminConsole();
 
-	}
+	}*/
 
 	public void adminConsole() {
 

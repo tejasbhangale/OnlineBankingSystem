@@ -23,7 +23,7 @@ public class ClientMain {
 
 		int loginAttempts=0;
 		while(choice!=3 && loginAttempts<=3){
-			System.out.println("*******Welcom to Online Banking System**********");
+			System.out.println("*******Welcome to Online Banking System**********");
 			System.out.println("Login As--->");
 			System.out.print("[1]Admin [2]Customer [3]Quit >");
 			choice = scan.nextInt();
@@ -39,6 +39,8 @@ public class ClientMain {
 					
 					if(success){
 						System.out.println("successfully logged in");
+						AdminConsole admin =new AdminConsole();
+						admin.adminConsole();
 					}
 				
 				}catch(InvalidCredentialsException e){
@@ -57,7 +59,8 @@ public class ClientMain {
 					
 					if(success){
 						UserClient userClient=new UserClient();
-						//userClient.startClient();
+						userClient.clientConsole();
+						System.out.println("client login done");
 					}
 				
 				}catch(InvalidCredentialsException e){

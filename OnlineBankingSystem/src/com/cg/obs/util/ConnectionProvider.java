@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-import com.cg.obs.exception.InvalidCredentialsException;
+import com.cg.obs.exception.JDBCConnectionError;
 
 
 public enum ConnectionProvider {
@@ -38,7 +38,7 @@ public enum ConnectionProvider {
 		}
 	}
 
-	public Connection getConnection() throws InvalidCredentialsException {
+	public Connection getConnection() throws JDBCConnectionError {
 		Connection con = null;
 
 		try {
@@ -46,10 +46,10 @@ public enum ConnectionProvider {
 				con = DriverManager.getConnection(url, username, password);
 			}else
 				
-				throw new InvalidCredentialsException(Messages.CONNECTION_CONFIGURATION_FAILURE);
+				throw new JDBCConnectionError(Messages.CONNECTION_CONFIGURATION_FAILURE);
 		} catch (SQLException e) {
 			log.error(e);
-			throw new InvalidCredentialsException(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
 		return con;
 	}

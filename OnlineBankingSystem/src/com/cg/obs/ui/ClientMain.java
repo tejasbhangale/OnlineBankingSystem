@@ -55,11 +55,11 @@ public class ClientMain {
 				loginAttempts++;
 				
 				try{
-					boolean success=loginService.getUserLogin(customerUserName, customerPassword);
+					int account_id=loginService.getUserLogin(customerUserName, customerPassword);
 					
-					if(success){
+					if(account_id!=0){
 						UserClient userClient=new UserClient();
-						userClient.clientConsole();
+						userClient.clientConsole(account_id);
 						System.out.println("client login done");
 					}
 				

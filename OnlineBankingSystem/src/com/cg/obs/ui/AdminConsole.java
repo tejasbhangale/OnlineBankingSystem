@@ -30,8 +30,8 @@ public class AdminConsole {
 	public void adminConsole() {
 
 		String choice;
-
-		while (true) {
+		boolean check=true;
+		while (check) {
 
 			System.out.println("1. Create user Account");
 			System.out.println("2. Get Transaction Details");
@@ -53,7 +53,7 @@ public class AdminConsole {
 				break;
 			case "3":
 				System.out.println("Thank you for using our service");
-				System.exit(0);
+				check=false;
 				break;
 			default:
 

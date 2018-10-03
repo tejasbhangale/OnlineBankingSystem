@@ -12,8 +12,7 @@ public class User {
 	private String secretQuestion;
 	private String secretAnswer;
 	private String transactionPassword;
-	private char lockStatus;
-	
+	private String lockStatus;
 	
 	
 	@Override
@@ -26,7 +25,7 @@ public class User {
 	}
 	public User(int accountId, int userId, String loginPassword,
 			String secretQuestion, String secretAnswer,
-			String transactionPassword, char lockStatus) {
+			String transactionPassword, String lockStatus) {
 		super();
 		this.accountId = accountId;
 		this.userId = userId;
@@ -76,12 +75,13 @@ public class User {
 	public void setTransactionPassword(String transactionPassword) {
 		this.transactionPassword = transactionPassword;
 	}
-	public char getLockStatus() {
+	public String getLockStatus() {
 		return lockStatus;
 	}
-	public void setLockStatus(char lockStatus) {
+	public void setLockStatus(String lockStatus) {
 		this.lockStatus = lockStatus;
 	}
+	
 	
 	
 	

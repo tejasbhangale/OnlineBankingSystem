@@ -60,17 +60,21 @@ public class LoginDaoImpl implements ILoginDao {
 
 	@Override
 	public User getUserLogin(String userId) {
+		User user=new User();
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 			PreparedStatement st =con.prepareStatement(IQueryMapper.USER_CREDENTIALS);) {
 			
-			st.setString(1, userId);
+			st.setInt(1, Integer.parseInt(userId));
 			resultset=st.executeQuery();
 			
-			User user=new User();
+			
 			
 			if(resultset.next()){
-				user.setUserId(resultset.getInt(2));
+				user.setUserId(resultset.getInt(1));
+				user.setLoginPassword(resultset.getString(2));
+				user.setAccountId(resultset.getInt(3));
+				user.setLockStatus(resultset.getString(4));
 				
 				
 			}
@@ -83,7 +87,7 @@ public class LoginDaoImpl implements ILoginDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return user;
 	}
 	
 	

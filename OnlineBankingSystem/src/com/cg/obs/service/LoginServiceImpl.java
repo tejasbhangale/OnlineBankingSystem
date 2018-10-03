@@ -31,7 +31,7 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public boolean getUserLogin(String username, String password) throws InvalidCredentialsException {
+	public int getUserLogin(String username, String password) throws InvalidCredentialsException {
 		// TODO Auto-generated method stub
 		boolean success=false;
 		
@@ -46,7 +46,7 @@ public class LoginServiceImpl implements ILoginService {
 		}
 		
 		
-		return success;
+		return user.getAccountId();
 	}
 
 }

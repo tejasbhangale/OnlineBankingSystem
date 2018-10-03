@@ -16,18 +16,18 @@ import com.cg.obs.util.OBSServiceFactory;
 public class UserClient {
 
 	private static ICustomerService cService = OBSServiceFactory.getCustomerBean();
-	public static int ar = 1001;
+	//public static int ar = 1001;
 
 	public static int countPassTries = 0;
 
-	public void clientConsole(){
+	public void clientConsole(int ar){
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:
-				System.out.println("Enter your customer id:");
+				System.out.println("Enter your Account id:");
 				int id;
 				try {
 					id = scan.nextInt();

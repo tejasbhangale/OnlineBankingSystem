@@ -1,7 +1,9 @@
+
 package com.cg.obs.service;
 
+
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.dao.ICustomerDao;
@@ -9,6 +11,8 @@ import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.util.OBSDaoFactory;
+
+
 
 public class CustomerServiceImpl implements ICustomerService {
 
@@ -53,7 +57,6 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public boolean checkNewPass(String newPass) {
-		Scanner scan = new Scanner(System.in);
 		String[] pass = newPass.split(" ");
 		if (!(pass[0].equals(pass[1]))) {
 			System.err.println("Password do not match! Try Again.");
@@ -71,3 +74,4 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 }
+

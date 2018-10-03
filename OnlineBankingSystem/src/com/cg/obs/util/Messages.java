@@ -13,5 +13,7 @@ public class Messages {
 	public static final String INVALID_OLD_PASS = "Your old-password is invalid! Please Try Again";
 	public static final String INVALID_MOBILE_FORMAT = "Invalid Mobile format, Enter numbers only!";
 	public static final String INVALID_ID_FORMAT = "ID must be numeric! Try again.";
-	
+	public static final String INVALID_USERNAME="No Such UserName";
+	public static final String INVALID_PASSWORD="Password Mismatch";
 }
+

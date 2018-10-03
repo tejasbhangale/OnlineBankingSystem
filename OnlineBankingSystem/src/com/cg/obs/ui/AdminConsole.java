@@ -22,16 +22,18 @@ public class AdminConsole {
 	Scanner sc = new Scanner(System.in);
 	IAdminService adminService = new AdminServiceImpl();
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 		admin.adminConsole();
 
-	}
+	}*/
 
 	public void adminConsole() {
 
 		String choice;
+
 		boolean check = true;
+
 
 		while (check) {
 
@@ -61,7 +63,9 @@ public class AdminConsole {
 				break;
 			case "4":
 				System.out.println("Thank you for using our service");
-                check = false;
+
+				check=false;
+
 				break;
 			default:
 
@@ -225,7 +229,7 @@ private void unlockUserAccount() {
 	    	  }
 	    	  else
 	    	  {
-	    		  if(user.getLockStatus()=='u')
+	    		  if(user.getLockStatus()=="u")
 	    		  {
 	    			  System.out.println("Account id : "+user.getAccountId());
 	    			  System.out.println("User id : "+user.getUserId());

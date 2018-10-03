@@ -1,4 +1,6 @@
+
 package com.cg.obs.ui;
+
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,21 +14,22 @@ import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSServiceFactory;
 
+
 public class UserClient {
 
 	private static ICustomerService cService = OBSServiceFactory.getCustomerBean();
-	public static int ar = 1001;
+	//public static int ar = 1001;
 
 	public static int countPassTries = 0;
 
-	public static void main(String[] args) {
+	public void clientConsole(int ar){
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:
-				System.out.println("Enter your customer id:");
+				System.out.println("Enter your Account id:");
 				int id;
 				try {
 					id = scan.nextInt();
@@ -120,9 +123,9 @@ public class UserClient {
 
 			}
 		}
-
+		
 	}
-
+	
 	private static int getChoice(Scanner scan) {
 		int choice = 0;
 		System.out.println("**************WELCOME TO ONLINE BANKING SYSTEM**************");
@@ -171,3 +174,4 @@ public class UserClient {
 	}
 
 }
+

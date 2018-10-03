@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.bean.User;
 import com.cg.obs.exception.JDBCConnectionError;
-import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.ConnectionProvider;
 import com.cg.obs.util.Messages;
 
@@ -48,10 +48,6 @@ public class AdminDAOImpl implements IAdminDAO {
 
           throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 			
-		} catch (OnlineBankingException e1) {
-			
-	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-
 		}
 		
 		if(status>0)
@@ -86,11 +82,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 			          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 						
-					} catch (OnlineBankingException e1) {
-						
-				          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-
-					}
+					} 
 		
 		if(status>0)
 		{
@@ -146,11 +138,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 				
-			} catch (OnlineBankingException e1) {
-				
-		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-
-			}
+			} 
 		
 	
 		
@@ -179,7 +167,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	            	user.setUserId(result.getInt(2));
 	            	user.setSecretAnswer(result.getString(4));
 	            	user.setSecretQuestion(result.getString(5));
-	            	user.setLockStatus(result.getString(7).charAt(0));
+	            	user.setLockStatus(result.getString(7));
 	            	
 	            }
 			
@@ -188,11 +176,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 				
-			} catch (OnlineBankingException e1) {
-				
-		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-
-			}
+			} 
 		
 		return user;
 	}
@@ -216,11 +200,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 				
-			} catch (OnlineBankingException e1) {
-				
-		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-
-			}
+			} 
 		
 		if(status==1)
 		{

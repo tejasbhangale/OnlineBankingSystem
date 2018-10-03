@@ -6,7 +6,7 @@ import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 
 public interface ICustomerService {
-
+	
 	void validate(long mobile, String address) throws InvalidDetailsEntered;
 
 	public Customer getCustomerDetails(int id);
@@ -18,5 +18,6 @@ public interface ICustomerService {
 	boolean checkNewPass(String newPass);
 
 	void updatePassword(String newPass, int id) throws PasswordUpdateException;
+
 
 }

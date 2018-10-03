@@ -73,7 +73,7 @@ public class AdminServiceImpl implements IAdminService {
 		
 		if(!isValidMobileNumber(customer.getMobile()))
 		{
-			validation.add("\nEnter valid Mobile Number");
+			validation.add("\nEnter valid 10 digit Mobile Number starting with 7,8 or 9");
 		}
 		
 		if(!isValidEmail(customer.getEmail()))
@@ -134,13 +134,14 @@ public class AdminServiceImpl implements IAdminService {
 	
 	public boolean isValidMobileNumber(long mobNumber)
 	{
-		if(Long.toString(mobNumber).length()==10)
-		{
-			return true;
-		}
+		
+		Pattern pattern = Pattern.compile("(0/91)?[7-9][0-9]{9}"); 
+		Matcher match = pattern.matcher(Long.toString(mobNumber));
 		
 		
-		return false;
+		
+		
+		return match.matches();
 		
 	}
 	

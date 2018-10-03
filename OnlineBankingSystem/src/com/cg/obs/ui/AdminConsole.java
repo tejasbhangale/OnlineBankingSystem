@@ -163,9 +163,9 @@ public class AdminConsole {
 
 		List<Transactions> list = new ArrayList<Transactions>();
 
-		System.out.println("Enter the starting date : ");
+		System.out.println("Enter the starting date (dd/MM/yyyy) : ");
 		sDate = sc.next();
-		System.out.println("Enter the end date : ");
+		System.out.println("Enter the end date (dd/MM/yyyy) : ");
 		eDate = sc.next();
 
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");

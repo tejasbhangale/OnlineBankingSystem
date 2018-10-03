@@ -13,7 +13,7 @@ public interface IQueryMapper {
 
 	public static final String GET_TRANSACTION_DETAILS = "select * from Transactions where DateofTransaction>=? AND DateofTransaction<=?";
 
-	public static final String GET_CUSTOMER_DETAILS = "Select * from Customer where Account_ID=?";
+	public static final String GET_CUSTOMER_DETAILS = "Select * from Customer_Table where Account_ID=?";
 	
 	public static final String UPDATE_CUSTOMER_DETAILS = "UPDATE Customer set mobile=?,address=? where Account_ID=?";
 
@@ -21,7 +21,7 @@ public interface IQueryMapper {
 
 	public static final String UPDATE_CUSTOMER_PASSWORD = "UPDATE USER_TABLE set login_password=? where account_id=?";
 	
-	public static final String GET_SECRET_QUESTION_ANSWER = "SELECT *  from User_Table where Account_ID=?";
+	public static final String GET_LOCK_STATUS = "SELECT lock_status from User_Table where Account_ID=?";
 
 	public static final String CHANGE_ACCOUNT_STATUS = "UPDATE USER_TABLE set lock_status=? where Account_ID=?";
 

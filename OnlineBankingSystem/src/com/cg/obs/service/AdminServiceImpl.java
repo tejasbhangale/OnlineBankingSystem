@@ -42,17 +42,26 @@ public class AdminServiceImpl implements IAdminService {
 				startDate,endDate);
 	}
 	
+	
+
+	
 	@Override
-	public User getSecretQuestionAnswer(int accNumber) throws JDBCConnectionError {
+	public boolean changeAccountStatus(int accNumber, String status) throws JDBCConnectionError {
 		
-		return adminDAO.getSecretQuestionAnswer(accNumber);
+		return adminDAO.changeAccountStatus(accNumber, status);
 	}
 
 	
 	@Override
-	public boolean changeAccountStatus(int accNumber) throws JDBCConnectionError {
+	public String getLockStatus(int accNumber) throws JDBCConnectionError {
 		
-		return adminDAO.changeAccountStatus(accNumber);
+		return adminDAO.getLockStatus(accNumber);
+	}
+	
+	@Override
+	public Customer getCustomerDetails(int accNumber) throws JDBCConnectionError {
+
+		return adminDAO.getCustomerDetails(accNumber);
 	}
 
 	
@@ -199,6 +208,11 @@ public class AdminServiceImpl implements IAdminService {
 		
 		
 	}
+
+
+
+
+	
 
 
 	

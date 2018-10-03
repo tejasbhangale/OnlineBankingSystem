@@ -4,13 +4,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.bean.User;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.ValidationException;
 import com.cg.obs.service.AdminServiceImpl;
@@ -31,12 +31,14 @@ public class AdminConsole {
 	public void adminConsole() {
 
 		String choice;
+		boolean check = true;
 
-		while (true) {
+		while (check) {
 
 			System.out.println("1. Create user Account");
 			System.out.println("2. Get Transaction Details");
-			System.out.println("3. Exit");
+			System.out.println("3. Unlock User Account");
+			System.out.println("4. Exit");
 			System.out.println("Enter your choice");
 			choice = sc.next();
 
@@ -53,8 +55,13 @@ public class AdminConsole {
 
 				break;
 			case "3":
+
+				admin.unlockUserAccount();
+
+				break;
+			case "4":
 				System.out.println("Thank you for using our service");
-				System.exit(0);
+                check = false;
 				break;
 			default:
 
@@ -65,6 +72,8 @@ public class AdminConsole {
 		}
 
 	}
+
+	
 
 	private void createAccount() {
 
@@ -194,6 +203,76 @@ public class AdminConsole {
 
 		}
 
+	}
+	
+	
+private void unlockUserAccount() {
+		
+		  
+	     System.out.println("Enter Account Number : ");
+	     String accId = sc.next();
+	     int accNumber = 0;
+	     
+	     try {
+	    	 
+	    	  accNumber = Integer.parseInt(accId);
+	    	  
+	    	  User user = adminService.getSecretQuestionAnswer(accNumber);
+	    	  
+	    	  if(user==null)
+	    	  {
+	    		  System.out.println("User does not exist");
+	    	  }
+	    	  else
+	    	  {
+	    		  if(user.getLockStatus()=='u')
+	    		  {
+	    			  System.out.println("Account id : "+user.getAccountId());
+	    			  System.out.println("User id : "+user.getUserId());
+	    			  System.out.println("Given account is not locked");
+	    		  }
+	    		  else
+	    		  {
+	    		  System.out.println("Answer the Question : "+user.getSecretQuestion());
+	    		  String answer = sc.next();
+	    		  
+	    		  if(answer.toLowerCase().equals(user.getSecretAnswer().toLowerCase()))
+	    		  {
+	    			  boolean change = adminService.changeAccountStatus(accNumber);
+	    			  
+	    			  if(change)
+	    			  {
+	    				  System.out.println("Account id : "+user.getAccountId());
+		    			  System.out.println("User id : "+user.getUserId());
+	    				  System.out.println("Account has been unlocked");
+	    			  }
+	    			  
+	    		  }
+	    		  else
+	    		  {
+	    			  System.out.println("Given answer is not correct");
+	    		  }
+	    	  }
+	    		  
+	    	  }
+			
+		} catch (NumberFormatException e) {
+
+		  System.out.println("Enter Valid Account Number");
+		
+		} catch (JDBCConnectionError e) {
+			
+			System.err.println(e.getMessage());
+			
+		}
+	     
+	
+	    
+	    	
+		
+			
+		
+	
 	}
 
 }

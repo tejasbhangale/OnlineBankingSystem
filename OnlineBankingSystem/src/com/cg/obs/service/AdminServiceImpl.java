@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.bean.User;
 import com.cg.obs.dao.AdminDAOImpl;
 import com.cg.obs.dao.IAdminDAO;
 import com.cg.obs.exception.JDBCConnectionError;
@@ -40,6 +41,20 @@ public class AdminServiceImpl implements IAdminService {
 		return adminDAO.getTransactionDetails(
 				startDate,endDate);
 	}
+	
+	@Override
+	public User getSecretQuestionAnswer(int accNumber) throws JDBCConnectionError {
+		
+		return adminDAO.getSecretQuestionAnswer(accNumber);
+	}
+
+	
+	@Override
+	public boolean changeAccountStatus(int accNumber) throws JDBCConnectionError {
+		
+		return adminDAO.changeAccountStatus(accNumber);
+	}
+
 	
 	@Override
 	public void isValidate(Customer customer, AccountMaster account) throws ValidationException
@@ -183,6 +198,13 @@ public class AdminServiceImpl implements IAdminService {
 		
 		
 	}
+
+
+	
+
+
+	
+
 	
 	
 

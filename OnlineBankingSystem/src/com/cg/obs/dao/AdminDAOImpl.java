@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import oracle.jdbc.driver.Message;
 
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.bean.User;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.ConnectionProvider;
@@ -157,4 +157,79 @@ public class AdminDAOImpl implements IAdminDAO {
 		return list;
 	}
 
+	@Override
+	public User getSecretQuestionAnswer(int accNumber) throws JDBCConnectionError {
+		
+		User user = null;
+
+		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.GET_SECRET_QUESTION_ANSWER);) {
+			
+			
+			pstm.setInt(1, accNumber);
+			
+			ResultSet result = pstm.executeQuery();
+			
+			
+			 while(result.next())
+	            {
+	            	user = new User();
+	            	user.setAccountId(result.getInt(1));
+	            	user.setUserId(result.getInt(2));
+	            	user.setSecretAnswer(result.getString(4));
+	            	user.setSecretQuestion(result.getString(5));
+	            	user.setLockStatus(result.getString(7).charAt(0));
+	            	
+	            }
+			
+		
+		} catch (SQLException e ) {
+
+	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+				
+			} catch (OnlineBankingException e1) {
+				
+		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+
+			}
+		
+		return user;
+	}
+
+	@Override
+	public boolean changeAccountStatus(int accNumber) throws JDBCConnectionError {
+		
+		int status = 0;
+
+		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.CHANGE_ACCOUNT_STATUS);) {
+			
+			pstm.setString(1, "u");
+			pstm.setInt(2, accNumber);
+			
+			 status = pstm.executeUpdate();
+			
+		
+		} catch (SQLException e ) {
+
+	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+				
+			} catch (OnlineBankingException e1) {
+				
+		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+
+			}
+		
+		if(status==1)
+		{
+			return true;
+		}
+		
+		
+		return false;
+	}
+
+	
 }

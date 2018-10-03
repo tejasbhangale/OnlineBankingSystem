@@ -6,7 +6,6 @@ import java.util.Scanner;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.InvalidChoiceException;
-import com.cg.obs.exception.InvalidPasswordEntered;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;

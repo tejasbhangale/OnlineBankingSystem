@@ -6,6 +6,7 @@ import java.util.List;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.bean.User;
 import com.cg.obs.exception.JDBCConnectionError;
 
 public interface IAdminDAO {
@@ -15,5 +16,9 @@ public interface IAdminDAO {
 	boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError;
 
 	List<Transactions> getTransactionDetails(Date startDate, Date endDate) throws JDBCConnectionError;
+
+	User getSecretQuestionAnswer(int accNumber) throws JDBCConnectionError;
+
+	boolean changeAccountStatus(int accNumber) throws JDBCConnectionError;
 
 }

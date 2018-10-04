@@ -1,6 +1,4 @@
-
 package com.cg.obs.ui;
-
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -14,71 +12,78 @@ import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSServiceFactory;
 
-
 public class UserClient {
 
-	private static ICustomerService cService = OBSServiceFactory.getCustomerBean();
-	//public static int ar = 1001;
+	private static ICustomerService cService = OBSServiceFactory
+			.getCustomerBean();
+	// public static int ar = 1001;
 
 	public static int countPassTries = 0;
 
-	public void clientConsole(int ar){
+	public static void main(String[] args) {
+		UserClient user = new UserClient();
+		user.clientConsole(1001);
+	}
+
+	public void clientConsole(int ar) {
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
 			choice = getChoice(scan);
 			switch (choice) {
-			case 1:
-				System.out.println("Enter your Account id:");
-				int id;
-				try {
-					id = scan.nextInt();
-				} catch (InputMismatchException e2) {
-					System.err.println(Messages.INVALID_ID_FORMAT);
-					scan.next();
-					continue;
-				}
+			case 1:// Update Mobile/Address
 
+				/*
+				 * Displaying Existing Details
+				 */
+				Customer customer = cService.getCustomerDetails(ar);
 				System.out.println("Displaying Existing Details:");
-				Customer customer = cService.getCustomerDetails(id);
-				if (customer == null) {
-					System.out.println("No user with entered ID found. Try again!");
-					break;
-				}
-
 				System.out.println(customer);
 
+				/*
+				 * Functionality to be added later System.out.println(
+				 * "To keep existing data, leave the corresponding field empty"
+				 * );
+				 */
 				try {
 					System.out.println("Enter new Mobile Number:");
 					long mobile = scan.nextLong();
 					System.out.println("Enter new Address:");
 					String address = scan.next();
 
+					/*
+					 * Validating Entered Details and if validated, Updating
+					 */
 					cService.validate(mobile, address);
 					customer.setMobile(mobile);
 					customer.setAddress(address);
 					boolean result = cService.updateCustomerDetails(customer);
 					if (result)
-						System.out.println("Your Details have been successfully updated!");
+						System.out.println(Messages.CUSTOMER_UPDATE_SUCCESS);
 					else
-						System.out.println("Sorry!, Your details could not be updated. Please try again.");
+						System.out
+								.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
 
 				} catch (InvalidDetailsEntered e) {
 					System.out.println(e.getMessage());
 				} catch (UpdateCustomerException e) {
-					System.err.println(Messages.UPDATE_CUSTOMER_FAILED);
+					System.err.println(Messages.CUSTOMER_UPDATE_FAILED_DAO);
 				} catch (InputMismatchException e1) {
 					System.err.println(Messages.INVALID_MOBILE_FORMAT);
 					scan.next();
 				}
 
 				break;
-			case 2:
+			case 2:// ChangePassword
+
+				/*
+				 * User is given 3 tries to enter 'old password' and 3 more
+				 * tries to enter valid 'new Password'
+				 */
 				countPassTries = 0;
 				boolean validPass = false;
-				while (!validPass) {
-					if (!doCountCheck())
-						break;
+				while (!validPass && countPassTries < 3) {
+					System.out.println("In");
 					String oldPass = getOldPass(scan);
 					validPass = cService.checkOldPass(oldPass, ar);
 					if (validPass)
@@ -87,34 +92,43 @@ public class UserClient {
 					countPassTries++;
 				}
 
-				if (!doCountCheck())
-					break;
-
 				boolean validNewPass = false;
 				countPassTries = 0;
-				while (!validNewPass) {
-					if (!doCountCheck())
-						break;
-
+				while (!validNewPass && countPassTries < 3) {
 					String newPass = getNewPass(scan);
 					validNewPass = cService.checkNewPass(newPass);
 
 					if (validNewPass) {
 						try {
 							cService.updatePassword(newPass, ar);
-							System.out.println("Your password has been successfully updated!");
+							System.out
+									.println(Messages.PASSWORD_UPDATE_SUCCESS);
 							break;
 						} catch (PasswordUpdateException e) {
 							System.err.println(Messages.PASSWORD_UPDATE_FAILED);
 						}
 					} else {
 						countPassTries++;
+						if (countPassTries == 3) {
+							System.err.println(Messages.MAXIMUM_NEWPASS_TRIES);
+						}
 					}
 
 				}
 				break;
-			case 3:
-				System.out.println("Thank you for using ONLINE BANKING SYSTEM!!!");
+
+			case 3://
+				int requestNumber = cService.requestChequeBook(ar);
+				if (requestNumber != 0) {
+					System.out.println(Messages.CHEQUEBOOK_SUCCESS);
+					System.out.println("Your service request number is: " + requestNumber);
+				} else {
+					System.out.println(Messages.SERVICE_REQUEST_FAILED);
+				}
+				break;
+			case 4:
+				// LogOut
+				System.out.println(Messages.EXIT_MESSAGE);
 				System.exit(1);
 				break;
 			default:
@@ -123,17 +137,20 @@ public class UserClient {
 
 			}
 		}
-		
+
 	}
-	
+
 	private static int getChoice(Scanner scan) {
 		int choice = 0;
-		System.out.println("**************WELCOME TO ONLINE BANKING SYSTEM**************");
+		System.out
+				.println("**************WELCOME TO ONLINE BANKING SYSTEM**************");
 		System.out.println("Choose Option:");
 		System.out.println("1. Change address/mobile number");
 		System.out.println("2. Change password");
-		System.out.println("3. Exit");
-		System.out.println("************************************************************");
+		System.out.println("3. Request Cheque Book");
+		System.out.println("4. Exit");
+		System.out
+				.println("************************************************************");
 
 		try {
 			choice = scan.nextInt();
@@ -164,14 +181,4 @@ public class UserClient {
 		return pass;
 	}
 
-	private static boolean doCountCheck() {
-		if (countPassTries >= 3) {
-			System.err.println("Maximum tries exceeded! Try Again.");
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 }
-

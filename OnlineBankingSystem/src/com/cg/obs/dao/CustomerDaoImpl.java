@@ -1,10 +1,11 @@
-
 package com.cg.obs.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.exception.JDBCConnectionError;
@@ -41,8 +42,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 		return null;
 	}
-	
-	
+
 	@Override
 	public boolean updateCustomerDetails(Customer customer) {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
@@ -73,14 +73,14 @@ public class CustomerDaoImpl implements ICustomerDao {
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.CHECK_OLD_PASSWORD);) {
 			pt.setInt(1, id);
-			
+
 			ResultSet res = pt.executeQuery();
-			if(res.next()){
-				if(res.getString(1).equals(oldPass)) {
+			if (res.next()) {
+				if (res.getString(1).equals(oldPass)) {
 					return true;
 				}
 			}
-			
+
 		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -90,12 +90,13 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public void updatePassword(String newPass,int id) throws PasswordUpdateException {
+	public void updatePassword(String newPass, int id)
+			throws PasswordUpdateException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.UPDATE_CUSTOMER_PASSWORD);) {
-			
+
 			String[] pass = newPass.split(" ");
 			pt.setString(1, pass[0]);
 			pt.setInt(2, id);
@@ -105,6 +106,42 @@ public class CustomerDaoImpl implements ICustomerDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public int requestChequeBook(int id) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GENERATE_SERVICE_REQUEST);
+				PreparedStatement pt2 = conn
+						.prepareStatement(IQueryMapper.GET_SERVICE_REQUEST_NUMBER);) {
+
+			Date date = Date.valueOf(LocalDate.now());
+			pt.setString(1, "New ChequeBook Request");
+			pt.setInt(2, id);
+			pt.setDate(3, date);
+			pt.setString(4, "Issued");
+
+			int result = pt.executeUpdate();
+
+			if (result >= 1) {
+				ResultSet res = pt2.executeQuery();
+				if (res.next()) {
+					return res.getInt(1);
+				} else {
+					return 0;
+				}
+			} else {
+				return 0;
+			}
+
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

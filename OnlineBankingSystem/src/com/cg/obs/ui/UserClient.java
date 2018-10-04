@@ -31,7 +31,9 @@ public class UserClient {
 		while (true) {
 			choice = getChoice(scan);
 			switch (choice) {
-			case 1:// Update Mobile/Address
+			case 1:// mini/detailed statement
+				break;
+			case 2:// Update Mobile/Address
 
 				/*
 				 * Displaying Existing Details
@@ -74,7 +76,22 @@ public class UserClient {
 				}
 
 				break;
-			case 2:// ChangePassword
+
+			case 3://
+				int requestNumber = cService.requestChequeBook(ar);
+				if (requestNumber != 0) {
+					System.out.println(Messages.CHEQUEBOOK_SUCCESS);
+					System.out.println("Your service request number is: "
+							+ requestNumber);
+				} else {
+					System.out.println(Messages.SERVICE_REQUEST_FAILED);
+				}
+				break;
+			case 4:// track service
+				break;
+			case 5:// fund transfer
+				break;
+			case 6:// ChangePassword
 
 				/*
 				 * User is given 3 tries to enter 'old password' and 3 more
@@ -116,20 +133,9 @@ public class UserClient {
 
 				}
 				break;
-
-			case 3://
-				int requestNumber = cService.requestChequeBook(ar);
-				if (requestNumber != 0) {
-					System.out.println(Messages.CHEQUEBOOK_SUCCESS);
-					System.out.println("Your service request number is: " + requestNumber);
-				} else {
-					System.out.println(Messages.SERVICE_REQUEST_FAILED);
-				}
-				break;
-			case 4:
+			case 7:
 				// LogOut
 				System.out.println(Messages.EXIT_MESSAGE);
-				System.exit(1);
 				break;
 			default:
 				System.out.println("Invalid choice, please try again!");
@@ -145,6 +151,7 @@ public class UserClient {
 		System.out
 				.println("**************WELCOME TO ONLINE BANKING SYSTEM**************");
 		System.out.println("Choose Option:");
+		System.out.println("");
 		System.out.println("1. Change address/mobile number");
 		System.out.println("2. Change password");
 		System.out.println("3. Request Cheque Book");

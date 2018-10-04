@@ -1,9 +1,11 @@
 package com.cg.obs.ui;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.InvalidChoiceException;
 import com.cg.obs.exception.PasswordUpdateException;
@@ -29,6 +31,7 @@ public class UserClient {
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
+			if(choice==7) break;
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:// mini/detailed statement
@@ -88,6 +91,40 @@ public class UserClient {
 				}
 				break;
 			case 4:// track service
+				int sNum = getServiceChoice(scan);
+				switch (sNum) {
+				case 1:
+					System.out.println("Enter Service Request Number:");
+					int accNum = ar;
+					ServiceTracker sTrack = cService.getRequestStatus(
+							scan.nextInt(), accNum);
+					if (sTrack != null)
+						doSuccessRequest(sTrack);
+					else
+						doFailureRequest();
+					break;
+				case 2:
+					System.out.println("Enter Account Number:");
+					int accNumber = scan.nextInt();
+					if (accNumber == ar) {
+						ArrayList<ServiceTracker> requestList = cService
+								.getAllRequestStatus(accNumber);
+						if (requestList.isEmpty() | requestList==null)
+							doFailureAllRequests();
+						else
+							doSuccessAllRequests(requestList);
+					} else {
+						System.err.println("Wrong account number entered.");
+						break;
+					}
+					break;
+				case 3:
+					System.out.println("Going Back to your Home Page");
+					break;
+				default:
+					System.out.println("You have selected an incorrect option");
+					break;
+				}
 				break;
 			case 5:// fund transfer
 				break;
@@ -100,7 +137,6 @@ public class UserClient {
 				countPassTries = 0;
 				boolean validPass = false;
 				while (!validPass && countPassTries < 3) {
-					System.out.println("In");
 					String oldPass = getOldPass(scan);
 					validPass = cService.checkOldPass(oldPass, ar);
 					if (validPass)
@@ -146,18 +182,65 @@ public class UserClient {
 
 	}
 
+	private void doFailureAllRequests() {
+		// TODO Auto-generated method stub
+		System.out.println("Request Failed");
+	}
+
+	private void doSuccessAllRequests(ArrayList<ServiceTracker> requestList) {
+		requestList.forEach((a) -> {
+			System.out.println(a);
+		});
+	}
+
+	private void doFailureRequest() {
+		// TODO Auto-generated method stub
+		System.out.println("Request Failed");
+	}
+
+	private void doSuccessRequest(ServiceTracker sTrack) {
+		System.out.println(sTrack);
+	}
+
 	private static int getChoice(Scanner scan) {
 		int choice = 0;
 		System.out
 				.println("**************WELCOME TO ONLINE BANKING SYSTEM**************");
 		System.out.println("Choose Option:");
 		System.out.println("");
-		System.out.println("1. Change address/mobile number");
-		System.out.println("2. Change password");
+		System.out.println("1. View Mini/Detailed Statement");
+		System.out.println("2. Change address/mobile number");
 		System.out.println("3. Request Cheque Book");
-		System.out.println("4. Exit");
+		System.out.println("4. Track Service Request");
+		System.out.println("5. Fund Transfer");
+		System.out.println("6. Change Password");
+		System.out.println("7. Exit");
 		System.out
 				.println("************************************************************");
+
+		try {
+			choice = scan.nextInt();
+			if (choice < 1 || choice > 7) {
+				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+			}
+		} catch (InputMismatchException e) {
+			System.err.println(Messages.INCORRECT_INPUT_TYPE);
+			scan.next();
+		} catch (InvalidChoiceException e) {
+			System.err.println(e.getMessage());
+		}
+		return choice;
+	}
+
+	private static int getServiceChoice(Scanner scan) {
+		int choice = 0;
+		System.out.println("***TRACK SERVICE REQUEST****");
+		System.out.println("Choose Option:");
+		System.out.println("");
+		System.out.println("1. Enter Service Number");
+		System.out.println("2. Enter Account Number");
+		System.out.println("3. Exit");
+		System.out.println("****************************");
 
 		try {
 			choice = scan.nextInt();

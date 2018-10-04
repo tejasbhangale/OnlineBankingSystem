@@ -29,5 +29,8 @@ public interface IQueryMapper {
 
 	public static final String GET_SERVICE_REQUEST_NUMBER = "select service.currval from dual";
 
+	public static final String GET_REQUEST_STATUS = "select * from service_tracker where service_id=? and account_id=?";
+
+	public static final String GET_ALL_REQUESTS = "select * from service_tracker where account_id=?";
 
 }

@@ -5,7 +5,9 @@ package com.cg.obs.service;
 import java.util.ArrayList;
 
 
+
 import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.PasswordUpdateException;
@@ -77,6 +79,18 @@ public class CustomerServiceImpl implements ICustomerService {
 	public int requestChequeBook(int id) {
 		// TODO Auto-generated method stub
 		return cDao.requestChequeBook(id);
+	}
+
+	@Override
+	public ServiceTracker getRequestStatus(int reqNum,int accNum) {
+		// TODO Auto-generated method stub
+		return cDao.getRequestStatus(reqNum,accNum);
+	}
+
+	@Override
+	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) {
+		// TODO Auto-generated method stub
+		return cDao.getAllRequestStatus(accNum);
 	}
 
 }

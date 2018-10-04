@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.util.ConnectionProvider;
@@ -142,6 +144,63 @@ public class CustomerDaoImpl implements ICustomerDao {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public ServiceTracker getRequestStatus(int reqNum, int accNum) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_REQUEST_STATUS);) {
+
+			pt.setInt(1, reqNum);
+			pt.setInt(2, accNum);
+			ServiceTracker sTrack = null;
+			ResultSet res = pt.executeQuery();
+			while (res.next()) {
+				sTrack = new ServiceTracker();
+				sTrack.setService_id(res.getInt(1));
+				sTrack.setServiceDescription(res.getString(2));
+				sTrack.setAccountId(res.getInt(3));
+				sTrack.setServiceRaisedDate(res.getDate(4));
+				sTrack.setStatus(res.getString(5));
+			}
+			return sTrack;
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_ALL_REQUESTS);) {
+
+			pt.setInt(1, accNum);
+			
+			ResultSet resSet = pt.executeQuery();
+			ArrayList<ServiceTracker> reqList = new ArrayList<ServiceTracker>();
+			while (resSet.next()) {
+				ServiceTracker sTrack = new ServiceTracker();
+				sTrack.setService_id(resSet.getInt(1));
+				sTrack.setServiceDescription(resSet.getString(2));
+				sTrack.setAccountId(resSet.getInt(3));
+				sTrack.setServiceRaisedDate(resSet.getDate(4));
+				sTrack.setStatus(resSet.getString(5));
+				reqList.add(sTrack);
+			}
+			return reqList;
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

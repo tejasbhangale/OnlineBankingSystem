@@ -7,17 +7,19 @@ import com.cg.obs.exception.UpdateCustomerException;
 
 public interface ICustomerService {
 	
-	void validate(long mobile, String address) throws InvalidDetailsEntered;
+	public void validate(long mobile, String address) throws InvalidDetailsEntered;
 
 	public Customer getCustomerDetails(int id);
 
 	public boolean updateCustomerDetails(Customer customer) throws UpdateCustomerException;
 
-	boolean checkOldPass(String oldPass, int ar);
+	public boolean checkOldPass(String oldPass, int ar);
 
-	boolean checkNewPass(String newPass);
+	public boolean checkNewPass(String newPass);
 
-	void updatePassword(String newPass, int id) throws PasswordUpdateException;
+	public void updatePassword(String newPass, int id) throws PasswordUpdateException;
+
+	public int requestChequeBook(int id);
 
 
 }

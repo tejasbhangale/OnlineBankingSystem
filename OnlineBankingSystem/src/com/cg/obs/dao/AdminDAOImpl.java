@@ -10,6 +10,8 @@ import java.util.List;
 
 
 
+
+
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
@@ -145,55 +147,21 @@ public class AdminDAOImpl implements IAdminDAO {
 		return list;
 	}
 
-	@Override
-	public User getSecretQuestionAnswer(int accNumber) throws JDBCConnectionError {
-		
-		User user = null;
-
-		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
-				.getConnection();
-				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.GET_SECRET_QUESTION_ANSWER);) {
-			
-			
-			pstm.setInt(1, accNumber);
-			
-			ResultSet result = pstm.executeQuery();
-			
-			
-			 while(result.next())
-	            {
-	            	user = new User();
-	            	user.setAccountId(result.getInt(1));
-	            	user.setUserId(result.getInt(2));
-	            	user.setSecretAnswer(result.getString(4));
-	            	user.setSecretQuestion(result.getString(5));
-	            	user.setLockStatus(result.getString(7));
-	            	
-	            }
-			
-		
-		} catch (SQLException e ) {
-
-	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-				
-			} 
-		
-		return user;
-	}
+	
 
 	@Override
-	public boolean changeAccountStatus(int accNumber) throws JDBCConnectionError {
+	public boolean changeAccountStatus(int accNumber,String status) throws JDBCConnectionError {
 		
-		int status = 0;
+		int check = 0;
 
 		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.CHANGE_ACCOUNT_STATUS);) {
 			
-			pstm.setString(1, "u");
+			pstm.setString(1, status);
 			pstm.setInt(2, accNumber);
 			
-			 status = pstm.executeUpdate();
+			 check = pstm.executeUpdate();
 			
 		
 		} catch (SQLException e ) {
@@ -202,13 +170,83 @@ public class AdminDAOImpl implements IAdminDAO {
 				
 			} 
 		
-		if(status==1)
+		if(check==1)
 		{
 			return true;
 		}
 		
 		
 		return false;
+	}
+
+	@Override
+	public String getLockStatus(int accNumber) throws JDBCConnectionError {
+		
+		String status = null;
+		
+		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.GET_LOCK_STATUS);) {
+			
+			pstm.setInt(1, accNumber);
+			
+			ResultSet result = pstm.executeQuery();
+			
+			while(result.next())
+			{
+				status = result.getString(1);
+				
+			}
+			
+			
+			
+		
+		}	catch (SQLException e ) {
+
+		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+					
+				} 
+		
+		return status;
+	}
+
+	@Override
+	public Customer getCustomerDetails(int accNumber) throws JDBCConnectionError {
+	
+		Customer customer = null;
+		
+		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.GET_CUSTOMER_DETAILS);) {
+			
+		
+			pstm.setInt(1, accNumber);
+			
+			ResultSet result = pstm.executeQuery();
+			
+			while(result.next())
+			{
+				customer = new Customer();
+				
+				customer.setCustomerName(result.getString(2));
+				customer.setMobile(result.getLong(3));
+				customer.setEmail(result.getString(4));
+				customer.setAddress(result.getString(5));
+				
+				
+			}
+			
+			
+			
+
+		}	catch (SQLException e ) {
+
+		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+					
+				} 
+		
+		
+		return customer;
 	}
 
 	

@@ -18,13 +18,12 @@ public class LoginDaoImpl implements ILoginDao {
 	
 	public LoginDaoImpl() {
 		super();
-		
-		
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Admin getAdminLogin(String userId) {
+		
+		Admin admin=null;
 	
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st=con.prepareStatement(IQueryMapper.ADMIN_CREDENTIALS);) {
@@ -32,65 +31,119 @@ public class LoginDaoImpl implements ILoginDao {
 			st.setString(1, userId);
 			resultset=st.executeQuery();
 			
-			Admin admin=new Admin();
-			
 			if(resultset.next()){
-			
-			
+				admin=new Admin();
 				admin.setAdminId(resultset.getInt(1));
 				admin.setUserId(resultset.getString(2));
 				admin.setPassword(resultset.getString(3));
 				
 			}
 			
-			return admin;
+			
 			
 		} catch (JDBCConnectionError e) {
-			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
 		}
 		
 		
 		
-		return null;
+		return admin;
 	}
 
 	@Override
-	public User getUserLogin(String userId) {
-		User user=new User();
+	public User getUserLogin(int userId) {
+		User user=null;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 			PreparedStatement st =con.prepareStatement(IQueryMapper.USER_CREDENTIALS);) {
 			
-			st.setInt(1, Integer.parseInt(userId));
+			st.setInt(1, userId);
 			resultset=st.executeQuery();
 			
-			
-			
 			if(resultset.next()){
+				user=new User();
 				user.setUserId(resultset.getInt(1));
 				user.setLoginPassword(resultset.getString(2));
 				user.setAccountId(resultset.getInt(3));
 				user.setLockStatus(resultset.getString(4));
-				
-				
 			}
-			
-			
 		} catch (JDBCConnectionError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			System.err.println(e.getMessage());
+		} 
 		return user;
 	}
-	
-	
 
+	@Override
+	public boolean lockUserAccount(int id) {
+		boolean lockSuccess=false;
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+				PreparedStatement st =con.prepareStatement(IQueryMapper.LOCK_USER);) {
+				
+				st.setInt(1, id);
+				int rows=st.executeUpdate();
+				if(rows==0){
+					lockSuccess= false;
+				}
+				else{
+					lockSuccess=true;
+				}
+						
+	} catch (SQLException e) {
+		System.err.println(e.getMessage());
+	} catch (JDBCConnectionError e1) {
+		System.err.println(e1.getMessage());
+	}
+	
+	return lockSuccess;
+
+		
+	}
+
+	@Override
+	public int getUserId(int userId) {
+		int id=0;
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_USER_ID);) {
+				
+				st.setInt(1, userId);
+				resultset=st.executeQuery();
+				if(resultset.next()){
+					
+					id=resultset.getInt(1);
+				}
+				
+		} catch (JDBCConnectionError e) {
+			System.err.println(e.getMessage());
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		} 
+		return id;
+	}
+
+	@Override
+	public String getPass(int userId) {
+		String passcode=null;
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_USER_PASS)) {
+				
+				st.setInt(1, userId);
+				resultset=st.executeQuery();
+				if(resultset.next()){
+					
+					passcode=resultset.getString(1);
+				}
+				
+		} catch (JDBCConnectionError e) {
+			System.err.println(e.getMessage());
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		} 
+		return passcode;
+	}
 }
+	
 

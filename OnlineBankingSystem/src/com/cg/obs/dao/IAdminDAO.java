@@ -17,8 +17,11 @@ public interface IAdminDAO {
 
 	List<Transactions> getTransactionDetails(Date startDate, Date endDate) throws JDBCConnectionError;
 
-	User getSecretQuestionAnswer(int accNumber) throws JDBCConnectionError;
 
-	boolean changeAccountStatus(int accNumber) throws JDBCConnectionError;
+	boolean changeAccountStatus(int accNumber, String status) throws JDBCConnectionError;
+
+	String getLockStatus(int accNumber) throws JDBCConnectionError;
+
+	Customer getCustomerDetails(int accNumber) throws JDBCConnectionError;
 
 }

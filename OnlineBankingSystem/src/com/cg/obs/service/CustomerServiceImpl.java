@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	public boolean checkNewPass(String newPass) {
 		String[] pass = newPass.split(" ");
 		if (!(pass[0].equals(pass[1]))) {
-			System.err.println("Password do not match! Try Again.");
+			System.err.println("Password do not match!");
 			return false;
 		} else if (pass[0].length() <= 5) {
 			System.err.println("Password length must be greater than 5 characters!");
@@ -71,6 +71,12 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Override
 	public void updatePassword(String newPass, int id) throws PasswordUpdateException {
 		cDao.updatePassword(newPass, id);
+	}
+
+	@Override
+	public int requestChequeBook(int id) {
+		// TODO Auto-generated method stub
+		return cDao.requestChequeBook(id);
 	}
 
 }

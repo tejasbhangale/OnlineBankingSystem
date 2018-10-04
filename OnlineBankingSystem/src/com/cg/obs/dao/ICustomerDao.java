@@ -13,4 +13,6 @@ public interface ICustomerDao {
 
 	public void updatePassword(String newPass, int id) throws PasswordUpdateException;
 
+	public int requestChequeBook(int id);
+
 }

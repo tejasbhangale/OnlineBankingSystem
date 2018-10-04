@@ -19,9 +19,12 @@ public interface IAdminService {
 
 	void isValidate(Customer customer, AccountMaster account) throws ValidationException;
 
-	User getSecretQuestionAnswer(int accNumber) throws JDBCConnectionError;
+	boolean changeAccountStatus(int accNumber, String status) throws JDBCConnectionError;
 
-	boolean changeAccountStatus(int accNumber) throws JDBCConnectionError;
+	String getLockStatus(int accNumber) throws JDBCConnectionError;
+
+	Customer getCustomerDetails(int accNumber) throws JDBCConnectionError;
+
 
 
 

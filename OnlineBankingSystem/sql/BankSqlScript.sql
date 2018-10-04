@@ -41,3 +41,7 @@ INSERT INTO User_Table Values(1002,125,'loginpwd','Scarlet','What is your pet na
 INSERT INTO User_Table Values(1003,170,'loginpwd','Fluffy','What is your pet name','tranpwd','l');
 INSERT INTO User_Table Values(1004,130,'loginpwd','Teju','What is your pet name','tranpwd','l');
 
+create sequence service
+START WITH 1005
+INCREMENT BY 1
+NOCACHE;

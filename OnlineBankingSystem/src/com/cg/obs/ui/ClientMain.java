@@ -1,5 +1,6 @@
 package com.cg.obs.ui;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -22,10 +23,17 @@ public class ClientMain {
 
 		while (choice != 3 /* && loginAttempts<=3 */) {
 			System.out
-					.println("*******Welcome to Online Banking System**********");
+					.println("\n*******Welcome to Online Banking System**********");
 			System.out.println("Login As--->");
 			System.out.print("[1]Admin [2]Customer [3]Quit >");
-			choice = scan.nextInt();
+			try{
+				choice = scan.nextInt();
+			}catch(InputMismatchException e){
+				scan.next();
+				System.err.println("Kindly enter correct option!!!");
+			}
+			
+			
 
 			if (choice == 1) {
 				System.out.print("UserName? ");
@@ -55,13 +63,12 @@ public class ClientMain {
 				customerUserName = scan.next();
 				int customerId = 0;
 				boolean userIdValid = false;
-				boolean userValid = false;
 				boolean credFlag = false;
 				try {
 					customerId = Integer.parseInt(customerUserName);
 					userIdValid = loginService.validateUserId(customerId);
 				} catch (NumberFormatException e1) {
-					System.err.println("User ID must be in int only");
+					System.err.println("User ID must be in specified format only");
 				} catch (InvalidCredentialsException e1) {
 
 					System.err.println(e1.getMessage());

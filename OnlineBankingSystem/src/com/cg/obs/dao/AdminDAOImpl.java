@@ -168,6 +168,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	            	user.setSecretAnswer(result.getString(4));
 	            	user.setSecretQuestion(result.getString(5));
 	            	user.setLockStatus(result.getString(7));
+	            	System.out.println(user.getSecretAnswer());
 	            	
 	            }
 			

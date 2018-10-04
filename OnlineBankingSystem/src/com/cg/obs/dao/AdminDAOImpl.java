@@ -244,8 +244,6 @@ public class AdminDAOImpl implements IAdminDAO {
 		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 					
 				} 
-		
-		
 		return customer;
 	}
 

@@ -31,22 +31,60 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public int getUserLogin(String username, String password) throws InvalidCredentialsException {
+	public int getUserLogin(int username, String password) throws InvalidCredentialsException {
 		// TODO Auto-generated method stub
 		boolean success=false;
 		
 		User user=loginDao.getUserLogin(username);
 		
-		if(user==null){
+		if(user==null) {
 			throw new InvalidCredentialsException(Messages.INVALID_USERNAME);
-		}else if(!password.equals(user.getLoginPassword())){
+		}else if(!password.equals(user.getLoginPassword())) {
 			throw new InvalidCredentialsException(Messages.INVALID_PASSWORD);
-		}else{
-			success=true;
+		}else if(user.getLockStatus().equals("l")) {
+			throw new InvalidCredentialsException(Messages.ACCOUNT_LOCKED);
+		}
+		else {
+			return user.getAccountId();
 		}
 		
 		
-		return user.getAccountId();
+		
 	}
+
+	@Override
+	public boolean lockUserAccount(int id) {
+		boolean success =loginDao.lockUserAccount(id);
+		return success;
+	}
+
+	@Override
+	public boolean validateUserId(int id) throws InvalidCredentialsException {
+		int userId = loginDao.getUserId(id);
+		boolean success=false; 
+		if(userId!=0){
+			success=true;
+			
+		}
+		else {
+			success= false;
+			throw new InvalidCredentialsException(Messages.INVALID_USERNAME);
+		}
+		return success;
+	}
+
+	@Override
+	public boolean validatePassword(int customerId, String customerPassword) throws InvalidCredentialsException {
+		String verifyPass =loginDao.getPass(customerId);
+		boolean success=false;
+		if(!verifyPass.equals(customerPassword)) {
+			success=false;
+			throw new InvalidCredentialsException(Messages.INVALID_PASSWORD);
+		}
+		else{
+			success=true;
+		}
+		return success;
+	}	
 
 }

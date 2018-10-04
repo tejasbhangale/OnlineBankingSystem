@@ -13,7 +13,7 @@ public class Messages {
 	 */
 	public static final String INVALID_USERNAME="No Such UserName";
 	public static final String INVALID_PASSWORD="Password Mismatch";
-	
+	public static final String ACCOUNT_LOCKED = "Your Account is Locked. Kindly Contact Bank Admin";
 	/*
 	 * User-Client Messages
 	 */

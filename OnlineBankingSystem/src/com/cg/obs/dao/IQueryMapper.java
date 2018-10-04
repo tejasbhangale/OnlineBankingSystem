@@ -25,6 +25,12 @@ public interface IQueryMapper {
 
 	public static final String CHANGE_ACCOUNT_STATUS = "UPDATE USER_TABLE set lock_status=? where Account_ID=?";
 
+	public static final String LOCK_USER = "UPDATE user_table SET lock_status='l' WHERE user_id=?";
+
+	public static final String GET_USER_ID = "SELECT user_id FROM user_table WHERE user_id=?";
+
+	public static final String GET_USER_PASS = "SELECT login_password FROM user_table WHERE user_id=?";;;
+
 	public static final String GENERATE_SERVICE_REQUEST = "INSERT into SERVICE_TRACKER VALUES(service.nextval,?,?,?,?)";
 
 	public static final String GET_SERVICE_REQUEST_NUMBER = "select service.currval from dual";

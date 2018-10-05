@@ -130,18 +130,26 @@ public class ClientMain {
 							String secretAnswer=scan.next();
 							if(user.getSecretAnswer().equals(secretAnswer)){
 								System.out.println("Answer validation successfull");
-								System.out.println("Your one time login password is: #sbq500. Kindly login using this passoword and create new password for future use.");
 								String newPassword="#sbq500";
 								boolean success=loginService.setOneTimePassword(newPassword,id);
+								if(success){
+									System.out.println("\nYour one time login password is: #sbq500. Kindly login using this passoword and create new password for future use.");
+								}
+								else{
+									System.err.println("\nError Occured ! Please try again");
+								}
+					
+							}else{
+								System.err.println("\nInvalid answer..Try again");
 							}
 						}else{
-							System.err.println("User ID does not exist");
+							System.err.println("\nUser ID does not exist");
 						}
 					}catch(NullPointerException ne){
 						System.err.println(ne.getMessage());
 					}
 				}else{
-					System.err.println("Invalid choice");
+					System.err.println("\nInvalid choice");
 					
 				}
 			}

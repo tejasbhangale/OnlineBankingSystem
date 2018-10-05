@@ -66,8 +66,7 @@ public class LoginDaoImpl implements ILoginDao {
 				user=new User();
 				user.setUserId(resultset.getInt(1));
 				user.setLoginPassword(resultset.getString(2));
-				user.setAccountId(resultset.getInt(3));
-				user.setLockStatus(resultset.getString(4));
+				user.setLockStatus(resultset.getString(3));
 			}
 		} catch (JDBCConnectionError e) {
 			System.err.println(e.getMessage());
@@ -145,7 +144,7 @@ public class LoginDaoImpl implements ILoginDao {
 		return passcode;
 	}
 
-	@SuppressWarnings("null")
+	
 	@Override
 	public User forgotPassword(int id) {
 		// TODO Auto-generated method stub
@@ -158,13 +157,12 @@ public class LoginDaoImpl implements ILoginDao {
 			resultset=st.executeQuery();
 			if(resultset.next()){
 				user=new User();
-				user.setAccountId(resultset.getInt(1));
-				user.setUserId(resultset.getInt(2));
-				user.setLoginPassword(resultset.getString(3));
-				user.setSecretAnswer(resultset.getString(4));
-				user.setSecretQuestion(resultset.getString(5));
-				user.setTransactionPassword(resultset.getString(6));
-				user.setLockStatus(resultset.getString(7));
+				user.setUserId(resultset.getInt(1));
+				user.setLoginPassword(resultset.getString(2));
+				user.setSecretAnswer(resultset.getString(3));
+				user.setSecretQuestion(resultset.getString(4));
+				user.setTransactionPassword(resultset.getString(5));
+				user.setLockStatus(resultset.getString(6));
 			
 			}
 			
@@ -203,6 +201,29 @@ public class LoginDaoImpl implements ILoginDao {
 		
 		
 		return success;
+	}
+
+	@Override
+	public int getAccountId(int username) {
+		// TODO Auto-generated method stub
+		int account_id=0;
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+			PreparedStatement st =con.prepareStatement(IQueryMapper.GET_ACCOUNT_ID);){
+			resultset=st.executeQuery();
+			
+			if(resultset.next()){
+				account_id=resultset.getInt(1);
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+		}catch(JDBCConnectionError e){
+			System.err.println(e.getMessage());
+		}
+		return account_id;
 	}
 }
 	

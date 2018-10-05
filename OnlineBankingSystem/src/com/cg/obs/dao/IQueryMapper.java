@@ -5,7 +5,7 @@ public interface IQueryMapper {
 
 	public static final String ADMIN_CREDENTIALS = "SELECT admin_id,user_id,password FROM admin_table WHERE user_id=?";
 	
-	public static final String USER_CREDENTIALS= "SELECT user_id,login_password,account_id,lock_status FROM user_table WHERE user_id=?";
+	public static final String USER_CREDENTIALS= "SELECT user_id,login_password,lock_status FROM user_table WHERE user_id=?";
 
 	public static final String INSERT_ACCOUNT_DETAILS = "INSERT INTO Customer_Table VALUES (?,?,?,?,?,?)";
 
@@ -46,6 +46,8 @@ public interface IQueryMapper {
 	public static final String GET_FORGOT_PASSWORD_OBJECT = "select * from user_table where user_id=?";
 
 	public static final String SET_ONE_TIME_PASSWORD = "update user_table set login_password=? where user_id=?";
+
+	public static final String GET_ACCOUNT_ID = "select account_id from account_master where user_id=?";
 
 
 }

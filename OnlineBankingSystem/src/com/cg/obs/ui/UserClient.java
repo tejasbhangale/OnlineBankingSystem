@@ -31,7 +31,8 @@ public class UserClient {
     Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		
+
+		UserClient user = new UserClient();
 		user.clientConsole(1002);
 	}
 

@@ -87,7 +87,6 @@ public class AdminDAOImpl implements IAdminDAO {
             
             status = pstm.executeUpdate();
             
-            System.out.println(status);
             
 		} catch (SQLException e ) {
 

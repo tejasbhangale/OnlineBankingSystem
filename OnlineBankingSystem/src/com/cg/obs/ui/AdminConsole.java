@@ -1,5 +1,8 @@
 package com.cg.obs.ui;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,13 +40,13 @@ public class AdminConsole {
 		System.out.println("\nAdmin Console\n");
 
 		while (check) {
-
+           
 			System.out.println("1. Create user Account");
 			System.out.println("2. Get Transaction Details");
 			System.out.println("3. Account lock status");
 			System.out.println("4. Exit");
 			System.out.println("Enter your choice");
-			choice = sc.next();
+			choice = sc.nextLine();
 
 			switch (choice) {
 			case "1":
@@ -99,17 +102,18 @@ public class AdminConsole {
 
 			
 			System.out.println("Existing Customer(y/n)");
-			existing = sc.next();
+			existing = sc.nextLine();
 			
 			if(existing.toLowerCase().equals("y"))
 			{
+				
 				System.out.println("Enter User id : ");
-				check = sc.next();
+				check = sc.nextLine();
 				userId = Long.parseLong(check);
 				System.out.println("Account Type : ");
-				accountType = sc.next();
+				accountType = sc.nextLine();
 				System.out.println("Opening Balance : ");
-				check = sc.next();
+				check = sc.nextLine();
 				openingBalance = Double.parseDouble(check);
 				
 				AccountMaster account = new AccountMaster();
@@ -132,23 +136,23 @@ public class AdminConsole {
 			else if(existing.toLowerCase().equals("n"))
 			{
 				
-			
+				
 			
 			System.out.println("Customer Name :");
-			customerName = sc.next();
+			customerName = sc.nextLine();
 			System.out.println("Customer Address : ");
-			customerAddress = sc.next();
+			customerAddress = sc.nextLine();
 			System.out.println("Customer Mobile Number : ");
-			check = sc.next();
+			check = sc.nextLine();
 			customerMobileNum = Long.parseLong(check);
 			System.out.println("Customer Email Id : ");
-			customerEmail = sc.next();
+			customerEmail = sc.nextLine();
 			System.out.println("Account Type : ");
-			accountType = sc.next();
+			accountType = sc.nextLine();
 			System.out.println("PAN Card Number : ");
-			panDetail = sc.next();
+			panDetail = sc.nextLine();
 			System.out.println("Opening Balance : ");
-			check = sc.next();
+			check = sc.nextLine();
 			openingBalance = Double.parseDouble(check);
 			
 			AccountMaster account = new AccountMaster();
@@ -222,9 +226,9 @@ public class AdminConsole {
 		List<Transactions> list = new ArrayList<Transactions>();
 
 		System.out.println("Enter the starting date (dd/MM/yyyy) : ");
-		sDate = sc.next();
+		sDate = sc.nextLine();
 		System.out.println("Enter the end date (dd/MM/yyyy) : ");
-		eDate = sc.next();
+		eDate = sc.nextLine();
 
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		try {
@@ -273,7 +277,7 @@ private void accountLockStatus() {
 		
 		  
 	     System.out.println("Enter User Id : ");
-	     String accId = sc.next();
+	     String accId = sc.nextLine();
 	     int userID = 0;
 	     
 	     try {
@@ -317,7 +321,7 @@ private void accountLockStatus() {
 	    		  System.out.println("1. Lock User Account");
 		    	  System.out.println("2. Unlock User Account");
 		    	  System.out.println("Enter your Choice");
-		    	  String choice = sc.next();
+		    	  String choice = sc.nextLine();
 		    	  
 	    	  switch (choice) {
 			case "1":

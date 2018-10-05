@@ -35,7 +35,7 @@ public interface IQueryMapper {
 
 	public static final String GET_SERVICE_REQUEST_NUMBER = "select service.currval from dual";
 
-	public static final String GET_SELF_ACCOUNTS = "SELECT account_id FROM user_table WHERE user_id=?";
+	public static final String GET_SELF_ACCOUNTS = "SELECT account_id FROM account_master WHERE user_id=?";
 	
 	public static final String GET_MINI_STATEMENT = "select * from Transactions where Account_Id=?";
 

@@ -420,11 +420,17 @@ public class UserClient {
 		}
 		switch(choice){
 		case 1://Transfer to own accounts
-				List<Integer> selfaccounts=cService.getAccountList(ar);
+				List<Integer> selfaccounts=cService.getAccountList(125);
+				System.out.println("getting account list");
+				System.out.println(selfaccounts);
 				int count= selfaccounts.size();
 				for(int index=0;index<count;index++){
+					
 					System.out.println(index+". "+selfaccounts.get(index));
 				}
+				System.out.println("Enter the Sr.no of account to transfer funds from");
+				
+				System.out.println("Enter the Sr.no of account to transfer funds from");
 			break;
 		case 2:
 			break;

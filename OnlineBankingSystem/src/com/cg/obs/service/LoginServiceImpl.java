@@ -20,7 +20,7 @@ public class LoginServiceImpl implements ILoginService {
 		
 		if(admin==null){
 			throw new InvalidCredentialsException(Messages.INVALID_USERNAME);
-		}else if(!password.equals(admin.getPassword())){
+		}else if(!password.equals(admin.getAdminPassword())){
 			throw new InvalidCredentialsException(Messages.INVALID_PASSWORD);
 		}else{
 			success=true;

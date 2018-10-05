@@ -34,8 +34,8 @@ public class LoginDaoImpl implements ILoginDao {
 			if(resultset.next()){
 				admin=new Admin();
 				admin.setAdminId(resultset.getInt(1));
-				admin.setUserId(resultset.getString(2));
-				admin.setPassword(resultset.getString(3));
+				admin.setAdminUserId(resultset.getString(2));
+				admin.setAdminPassword(resultset.getString(3));
 				
 			}
 			

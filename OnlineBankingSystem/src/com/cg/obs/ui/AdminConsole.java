@@ -33,6 +33,7 @@ public class AdminConsole {
 
 		boolean check = true;
 
+		System.out.println("\nAdmin Console\n");
 
 		while (check) {
 
@@ -47,7 +48,6 @@ public class AdminConsole {
 			case "1":
 
 				admin.createAccount();
-				// admin.test();
 
 				break;
 			case "2":
@@ -80,7 +80,7 @@ public class AdminConsole {
 
 	private void createAccount() {
 
-		int accNumber;
+		
 		String customerName;
 		String customerAddress;
 		long customerMobileNum;
@@ -88,16 +88,15 @@ public class AdminConsole {
 		String panDetail;
 		String accountType;
 		double openingBalance;
+		String existing;
+		long userId;
 		Date currentDate = new Date();
 		java.sql.Date openDate = new java.sql.Date(currentDate.getTime());
 
 		try {
 
 			String check;
-
-			System.out.println("Account Number : ");
-			check = sc.next();
-			accNumber = Integer.parseInt(check);
+			
 			System.out.println("Customer Name :");
 			customerName = sc.next();
 			System.out.println("Customer Address : ");
@@ -113,14 +112,32 @@ public class AdminConsole {
 			panDetail = sc.next();
 			System.out.println("Opening Balance : ");
 			check = sc.next();
+			System.out.println("Existing Customer(y/n)");
+			existing = sc.next();
+			
+			if(existing.toLowerCase().equals("y"))
+			{
+				System.out.println("Enter User id : ");
+				check = sc.next();
+				userId = Long.parseLong(check);
+				
+			}
+			
 			openingBalance = Double.parseDouble(check);
 
-			Customer cust = new Customer(accNumber, customerName,
-					customerMobileNum, customerEmail, customerAddress,
-					panDetail);
-
-			AccountMaster account = new AccountMaster(accNumber, accountType,
-					openingBalance, openDate);
+			Customer cust = new Customer();
+			
+			cust.setCustomerName(customerName);
+			cust.setAddress(customerAddress);
+			cust.setMobile(customerMobileNum);
+			cust.setEmail(customerEmail);
+			cust.setPancard(panDetail);
+			
+			AccountMaster account = new AccountMaster();
+			
+			account.setAccountType(accountType);
+			account.setOpeningBalance(openingBalance);
+			account.setOpenDate(openDate);
 
 			boolean statusAdd = false;
 			boolean status = false;

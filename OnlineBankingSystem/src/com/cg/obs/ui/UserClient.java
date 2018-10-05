@@ -62,7 +62,7 @@ public class UserClient {
 						user.getMiniStatement(ar);
 
 						break;
-					case "2":
+					case "2":                                                                                                                                                                                                
 
 						user.getDetailedStatement(ar);
 

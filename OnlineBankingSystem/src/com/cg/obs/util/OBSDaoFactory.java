@@ -8,14 +8,11 @@ import com.cg.obs.dao.LoginDaoImpl;
 public class OBSDaoFactory {
 
 	public static ICustomerDao getCustomerDao() {
-		
 		return new CustomerDaoImpl();
 	}
 	
 	public static ILoginDao getLoginDao(){
 		return new LoginDaoImpl();
 	}
-
-
 
 }

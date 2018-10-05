@@ -23,192 +23,74 @@ public class UserClient {
 	// public static int ar = 1001;
 
 	public static int countPassTries = 0;
-    static UserClient user = new UserClient();
-    Scanner sc = new Scanner(System.in);
-	
+	static UserClient user = new UserClient();
+	Scanner sc = new Scanner(System.in);
+
 	public static void main(String[] args) {
 		UserClient user = new UserClient();
 		user.clientConsole(1002);
 	}
 
 	public void clientConsole(int ar) {
+		
+		
+		
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
-			if(choice==7) break;
+			if (choice == 7)
+				break;
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:// mini/detailed statement
-				
+
 				boolean status = true;
-				
-				while(status)
-				{
-				System.out.println("1. Mini Statement");
-				System.out.println("2. Detailed Statement");
-				System.out.println("3. Exit");
-				System.out.println("Enter your choice");
-				String check = sc.next();
-				
-				switch (check) {
-				case "1":
-					
-					user.getMiniStatement(ar);
-					
-					break;
-				case "2":
-					
-					user.getDetailedStatement(ar);
-					
-					break;
-				case "3":
-					
-					status= false;
-					
-					break;
-				default:
-					System.out.println("Enter a valid option");
-					
-					break;
-				}
-				
-				
-				}
-				
-				
-				break;
-			case 2:// Update Mobile/Address
 
-				/*
-				 * Displaying Existing Details
-				 */
-				Customer customer = cService.getCustomerDetails(ar);
-				System.out.println("Displaying Existing Details:");
-				System.out.println(customer);
+				while (status) {
+					System.out.println("1. Mini Statement");
+					System.out.println("2. Detailed Statement");
+					System.out.println("3. Exit");
+					System.out.println("Enter your choice");
+					String check = sc.next();
 
-				/*
-				 * Functionality to be added later System.out.println(
-				 * "To keep existing data, leave the corresponding field empty"
-				 * );
-				 */
-				try {
-					System.out.println("Enter new Mobile Number:");
-					long mobile = scan.nextLong();
-					System.out.println("Enter new Address:");
-					String address = scan.next();
+					switch (check) {
+					case "1":
 
-					/*
-					 * Validating Entered Details and if validated, Updating
-					 */
-					cService.validate(mobile, address);
-					customer.setMobile(mobile);
-					customer.setAddress(address);
-					boolean result = cService.updateCustomerDetails(customer);
-					if (result)
-						System.out.println(Messages.CUSTOMER_UPDATE_SUCCESS);
-					else
-						System.out
-								.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
+						user.getMiniStatement(ar);
 
-				} catch (InvalidDetailsEntered e) {
-					System.out.println(e.getMessage());
-				} catch (UpdateCustomerException e) {
-					System.err.println(Messages.CUSTOMER_UPDATE_FAILED_DAO);
-				} catch (InputMismatchException e1) {
-					System.err.println(Messages.INVALID_MOBILE_FORMAT);
-					scan.next();
-				}
+						break;
+					case "2":
 
-				break;
+						user.getDetailedStatement(ar);
 
-			case 3://
-				int requestNumber = cService.requestChequeBook(ar);
-				if (requestNumber != 0) {
-					System.out.println(Messages.CHEQUEBOOK_SUCCESS);
-					System.out.println("Your service request number is: "
-							+ requestNumber);
-				} else {
-					System.out.println(Messages.SERVICE_REQUEST_FAILED);
-				}
-				break;
-			case 4:// track service
-				int sNum = getServiceChoice(scan);
-				switch (sNum) {
-				case 1:
-					System.out.println("Enter Service Request Number:");
-					int accNum = ar;
-					ServiceTracker sTrack = cService.getRequestStatus(
-							scan.nextInt(), accNum);
-					if (sTrack != null)
-						doSuccessRequest(sTrack);
-					else
-						doFailureRequest();
-					break;
-				case 2:
-					System.out.println("Enter Account Number:");
-					int accNumber = scan.nextInt();
-					if (accNumber == ar) {
-						ArrayList<ServiceTracker> requestList = cService
-								.getAllRequestStatus(accNumber);
-						if (requestList.isEmpty() | requestList==null)
-							doFailureAllRequests();
-						else
-							doSuccessAllRequests(requestList);
-					} else {
-						System.err.println("Wrong account number entered.");
+						break;
+					case "3":
+
+						status = false;
+
+						break;
+					default:
+						System.out.println("Enter a valid option");
+
 						break;
 					}
-					break;
-				case 3:
-					System.out.println("Going Back to your Home Page");
-					break;
-				default:
-					System.out.println("You have selected an incorrect option");
-					break;
+
 				}
+
+				break;
+			case 2:// Update Mobile/Address
+				doDetailsUpdate(scan,ar);
+				break;
+			case 3://Checkbook request
+				doChequebookRequest(scan,ar);
+				break;
+			case 4:// track service
+				doTrackService(scan,ar);
 				break;
 			case 5:// fund transfer
 				break;
 			case 6:// ChangePassword
-
-				/*
-				 * User is given 3 tries to enter 'old password' and 3 more
-				 * tries to enter valid 'new Password'
-				 */
-				countPassTries = 0;
-				boolean validPass = false;
-				while (!validPass && countPassTries < 3) {
-					String oldPass = getOldPass(scan);
-					validPass = cService.checkOldPass(oldPass, ar);
-					if (validPass)
-						break;
-					System.err.println(Messages.INVALID_OLD_PASS);
-					countPassTries++;
-				}
-
-				boolean validNewPass = false;
-				countPassTries = 0;
-				while (!validNewPass && countPassTries < 3) {
-					String newPass = getNewPass(scan);
-					validNewPass = cService.checkNewPass(newPass);
-
-					if (validNewPass) {
-						try {
-							cService.updatePassword(newPass, ar);
-							System.out
-									.println(Messages.PASSWORD_UPDATE_SUCCESS);
-							break;
-						} catch (PasswordUpdateException e) {
-							System.err.println(Messages.PASSWORD_UPDATE_FAILED);
-						}
-					} else {
-						countPassTries++;
-						if (countPassTries == 3) {
-							System.err.println(Messages.MAXIMUM_NEWPASS_TRIES);
-						}
-					}
-
-				}
+				doPasswordUpdate(scan,ar);
 				break;
 			case 7:
 				// LogOut
@@ -223,35 +105,154 @@ public class UserClient {
 
 	}
 
+	private void doChequebookRequest(Scanner scan, int ar) {
+		int requestNumber = cService.requestChequeBook(ar);
+		if (requestNumber != 0) {
+			System.out.println(Messages.CHEQUEBOOK_SUCCESS);
+			System.out.println("Your service request number is: "
+					+ requestNumber);
+		} else {
+			System.out.println(Messages.SERVICE_REQUEST_FAILED);
+		}
+	}
 
+	private void doDetailsUpdate(Scanner scan, int ar) {
+		/*
+		 * Displaying Existing Details
+		 */
+		Customer customer = cService.getCustomerDetails(ar);
+		System.out.println("Displaying Existing Details:");
+		System.out.println(customer);
 
-	
-	
+		/*
+		 * Functionality to be added later System.out.println(
+		 * "To keep existing data, leave the corresponding field empty"
+		 * );
+		 */
+		try {
+			System.out.println("Enter new Mobile Number:");
+			long mobile = scan.nextLong();
+			System.out.println("Enter new Address:");
+			String address = scan.next();
+
+			/*
+			 * Validating Entered Details and if validated, Updating
+			 */
+			cService.validate(mobile, address);
+			customer.setMobile(mobile);
+			customer.setAddress(address);
+			boolean result = cService.updateCustomerDetails(customer);
+			if (result)
+				System.out.println(Messages.CUSTOMER_UPDATE_SUCCESS);
+			else
+				System.out
+						.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
+
+		} catch (InvalidDetailsEntered e) {
+			System.out.println(e.getMessage());
+		} catch (UpdateCustomerException e) {
+			System.err.println(Messages.CUSTOMER_UPDATE_FAILED_DAO);
+		} catch (InputMismatchException e1) {
+			System.err.println(Messages.INVALID_MOBILE_FORMAT);
+			scan.next();
+		}
+
+		
+	}
+
+	private void doPasswordUpdate(Scanner scan, int ar) {
+		/*
+		 * User is given 3 tries to enter 'old password' and 3 more
+		 * tries to enter valid 'new Password'
+		 */
+		countPassTries = 0;
+		boolean validPass = false;
+		while (!validPass && countPassTries < 3) {
+			String oldPass = getOldPass(scan);
+			validPass = cService.checkOldPass(oldPass, ar);
+			if (validPass)
+				break;
+			System.err.println(Messages.INVALID_OLD_PASS);
+			countPassTries++;
+		}
+
+		boolean validNewPass = false;
+		countPassTries = 0;
+		while (!validNewPass && countPassTries < 3) {
+			String newPass = getNewPass(scan);
+			validNewPass = cService.checkNewPass(newPass);
+
+			if (validNewPass) {
+				try {
+					cService.updatePassword(newPass, ar);
+					System.out
+							.println(Messages.PASSWORD_UPDATE_SUCCESS);
+					break;
+				} catch (PasswordUpdateException e) {
+					System.err.println(Messages.PASSWORD_UPDATE_FAILED);
+				}
+			} else {
+				countPassTries++;
+				if (countPassTries == 3) {
+					System.err.println(Messages.MAXIMUM_NEWPASS_TRIES);
+				}
+			}
+
+		}
+		
+	}
+
+	private void doTrackService(Scanner scan,int ar) {
+		int sNum = getServiceChoice(scan);
+		switch (sNum) {
+		case 1:
+			System.out.println("Enter Service Request Number:");
+			int accNum = ar;
+			ServiceTracker sTrack = cService.getRequestStatus(
+					scan.nextInt(), accNum);
+			if (sTrack != null)
+				doSuccessRequest(sTrack);
+			else
+				doFailureRequest();
+			break;
+		case 2:
+			System.out.println("Enter Account Number:");
+			int accNumber = scan.nextInt();
+			if (accNumber == ar) {
+				ArrayList<ServiceTracker> requestList = cService
+						.getAllRequestStatus(accNumber);
+				if (requestList.isEmpty() | requestList == null)
+					doFailureAllRequests();
+				else
+					doSuccessAllRequests(requestList);
+			} else {
+				System.err.println("Wrong account number entered.");
+				break;
+			}
+			break;
+		case 3:
+			System.out.println("Going Back to your Home Page");
+			break;
+		default:
+			System.out.println("You have selected an incorrect option");
+			break;
+		}
+	}
+
 	private void getMiniStatement(int ar) {
-		
+
 		List<Transactions> transaction = cService.getMiniStatement(ar);
-		
-		if(transaction==null)
-		{
+
+		if (transaction == null) {
 			System.out.println("No Transaction found for given Account");
-		}
-		else
-		{
-		System.out.println(transaction);
+		} else {
+			System.out.println(transaction);
 		}
 	}
 
-	
-     
-	
 	private void getDetailedStatement(int ar) {
-		
-		
+
 	}
-
-
-	
-	
 
 	private void doFailureAllRequests() {
 		// TODO Auto-generated method stub
@@ -272,7 +273,6 @@ public class UserClient {
 	private void doSuccessRequest(ServiceTracker sTrack) {
 		System.out.println(sTrack);
 	}
-
 
 	private static int getChoice(Scanner scan) {
 		int choice = 0;

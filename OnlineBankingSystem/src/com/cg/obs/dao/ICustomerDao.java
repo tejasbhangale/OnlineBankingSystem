@@ -25,12 +25,10 @@ public interface ICustomerDao {
 
 	public int requestChequeBook(int id);
 
-
 	public List<Transactions> getMiniStatement(int ar);
 
 	public ServiceTracker getRequestStatus(int reqNum,int accNum);
 
 	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum);
-
 
 }

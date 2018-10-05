@@ -243,7 +243,9 @@ public class CustomerDaoImpl implements ICustomerDao {
 			
 			ResultSet resSet = pt.executeQuery();
 			ArrayList<ServiceTracker> reqList = new ArrayList<ServiceTracker>();
-			while (resSet.next()) {
+			int count = 0;
+			while (resSet.next() && count<20) {
+				count++;
 				ServiceTracker sTrack = new ServiceTracker();
 				sTrack.setService_id(resSet.getInt(1));
 				sTrack.setServiceDescription(resSet.getString(2));

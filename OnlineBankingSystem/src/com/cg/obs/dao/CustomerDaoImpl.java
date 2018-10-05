@@ -15,6 +15,7 @@ import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.util.ConnectionProvider;
+import com.cg.obs.util.Messages;
 
 public class CustomerDaoImpl implements ICustomerDao {
 
@@ -150,7 +151,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	@Override
 
-	public List<Transactions> getMiniStatement(int ar) {
+	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
 		
 		List<Transactions> transaction = new ArrayList<>();
 		
@@ -185,7 +186,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 		}catch (JDBCConnectionError e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
 			}
 			
 			if(count==1)
@@ -243,7 +244,9 @@ public class CustomerDaoImpl implements ICustomerDao {
 			
 			ResultSet resSet = pt.executeQuery();
 			ArrayList<ServiceTracker> reqList = new ArrayList<ServiceTracker>();
-			while (resSet.next()) {
+			int count = 0;
+			while (resSet.next() && count<20) {
+				count++;
 				ServiceTracker sTrack = new ServiceTracker();
 				sTrack.setService_id(resSet.getInt(1));
 				sTrack.setServiceDescription(resSet.getString(2));
@@ -260,6 +263,49 @@ public class CustomerDaoImpl implements ICustomerDao {
 		}
 		return null;
 
+	}
+
+	@Override
+	public List<Transactions> getDetailedStatement(int ar, Date startDate,
+			Date endDate) throws JDBCConnectionError {
+		
+		List<Transactions> transaction = new ArrayList<>();
+		
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn
+						.prepareStatement(IQueryMapper.GET_DETAILED_STATEMENT);) {
+		
+		pstm.setInt(1, ar);
+		pstm.setDate(2, startDate);
+		pstm.setDate(3, endDate);
+		
+		ResultSet result = pstm.executeQuery();
+		
+		while(result.next())
+		{
+			Transactions tran = new Transactions();
+			
+			tran.setTransactionId(result.getLong(1));
+			tran.setTransactionDesc(result.getString(2));
+			tran.setDateOfTransaction(result.getDate(3));
+			tran.setTransactionType(result.getString(4));
+			tran.setTransactionAmount(result.getDouble(5));
+			tran.setAccountId(result.getLong(6));
+			transaction.add(tran);
+			
+			
+		}
+		
+		
+		
+	} catch (JDBCConnectionError e) {
+		e.printStackTrace();
+	} catch (SQLException e) {
+		 throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+	}
+		
+		return transaction;
 	}
 
 }

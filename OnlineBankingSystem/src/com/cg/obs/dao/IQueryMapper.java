@@ -13,7 +13,7 @@ public interface IQueryMapper {
 
 	public static final String GET_TRANSACTION_DETAILS = "select * from Transactions where DateofTransaction>=? AND DateofTransaction<=?";
 
-	public static final String GET_CUSTOMER_DETAILS = "Select * from Customer where Account_ID=?";
+	public static final String GET_CUSTOMER_DETAILS = "Select * from Customer_Table where Account_ID=?";
 	
 	public static final String UPDATE_CUSTOMER_DETAILS = "UPDATE Customer set mobile=?,address=? where Account_ID=?";
 
@@ -35,8 +35,13 @@ public interface IQueryMapper {
 
 	public static final String GET_SERVICE_REQUEST_NUMBER = "select service.currval from dual";
 
+	
+	public static final String GET_MINI_STATEMENT = "select * from Transactions where Account_Id=?";
+
+
 	public static final String GET_REQUEST_STATUS = "select * from service_tracker where service_id=? and account_id=?";
 
 	public static final String GET_ALL_REQUESTS = "select * from service_tracker where account_id=?";
+
 
 }

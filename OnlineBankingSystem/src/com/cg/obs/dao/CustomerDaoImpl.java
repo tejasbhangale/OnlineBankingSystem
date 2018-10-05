@@ -7,9 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.ServiceTracker;
+import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.util.ConnectionProvider;
@@ -147,6 +149,57 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
+
+	public List<Transactions> getMiniStatement(int ar) {
+		
+		List<Transactions> transaction = new ArrayList<>();
+		
+		int count = 1;
+		
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn
+						.prepareStatement(IQueryMapper.GET_MINI_STATEMENT);) {
+		
+			
+			
+			pstm.setInt(1, ar);
+			
+			ResultSet result = pstm.executeQuery();
+			
+			
+			
+			while(result.next() && count<=10)
+			{
+				Transactions tran = new Transactions();
+				
+				tran.setTransactionId(result.getLong(1));
+				tran.setTransactionDesc(result.getString(2));
+				tran.setDateOfTransaction(result.getDate(3));
+				tran.setTransactionType(result.getString(4));
+				tran.setTransactionAmount(result.getDouble(5));
+				tran.setAccountId(result.getLong(6));
+				transaction.add(tran);
+				count++;
+			}
+		}catch (JDBCConnectionError e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			if(count==1)
+			{
+				return null;
+			}
+			
+			
+			return transaction;
+		}
+		
+		
+		
+
 	public ServiceTracker getRequestStatus(int reqNum, int accNum) {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
@@ -166,11 +219,16 @@ public class CustomerDaoImpl implements ICustomerDao {
 				sTrack.setStatus(res.getString(5));
 			}
 			return sTrack;
+
 		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		
+		
+
 		return null;
 	}
 
@@ -201,6 +259,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			e.printStackTrace();
 		}
 		return null;
+
 	}
 
 }

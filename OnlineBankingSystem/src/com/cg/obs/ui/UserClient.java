@@ -2,12 +2,14 @@ package com.cg.obs.ui;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.ServiceTracker;
-import com.cg.obs.exception.InvalidDetailsEntered;
+import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.InvalidChoiceException;
+import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;
@@ -21,7 +23,9 @@ public class UserClient {
 	// public static int ar = 1001;
 
 	public static int countPassTries = 0;
-
+    static UserClient user = new UserClient();
+    Scanner sc = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		UserClient user = new UserClient();
 		user.clientConsole(1002);
@@ -35,6 +39,43 @@ public class UserClient {
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:// mini/detailed statement
+				
+				boolean status = true;
+				
+				while(status)
+				{
+				System.out.println("1. Mini Statement");
+				System.out.println("2. Detailed Statement");
+				System.out.println("3. Exit");
+				System.out.println("Enter your choice");
+				String check = sc.next();
+				
+				switch (check) {
+				case "1":
+					
+					user.getMiniStatement(ar);
+					
+					break;
+				case "2":
+					
+					user.getDetailedStatement(ar);
+					
+					break;
+				case "3":
+					
+					status= false;
+					
+					break;
+				default:
+					System.out.println("Enter a valid option");
+					
+					break;
+				}
+				
+				
+				}
+				
+				
 				break;
 			case 2:// Update Mobile/Address
 
@@ -182,6 +223,36 @@ public class UserClient {
 
 	}
 
+
+
+	
+	
+	private void getMiniStatement(int ar) {
+		
+		List<Transactions> transaction = cService.getMiniStatement(ar);
+		
+		if(transaction==null)
+		{
+			System.out.println("No Transaction found for given Account");
+		}
+		else
+		{
+		System.out.println(transaction);
+		}
+	}
+
+	
+     
+	
+	private void getDetailedStatement(int ar) {
+		
+		
+	}
+
+
+	
+	
+
 	private void doFailureAllRequests() {
 		// TODO Auto-generated method stub
 		System.out.println("Request Failed");
@@ -201,6 +272,7 @@ public class UserClient {
 	private void doSuccessRequest(ServiceTracker sTrack) {
 		System.out.println(sTrack);
 	}
+
 
 	private static int getChoice(Scanner scan) {
 		int choice = 0;

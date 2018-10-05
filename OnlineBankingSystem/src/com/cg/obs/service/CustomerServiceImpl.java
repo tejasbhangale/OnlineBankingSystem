@@ -3,11 +3,10 @@ package com.cg.obs.service;
 
 
 import java.util.ArrayList;
-
-
 import java.util.List;
 
 import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.InvalidDetailsEntered;
@@ -83,9 +82,23 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
+
 	public List<Transactions> getMiniStatement(int ar) {
 		
 		return cDao.getMiniStatement(ar);
+	}
+	
+    @Override
+	public ServiceTracker getRequestStatus(int reqNum,int accNum) {
+		// TODO Auto-generated method stub
+		return cDao.getRequestStatus(reqNum,accNum);
+	}
+
+	@Override
+	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) {
+		// TODO Auto-generated method stub
+		return cDao.getAllRequestStatus(accNum);
+
 	}
 
 }

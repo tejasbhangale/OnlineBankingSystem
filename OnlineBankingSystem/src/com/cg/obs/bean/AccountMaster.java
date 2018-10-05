@@ -9,6 +9,7 @@ import java.sql.Date;
 public class AccountMaster {
 
 	long accountId;
+	long userId;
 	String accountType;
 	double openingBalance;
 	Date openDate;
@@ -22,13 +23,26 @@ public class AccountMaster {
 	}
 
 
-	public AccountMaster(long accountId, String accountType,
+	public AccountMaster(long accountId, long userId, String accountType,
 			double openingBalance, Date openDate) {
 		super();
 		this.accountId = accountId;
+		this.userId = userId;
 		this.accountType = accountType;
 		this.openingBalance = openingBalance;
 		this.openDate = openDate;
+	}
+
+
+	
+
+	public long getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 

@@ -2,6 +2,18 @@
 package com.cg.obs.service;
 
 
+
+import java.util.ArrayList;
+
+
+import java.util.List;
+
+import com.cg.obs.bean.Customer;
+import com.cg.obs.dao.ICustomerDao;
+import com.cg.obs.exception.InvalidDetailsEntered;
+import com.cg.obs.exception.PasswordUpdateException;
+import com.cg.obs.exception.UpdateCustomerException;
+import com.cg.obs.util.OBSDaoFactory;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +96,11 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-
+	public List<Integer> getAccountList(int id) {
+		// TODO Auto-generated method stub
+		return cDao.getAccountList(id);
+	}
+	@Override
 	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
 		return cDao.getMiniStatement(ar);
 	}

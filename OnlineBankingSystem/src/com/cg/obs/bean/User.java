@@ -7,7 +7,7 @@ package com.cg.obs.bean;
 public class User {
 
 	private int accountId;
-	private int userId;
+	private long userId;
 	private String loginPassword;
 	private String secretQuestion;
 	private String secretAnswer;
@@ -23,7 +23,7 @@ public class User {
 				+ ", transactionPassword=" + transactionPassword
 				+ ", lockStatus=" + lockStatus + "]";
 	}
-	public User(int accountId, int userId, String loginPassword,
+	public User(int accountId, long userId, String loginPassword,
 			String secretQuestion, String secretAnswer,
 			String transactionPassword, String lockStatus) {
 		super();
@@ -51,10 +51,10 @@ public class User {
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
 	}
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 	public String getLoginPassword() {

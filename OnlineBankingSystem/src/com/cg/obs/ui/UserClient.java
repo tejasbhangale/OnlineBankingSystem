@@ -91,6 +91,7 @@ public class UserClient {
 				doTrackService(scan, ar);
 				break;
 			case 5:// fund transfer
+				fundTransfer(scan,ar);
 				break;
 			case 6:// ChangePassword
 				doPasswordUpdate(scan, ar);
@@ -123,7 +124,7 @@ public class UserClient {
 		/*
 		 * Displaying Existing Details
 		 */
-		Customer customer = cService.getCustomerDetails(ar);
+		Customer customer = cService.getCustomerDetails(ar); 
 		System.out.println("Displaying Existing Details:");
 		System.out.println(customer);
 
@@ -400,5 +401,41 @@ public class UserClient {
 		String pass = scan.next();
 		return pass;
 	}
-
+	private static void fundTransfer(Scanner scan, int ar){
+		int choice=0;
+		System.out.println("Funds Transfer to:");
+		System.out.println("1. Your Own Bank Account across India");
+		System.out.println("2. Other  account of same bank across india");
+		System.out.println("3. Go back");
+		try {
+			choice = scan.nextInt();
+			if (choice < 1 || choice > 2) {
+				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+			}
+		} catch (InputMismatchException e) {
+			System.err.println(Messages.INCORRECT_INPUT_TYPE);
+			scan.next();
+		} catch (InvalidChoiceException e) {
+			System.err.println(e.getMessage());
+		}
+		switch(choice){
+		case 1://Transfer to own accounts
+				List<Integer> selfaccounts=cService.getAccountList(125);
+				System.out.println("getting account list");
+				System.out.println(selfaccounts);
+				int count= selfaccounts.size();
+				for(int index=0;index<count;index++){
+					
+					System.out.println(index+". "+selfaccounts.get(index));
+				}
+				System.out.println("Enter the Sr.no of account to transfer funds from");
+				
+				System.out.println("Enter the Sr.no of account to transfer funds from");
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		}
+	}
 }

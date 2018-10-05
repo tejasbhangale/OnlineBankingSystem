@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import org.apache.log4j.PropertyConfigurator;
 
+import com.cg.obs.bean.User;
 import com.cg.obs.exception.InvalidCredentialsException;
 import com.cg.obs.service.ILoginService;
 import com.cg.obs.util.OBSServiceFactory;
@@ -13,10 +14,11 @@ public class ClientMain {
 
 	private static ILoginService loginService = OBSServiceFactory
 			.getLoginService();
+	static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args) {
 
-		Scanner scan = new Scanner(System.in);
+		
 		PropertyConfigurator.configure("res/log4j.properties");
 
 		int choice = -1;
@@ -56,63 +58,116 @@ public class ClientMain {
 				}
 
 			} else if (choice == 2) {
-				int loginAttempts = 0;
-				String customerUserName = null;
-				String customerPassword = null;
-				System.out.println("User ID :");
-				customerUserName = scan.next();
-				int customerId = 0;
-				boolean userIdValid = false;
-				boolean credFlag = false;
-				try {
-					customerId = Integer.parseInt(customerUserName);
-					userIdValid = loginService.validateUserId(customerId);
-				} catch (NumberFormatException e1) {
-					System.err.println("User ID must be in specified format only");
-				} catch (InvalidCredentialsException e1) {
+				
+				int loginChoice=showLoginOptionsForCustomer();
+				
+				if(loginChoice==1){
 
-					System.err.println(e1.getMessage());
+					int loginAttempts = 0;
+					String customerUserName = null;
+					String customerPassword = null;
+					System.out.println("User ID :");
+					customerUserName = scan.next();
+					int customerId = 0;
+					boolean userIdValid = false;
+					boolean credFlag = false;
+					try {
+						customerId = Integer.parseInt(customerUserName);
+						userIdValid = loginService.validateUserId(customerId);
+					} catch (NumberFormatException e1) {
+						System.err.println("User ID must be in specified format only");
+					} catch (InvalidCredentialsException e1) {
+
+						System.err.println(e1.getMessage());
+					}
+					if (userIdValid) {
+						while (loginAttempts < 3 && !credFlag) {
+
+							System.out.println("Password: ");
+							customerPassword = scan.next();
+							loginAttempts++;
+							try {
+								credFlag = loginService.validatePassword(
+										customerId, customerPassword);
+							} catch (InvalidCredentialsException e) {
+								System.err.println(e.getMessage());
+							}
+
+						}
+						if (credFlag && userIdValid) {
+							int account_id = 0;
+							try {
+								account_id = loginService.getUserLogin(customerId,
+										customerPassword);
+							} catch (InvalidCredentialsException e) {
+								System.err.println(e.getMessage());
+							}
+							if (account_id != 0) {
+								UserClient userClient = new UserClient();
+								userClient.clientConsole(account_id);
+								System.out.println("client login done");
+							}
+						} else if (loginAttempts == 3) {
+							boolean success = loginService
+									.lockUserAccount(customerId);
+							System.err
+									.println("Invalid Login attempts exceeded!!!.Your account has been locked");
+						}
 				}
-				if (userIdValid) {
-					while (loginAttempts < 3 && !credFlag) {
+				
 
-						System.out.println("Password: ");
-						customerPassword = scan.next();
-						loginAttempts++;
-						try {
-							credFlag = loginService.validatePassword(
-									customerId, customerPassword);
-						} catch (InvalidCredentialsException e) {
-							System.err.println(e.getMessage());
+				}else if(loginChoice==2){
+					
+					System.out.println("Enter customer ID");
+					
+					int id=scan.nextInt();
+					try{
+						User user=loginService.forgotPassword(id);
+						if(user!=null){
+							System.out.println("Your security question is :");
+							System.out.println(user.getSecretQuestion());
+							System.out.println("Enter answer:");
+							String secretAnswer=scan.next();
+							if(user.getSecretAnswer().equals(secretAnswer)){
+								System.out.println("Answer validation successfull");
+								String newPassword="#sbq500";
+								boolean success=loginService.setOneTimePassword(newPassword,id);
+								if(success){
+									System.out.println("\nYour one time login password is: #sbq500. Kindly login using this passoword and create new password for future use.");
+								}
+								else{
+									System.err.println("\nError Occured ! Please try again");
+								}
+					
+							}else{
+								System.err.println("\nInvalid answer..Try again");
+							}
+						}else{
+							System.err.println("\nUser ID does not exist");
 						}
-
+					}catch(NullPointerException ne){
+						System.err.println(ne.getMessage());
 					}
-					if (credFlag && userIdValid) {
-						int account_id = 0;
-						try {
-							account_id = loginService.getUserLogin(customerId,
-									customerPassword);
-						} catch (InvalidCredentialsException e) {
-							System.err.println(e.getMessage());
-						}
-						if (account_id != 0) {
-							UserClient userClient = new UserClient();
-							userClient.clientConsole(account_id);
-							System.out.println("client login done");
-						}
-					} else if (loginAttempts == 3) {
-						boolean success = loginService
-								.lockUserAccount(customerId);
-						System.err
-								.println("Invalid Login attempts exceeded!!!.Your account has been locked");
-					}
-
+				}else{
+					System.err.println("\nInvalid choice");
+					
 				}
 			}
 
 		}
 		scan.close();
 		System.out.println("Program Terminated");
+	}
+
+	private static int showLoginOptionsForCustomer() {
+		System.out.println("**************Customer Login*************");
+		System.out.println("1. Proceed to Login");
+		System.out.println("2. Forgot Password");
+		int choice=scan.nextInt();
+		return choice;
+		
+		
+		
 	}
 
 }

@@ -232,15 +232,16 @@ private void accountLockStatus() {
 	    	  else
 	    	  {
 	    	  boolean check = true;
-	    	  
 	    	  if(status.equals("l"))
 	    	  {
-	    		  status="Lock";
+	    		  status = "Lock";
 	    	  }
 	    	  else
 	    	  {
-	    		  status="UnLock";
+	    		  status = "UnLock";
 	    	  }
+	    	  
+	    	  
 	    	  
 	    	  System.out.println("Account Details");
 	    	  System.out.println("Account Number : "+accNumber);
@@ -260,7 +261,7 @@ private void accountLockStatus() {
 		    	  
 	    	  switch (choice) {
 			case "1":
-				if(status.equals("l"))
+				if(status.equals("Lock"))
 				{
 					System.out.println("Account is already Locked");
 				}
@@ -282,7 +283,7 @@ private void accountLockStatus() {
 				check=false;
 				break;
 			case "2":
-				if(status.equals("u"))
+				if(status.equals("UnLock"))
 				{
 					System.out.println("Account is already UnLocked");
 				}
@@ -335,31 +336,3 @@ private void accountLockStatus() {
 
 
 
-/*if(user.getLockStatus()=="u")
-{
-	  System.out.println("Account id : "+user.getAccountId());
-	  System.out.println("User id : "+user.getUserId());
-	  System.out.println("Given account is not locked");
-}
-else
-{
-System.out.println("Answer the Question : "+user.getSecretQuestion());
-String answer = sc.next();
-
-if(answer.toLowerCase().equals(user.getSecretAnswer().toLowerCase()))
-{
-	  boolean change = adminService.changeAccountStatus(accNumber);
-	  
-	  if(change)
-	  {
-		  System.out.println("Account id : "+user.getAccountId());
-		  System.out.println("User id : "+user.getUserId());
-		  System.out.println("Account has been unlocked");
-	  }
-	  
-}
-else
-{
-	  System.out.println("Given answer is not correct");
-}
-}*/

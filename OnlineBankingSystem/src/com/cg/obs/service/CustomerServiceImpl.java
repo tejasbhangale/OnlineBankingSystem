@@ -2,6 +2,7 @@
 package com.cg.obs.service;
 
 
+
 import java.util.ArrayList;
 
 
@@ -10,6 +11,19 @@ import java.util.List;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.InvalidDetailsEntered;
+import com.cg.obs.exception.PasswordUpdateException;
+import com.cg.obs.exception.UpdateCustomerException;
+import com.cg.obs.util.OBSDaoFactory;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.ServiceTracker;
+import com.cg.obs.bean.Transactions;
+import com.cg.obs.dao.ICustomerDao;
+import com.cg.obs.exception.InvalidDetailsEntered;
+import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.util.OBSDaoFactory;
@@ -85,6 +99,30 @@ public class CustomerServiceImpl implements ICustomerService {
 	public List<Integer> getAccountList(int id) {
 		// TODO Auto-generated method stub
 		return cDao.getAccountList(id);
+	}
+	@Override
+	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
+		return cDao.getMiniStatement(ar);
+	}
+	
+    @Override
+	public ServiceTracker getRequestStatus(int reqNum,int accNum) {
+		// TODO Auto-generated method stub
+		return cDao.getRequestStatus(reqNum,accNum);
+	}
+
+	@Override
+	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) {
+		// TODO Auto-generated method stub
+		return cDao.getAllRequestStatus(accNum);
+
+	}
+
+	@Override
+	public List<Transactions> getDetailedStatement(int ar, Date startDate,
+			Date endDate) throws JDBCConnectionError {
+		
+		return cDao.getDetailedStatement(ar, startDate, endDate);
 	}
 
 }

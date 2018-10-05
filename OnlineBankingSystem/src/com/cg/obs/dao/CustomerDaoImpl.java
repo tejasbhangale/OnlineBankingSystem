@@ -10,9 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.ServiceTracker;
+import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.util.ConnectionProvider;
+import com.cg.obs.util.Messages;
 
 public class CustomerDaoImpl implements ICustomerDao {
 
@@ -169,6 +172,163 @@ public class CustomerDaoImpl implements ICustomerDao {
 			e1.printStackTrace();
 		}
 		return accountList;
+	}
+	@Override
+	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
+		
+		List<Transactions> transaction = new ArrayList<>();
+		
+		int count = 1;
+		
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn
+						.prepareStatement(IQueryMapper.GET_MINI_STATEMENT);) {
+		
+			
+			
+			pstm.setInt(1, ar);
+			
+			ResultSet result = pstm.executeQuery();
+			
+			
+			
+			while(result.next() && count<=10)
+			{
+				Transactions tran = new Transactions();
+				
+				tran.setTransactionId(result.getLong(1));
+				tran.setTransactionDesc(result.getString(2));
+				tran.setDateOfTransaction(result.getDate(3));
+				tran.setTransactionType(result.getString(4));
+				tran.setTransactionAmount(result.getDouble(5));
+				tran.setAccountId(result.getLong(6));
+				transaction.add(tran);
+				count++;
+			}
+		}catch (JDBCConnectionError e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			}
+			
+			if(count==1)
+			{
+				return null;
+			}
+			
+			
+			return transaction;
+		}
+		
+		
+		
+
+	public ServiceTracker getRequestStatus(int reqNum, int accNum) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_REQUEST_STATUS);) {
+
+			pt.setInt(1, reqNum);
+			pt.setInt(2, accNum);
+			ServiceTracker sTrack = null;
+			ResultSet res = pt.executeQuery();
+			while (res.next()) {
+				sTrack = new ServiceTracker();
+				sTrack.setService_id(res.getInt(1));
+				sTrack.setServiceDescription(res.getString(2));
+				sTrack.setAccountId(res.getInt(3));
+				sTrack.setServiceRaisedDate(res.getDate(4));
+				sTrack.setStatus(res.getString(5));
+			}
+			return sTrack;
+
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+		
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_ALL_REQUESTS);) {
+
+			pt.setInt(1, accNum);
+			
+			ResultSet resSet = pt.executeQuery();
+			ArrayList<ServiceTracker> reqList = new ArrayList<ServiceTracker>();
+			int count = 0;
+			while (resSet.next() && count<20) {
+				count++;
+				ServiceTracker sTrack = new ServiceTracker();
+				sTrack.setService_id(resSet.getInt(1));
+				sTrack.setServiceDescription(resSet.getString(2));
+				sTrack.setAccountId(resSet.getInt(3));
+				sTrack.setServiceRaisedDate(resSet.getDate(4));
+				sTrack.setStatus(resSet.getString(5));
+				reqList.add(sTrack);
+			}
+			return reqList;
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	@Override
+	public List<Transactions> getDetailedStatement(int ar, Date startDate,
+			Date endDate) throws JDBCConnectionError {
+		
+		List<Transactions> transaction = new ArrayList<>();
+		
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn
+						.prepareStatement(IQueryMapper.GET_DETAILED_STATEMENT);) {
+		
+		pstm.setInt(1, ar);
+		pstm.setDate(2, startDate);
+		pstm.setDate(3, endDate);
+		
+		ResultSet result = pstm.executeQuery();
+		
+		while(result.next())
+		{
+			Transactions tran = new Transactions();
+			
+			tran.setTransactionId(result.getLong(1));
+			tran.setTransactionDesc(result.getString(2));
+			tran.setDateOfTransaction(result.getDate(3));
+			tran.setTransactionType(result.getString(4));
+			tran.setTransactionAmount(result.getDouble(5));
+			tran.setAccountId(result.getLong(6));
+			transaction.add(tran);
+			
+			
+		}
+		
+		
+		
+	} catch (JDBCConnectionError e) {
+		e.printStackTrace();
+	} catch (SQLException e) {
+		 throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+	}
+		
+		return transaction;
 	}
 
 }

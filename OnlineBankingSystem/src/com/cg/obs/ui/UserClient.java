@@ -24,7 +24,7 @@ public class UserClient {
 
 	public static void main(String[] args) {
 		UserClient user = new UserClient();
-		user.clientConsole(1001);
+		user.clientConsole(1002);
 	}
 
 	public void clientConsole(int ar) {

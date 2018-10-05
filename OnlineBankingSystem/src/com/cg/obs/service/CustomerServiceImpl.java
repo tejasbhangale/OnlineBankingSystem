@@ -14,6 +14,7 @@ import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.util.OBSDaoFactory;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,6 +124,35 @@ public class CustomerServiceImpl implements ICustomerService {
 			Date endDate) throws JDBCConnectionError {
 		
 		return cDao.getDetailedStatement(ar, startDate, endDate);
+	}
+
+	@Override
+	public boolean checkfunds(int accountId, double transfer_amt) {
+		double balance=cDao.getAccBalance(accountId);
+		if(balance<transfer_amt){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	@Override
+	public List<Integer> getPayeeList(int id) {
+		// TODO Auto-generated method stub
+		return cDao.getPayeeList(id);
+	}
+
+	@Override
+	public int transferfunds(int fromaccount, int toaccount, double transferAmount) {
+		boolean transferSuccess=false;
+		if(cDao.debitFunds(fromaccount,transferAmount)){
+			transferSuccess=cDao.creditFunds(toaccount,transferAmount);
+		}
+		int fundTransferId= cDao.recordFundTransfer(fromaccount,toaccount,transferAmount);
+		int transactionId = cDao.recordTransaction(fromaccount,fundTransferId,"d",transferAmount);
+		cDao.recordTransaction(toaccount,fundTransferId,"c",transferAmount);
+		return transactionId;
 	}
 
 }

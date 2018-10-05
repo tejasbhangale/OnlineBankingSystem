@@ -51,5 +51,22 @@ public interface IQueryMapper {
 
 	public static final String GET_ACCOUNT_ID = "select account_id from account_master where user_id=?";
 
+	public static final String GET_ACCOUNT_BALANCE = "SELECT account_balance FROM account_master WHERE account_id=?";
+
+	public static final String GET_PAYEE_LIST = "SELECT payee_account_id FROM payeetable WHERE account_id IN (SELECT account_id FROM account_master WHERE user_id=?)";
+
+	public static final String DEBIT_FUNDS = "UPDATE account_master SET account_balance=account_balance-? WHERE account_id=?";
+
+	public static final String CREDIT_FUNDS = "UPDATE account_master SET account_balance=account_balance+? WHERE account_id=?";
+
+	public static final String RECORD_FUND_TRANSFER = "INSERT INTO fund_transfer VALUES(TRANSFER_SEQ.NEXTVAl,?,?,SYSDATE,?)";
+
+	public static final String GET_FUND_TRANSFER_ID = "SELECT TRANSFER_SEQ.CURRVAL FROM DUAL";
+
+	public static final String RECORD_TRANSACTION = "INSERT INTO Transactions VALUES(TRANSACTION_SEQ.NEXTVAL,?,SYSDATE,?,?,?)";
+
+	public static final String GET_TRANSACTION_ID = "SELECT TRANSACTION_SEQ.CURRVAL FROM DUAL";;
+	
+
 
 }

@@ -39,4 +39,18 @@ public interface ICustomerDao {
 	public List<Transactions> getDetailedStatement(int ar, Date startDate,
 			Date endDate) throws JDBCConnectionError;
 
+	public double getAccBalance(int accountId);
+
+	public List<Integer> getPayeeList(int id);
+
+	public boolean debitFunds(int accountID, double transferAmount);
+
+	public boolean creditFunds(int accountID, double transferAmount);
+
+	public int recordFundTransfer(int fromaccount, int toaccount,
+			double transferAmount);
+
+	public int recordTransaction(int accountId, int fundTransferId,
+			String type, double transferAmount);
+
 }

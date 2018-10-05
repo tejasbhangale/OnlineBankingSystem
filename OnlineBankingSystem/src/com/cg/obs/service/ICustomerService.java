@@ -39,4 +39,10 @@ public interface ICustomerService {
 	public List<Transactions> getDetailedStatement(int ar,
 			java.sql.Date startDate, java.sql.Date endDate) throws JDBCConnectionError;
 
+	public boolean checkfunds(int id, double transferAmount);
+
+	public List<Integer> getPayeeList(int id);
+
+	public int transferfunds(int fromaccount, int toaccount, double transferAmount);
+
 }

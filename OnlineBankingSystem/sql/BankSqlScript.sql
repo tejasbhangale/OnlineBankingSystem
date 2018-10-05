@@ -57,6 +57,12 @@ INSERT INTO Service_Tracker Values(151,'Service2',1002,'15-AUG-2018','Done Sevic
 INSERT INTO Service_Tracker Values(152,'Service3',1003,'20-JAN-2000','Incomplete Sevice Request');
 INSERT INTO Service_Tracker Values(153,'Service4',1004,'19-FEB-2015','Done Sevice Request');
 
+INSERT INTO PayeeTable VALUES(1002,1001,'Alice-b');
+INSERT INTO PayeeTable VALUES(1007,1003,'Andrea-b');
+INSERT INTO PayeeTable VALUES(1002,1004,'Teja-b');
+INSERT INTO PayeeTable VALUES(1004,1001,'Alice-t');
+INSERT INTO PayeeTable VALUES(1004,1002,'Bob-t');
+
 
 create sequence service
 START WITH 1005
@@ -77,5 +83,10 @@ NOCACHE;
 
 CREATE SEQUENCE USERID_SEQ
 START WITH 200
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE TRANSACTION_SEQ
+START WITH 5000
 INCREMENT BY 1
 NOCACHE;

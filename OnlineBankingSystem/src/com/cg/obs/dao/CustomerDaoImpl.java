@@ -331,4 +331,164 @@ public class CustomerDaoImpl implements ICustomerDao {
 		return transaction;
 	}
 
+	@Override
+	public double getAccBalance(int accountId) {
+		double balance= 0;
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm = conn
+						.prepareStatement(IQueryMapper.GET_ACCOUNT_BALANCE);) {
+			pstm.setInt(1, accountId);
+			ResultSet resultSet = pstm.executeQuery();
+			if(resultSet.next()){
+				balance= resultSet.getDouble(1);
+			}
+			
+		
+		} catch (SQLException | JDBCConnectionError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return balance;
+	}
+
+	@Override
+	public List<Integer> getPayeeList(int id) {
+		List<Integer> payeeList =new ArrayList<Integer>();
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_PAYEE_LIST);) {
+			pt.setInt(1, id);
+			
+			ResultSet resultSet = pt.executeQuery();
+			
+			while(resultSet.next()){
+				payeeList.add(resultSet.getInt(1));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JDBCConnectionError e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return payeeList;
+	}
+
+	@Override
+	public boolean debitFunds(int accountID, double transferAmount) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.DEBIT_FUNDS);) {
+			pt.setDouble(1, transferAmount);
+			pt.setInt(2, accountID);
+
+			int res = pt.executeUpdate();
+			if (res == 1){
+				System.out.println("debited");
+				return true;
+			}
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean creditFunds(int accountID, double transferAmount) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.CREDIT_FUNDS);) {
+			pt.setDouble(1, transferAmount);
+			pt.setInt(2, accountID);
+
+			int res = pt.executeUpdate();
+			if (res == 1){
+				System.out.println("credited");
+				return true;
+			}
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public int recordFundTransfer(int fromaccount, int toaccount,
+			double transferAmount) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt1 = conn
+						.prepareStatement(IQueryMapper.RECORD_FUND_TRANSFER);
+				PreparedStatement pt2 = conn
+						.prepareStatement(IQueryMapper.GET_FUND_TRANSFER_ID);) {
+			pt1.setInt(1, fromaccount);
+			pt1.setInt(2, toaccount);
+			pt1.setDouble(3, transferAmount);
+
+			int result = pt1.executeUpdate();
+			if (result == 1) {
+				System.out.println("fund transfer updated");
+				ResultSet res = pt2.executeQuery();
+				if (res.next()) {
+					return res.getInt(1);
+				} else {
+					return 0;
+				}
+			} else {
+				return 0;
+			}
+			
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int recordTransaction(int accountId, int fundTransferId,
+			String type, double transferAmount) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt1 = conn
+						.prepareStatement(IQueryMapper.RECORD_TRANSACTION);
+				PreparedStatement pt2 = conn
+						.prepareStatement(IQueryMapper.GET_TRANSACTION_ID);) {
+			String transDesc=("FT:"+fundTransferId);
+			pt1.setString(1, transDesc);
+			pt1.setString(2, type);
+			pt1.setDouble(3, transferAmount);
+			pt1.setInt(4, accountId);
+
+			int result = pt1.executeUpdate();
+			if (result == 1) {
+				System.out.println("Transaction update "+ type);
+				ResultSet res = pt2.executeQuery();
+				if (res.next()) {
+					return res.getInt(1);
+				} else {
+					return 0;
+				}
+			} else {
+				return 0;
+			}
+			
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

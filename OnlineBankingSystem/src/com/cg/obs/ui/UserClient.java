@@ -1,6 +1,9 @@
 package com.cg.obs.ui;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -10,6 +13,7 @@ import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.InvalidChoiceException;
 import com.cg.obs.exception.InvalidDetailsEntered;
+import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;
@@ -27,14 +31,13 @@ public class UserClient {
 	Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
+
 		UserClient user = new UserClient();
 		user.clientConsole(1002);
 	}
 
 	public void clientConsole(int ar) {
-		
-		
-		
+
 		int choice = 0;
 		Scanner scan = new Scanner(System.in);
 		while (true) {
@@ -79,18 +82,18 @@ public class UserClient {
 
 				break;
 			case 2:// Update Mobile/Address
-				doDetailsUpdate(scan,ar);
+				doDetailsUpdate(scan, ar);
 				break;
-			case 3://Checkbook request
-				doChequebookRequest(scan,ar);
+			case 3:// Checkbook request
+				doChequebookRequest(scan, ar);
 				break;
 			case 4:// track service
-				doTrackService(scan,ar);
+				doTrackService(scan, ar);
 				break;
 			case 5:// fund transfer
 				break;
 			case 6:// ChangePassword
-				doPasswordUpdate(scan,ar);
+				doPasswordUpdate(scan, ar);
 				break;
 			case 7:
 				// LogOut
@@ -126,8 +129,7 @@ public class UserClient {
 
 		/*
 		 * Functionality to be added later System.out.println(
-		 * "To keep existing data, leave the corresponding field empty"
-		 * );
+		 * "To keep existing data, leave the corresponding field empty" );
 		 */
 		try {
 			System.out.println("Enter new Mobile Number:");
@@ -145,8 +147,7 @@ public class UserClient {
 			if (result)
 				System.out.println(Messages.CUSTOMER_UPDATE_SUCCESS);
 			else
-				System.out
-						.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
+				System.out.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
 
 		} catch (InvalidDetailsEntered e) {
 			System.out.println(e.getMessage());
@@ -157,13 +158,12 @@ public class UserClient {
 			scan.next();
 		}
 
-		
 	}
 
 	private void doPasswordUpdate(Scanner scan, int ar) {
 		/*
-		 * User is given 3 tries to enter 'old password' and 3 more
-		 * tries to enter valid 'new Password'
+		 * User is given 3 tries to enter 'old password' and 3 more tries to
+		 * enter valid 'new Password'
 		 */
 		countPassTries = 0;
 		boolean validPass = false;
@@ -185,8 +185,7 @@ public class UserClient {
 			if (validNewPass) {
 				try {
 					cService.updatePassword(newPass, ar);
-					System.out
-							.println(Messages.PASSWORD_UPDATE_SUCCESS);
+					System.out.println(Messages.PASSWORD_UPDATE_SUCCESS);
 					break;
 				} catch (PasswordUpdateException e) {
 					System.err.println(Messages.PASSWORD_UPDATE_FAILED);
@@ -199,17 +198,17 @@ public class UserClient {
 			}
 
 		}
-		
+
 	}
 
-	private void doTrackService(Scanner scan,int ar) {
+	private void doTrackService(Scanner scan, int ar) {
 		int sNum = getServiceChoice(scan);
 		switch (sNum) {
 		case 1:
 			System.out.println("Enter Service Request Number:");
 			int accNum = ar;
-			ServiceTracker sTrack = cService.getRequestStatus(
-					scan.nextInt(), accNum);
+			ServiceTracker sTrack = cService.getRequestStatus(scan.nextInt(),
+					accNum);
 			if (sTrack != null)
 				doSuccessRequest(sTrack);
 			else
@@ -237,20 +236,79 @@ public class UserClient {
 			System.out.println("You have selected an incorrect option");
 			break;
 		}
+
 	}
 
 	private void getMiniStatement(int ar) {
 
-		List<Transactions> transaction = cService.getMiniStatement(ar);
-
-		if (transaction == null) {
-			System.out.println("No Transaction found for given Account");
-		} else {
-			System.out.println(transaction);
+		List<Transactions> transaction;
+		try {
+			transaction = cService.getMiniStatement(ar);
+			if (transaction == null) {
+				System.out.println("No Transaction found for given Account");
+			} else {
+				System.out.println(transaction);
+			}
+		} catch (JDBCConnectionError e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
 	private void getDetailedStatement(int ar) {
+
+		String sDate;
+		String eDate;
+
+		java.sql.Date startDate = null;
+		java.sql.Date endDate = null;
+
+		List<Transactions> list = new ArrayList<Transactions>();
+
+		System.out.println("Enter the starting date (dd/MM/yyyy) : ");
+		sDate = sc.next();
+		System.out.println("Enter the end date (dd/MM/yyyy) : ");
+		eDate = sc.next();
+
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+		try {
+
+			Date stDate = format.parse(sDate);
+			startDate = new java.sql.Date(stDate.getTime());
+
+			Date edDate = format.parse(eDate);
+			endDate = new java.sql.Date(edDate.getTime());
+
+			if (startDate.before(endDate)) {
+
+				list = cService.getDetailedStatement(ar, startDate, endDate);
+
+				if (list.size() == 0) {
+
+					System.out.println("No Transaction exist for given dates");
+
+				} else {
+
+					for (Transactions tra : list) {
+
+						System.out.println(tra.toString());
+
+					}
+				}
+			} else {
+				System.err
+						.println("Start date can not be greater than end date");
+			}
+
+		} catch (ParseException e) {
+
+			System.err.println("Enter valid date format");
+
+		} catch (JDBCConnectionError e) {
+
+			System.out.println(e.getMessage());
+
+		}
 
 	}
 

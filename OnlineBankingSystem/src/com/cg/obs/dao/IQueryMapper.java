@@ -40,5 +40,8 @@ public interface IQueryMapper {
 	public static final String GET_REQUEST_STATUS = "select * from service_tracker where service_id=? and account_id=? and service_raised_date>(sysdate-180)";
 
 	public static final String GET_ALL_REQUESTS = "select * from service_tracker where account_id=?";
+	
+	public static final String GET_DETAILED_STATEMENT = "select * from Transactions where Account_ID=? AND DateofTransaction>=? AND DateofTransaction<=?";
+
 
 }

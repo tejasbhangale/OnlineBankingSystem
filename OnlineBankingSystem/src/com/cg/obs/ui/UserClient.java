@@ -123,7 +123,7 @@ public class UserClient {
 		/*
 		 * Displaying Existing Details
 		 */
-		Customer customer = cService.getCustomerDetails(ar);
+		Customer customer = cService.getCustomerDetails(ar); 
 		System.out.println("Displaying Existing Details:");
 		System.out.println(customer);
 

@@ -66,10 +66,11 @@ public class ServiceTracker {
 
 	@Override
 	public String toString() {
-		return "ServiceTracker [service_id=" + service_id
-				+ ", serviceDescription=" + serviceDescription + ", accountId="
-				+ accountId + ", serviceRaisedDate=" + serviceRaisedDate
-				+ ", status=" + status + "]";
+		String result = "Service Request Number: " + this.service_id
+				+ "\nService Info: " + this.serviceDescription
+				+ "\nService Raised on: " + this.serviceRaisedDate
+				+ "\nService Status: " + this.status;
+		return result;
 	}
 
 }

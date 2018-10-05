@@ -1,8 +1,8 @@
 package com.cg.obs.bean;
 
 public class Customer {
-
-	private int accountId;
+	
+	private int userId;
 	private String customerName;
 	private long mobile;
 	private String email;
@@ -11,7 +11,7 @@ public class Customer {
 	
 	@Override
 	public String toString() {
-		return "Customer [accountId=" + accountId + ", customerName="
+		return "Customer [accountId=" + userId + ", customerName="
 				+ customerName + ", mobile=" + mobile + ", email=" + email
 				+ ", address=" + address + ", pancard=" + pancard + "]";
 	}
@@ -19,23 +19,23 @@ public class Customer {
 		super();
 		
 	}
-	public Customer(int accountId, String customerName, long mobile,
+	public Customer(int userId, String customerName, long mobile,
 			String email, String address, String pancard) {
 		super();
-		this.accountId = accountId;
+		this.userId = userId;
 		this.customerName = customerName;
 		this.mobile = mobile;
 		this.email = email;
 		this.address = address;
 		this.pancard = pancard;
 	}
-	public int getAccountId() {
-		return accountId;
+	public int getUserId() {
+		return userId;
 	}
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public String getCustomerName() {
+	public String User() {
 		return customerName;
 	}
 	public void setCustomerName(String customerName) {

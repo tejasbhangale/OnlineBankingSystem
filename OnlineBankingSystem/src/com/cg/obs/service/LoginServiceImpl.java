@@ -33,7 +33,8 @@ public class LoginServiceImpl implements ILoginService {
 	@Override
 	public int getUserLogin(int username, String password) throws InvalidCredentialsException {
 		// TODO Auto-generated method stub
-		boolean success=false;
+		
+		int account_id=0;
 		
 		User user=loginDao.getUserLogin(username);
 		
@@ -45,7 +46,8 @@ public class LoginServiceImpl implements ILoginService {
 			throw new InvalidCredentialsException(Messages.ACCOUNT_LOCKED);
 		}
 		else {
-			return user.getAccountId();
+			account_id=loginDao.getAccountId(username);
+			return account_id;
 		}
 		
 		
@@ -85,6 +87,18 @@ public class LoginServiceImpl implements ILoginService {
 			success=true;
 		}
 		return success;
+	}
+
+	@Override
+	public User forgotPassword(int id) {
+		// TODO Auto-generated method stub
+		return loginDao.forgotPassword(id);
+	}
+
+	@Override
+	public boolean setOneTimePassword(String newPassword,int id) {
+		// TODO Auto-generated method stub
+		return loginDao.setOneTimePassword(newPassword,id);
 	}	
 
 }

@@ -30,7 +30,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			while (cusResSet.next()) {
 				Customer customer = new Customer();
-				customer.setAccountId(id);
+				customer.setUserId(id);
 				customer.setCustomerName(cusResSet.getString(2));
 				customer.setMobile(cusResSet.getLong(3));
 				customer.setEmail(cusResSet.getString(4));
@@ -56,7 +56,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.UPDATE_CUSTOMER_DETAILS);) {
 			pt.setLong(1, customer.getMobile());
 			pt.setString(2, customer.getAddress());
-			pt.setInt(3, customer.getAccountId());
+			pt.setInt(3, customer.getUserId());
 
 			int res = pt.executeUpdate();
 			if (res >= 1)
@@ -72,12 +72,12 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public boolean checkOldPass(String oldPass, int id) {
+	public boolean checkOldPass(String oldPass, int userId) {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.CHECK_OLD_PASSWORD);) {
-			pt.setInt(1, id);
+			pt.setInt(1, userId);
 
 			ResultSet res = pt.executeQuery();
 			if (res.next()) {
@@ -95,7 +95,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public void updatePassword(String newPass, int id)
+	public void updatePassword(String newPass, int userId)
 			throws PasswordUpdateException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
@@ -104,7 +104,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			String[] pass = newPass.split(" ");
 			pt.setString(1, pass[0]);
-			pt.setInt(2, id);
+			pt.setInt(2, userId);
 			pt.executeUpdate();
 		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
@@ -114,7 +114,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public int requestChequeBook(int id) {
+	public int requestChequeBook(int accId) {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
@@ -124,7 +124,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			Date date = Date.valueOf(LocalDate.now());
 			pt.setString(1, "New ChequeBook Request");
-			pt.setInt(2, id);
+			pt.setInt(2, accId);
 			pt.setDate(3, date);
 			pt.setString(4, "Issued");
 

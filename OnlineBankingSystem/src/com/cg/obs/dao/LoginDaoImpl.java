@@ -66,8 +66,7 @@ public class LoginDaoImpl implements ILoginDao {
 				user=new User();
 				user.setUserId(resultset.getInt(1));
 				user.setLoginPassword(resultset.getString(2));
-				user.setAccountId(resultset.getInt(3));
-				user.setLockStatus(resultset.getString(4));
+				user.setLockStatus(resultset.getString(3));
 			}
 		} catch (JDBCConnectionError e) {
 			System.err.println(e.getMessage());
@@ -143,6 +142,88 @@ public class LoginDaoImpl implements ILoginDao {
 			System.err.println(e.getMessage());
 		} 
 		return passcode;
+	}
+
+	
+	@Override
+	public User forgotPassword(int id) {
+		// TODO Auto-generated method stub
+		User user=null;
+		
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_FORGOT_PASSWORD_OBJECT)){
+			
+			st.setInt(1, id);
+			resultset=st.executeQuery();
+			if(resultset.next()){
+				user=new User();
+				user.setUserId(resultset.getInt(1));
+				user.setLoginPassword(resultset.getString(2));
+				user.setSecretAnswer(resultset.getString(3));
+				user.setSecretQuestion(resultset.getString(4));
+				user.setTransactionPassword(resultset.getString(5));
+				user.setLockStatus(resultset.getString(6));
+			
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+		}catch(JDBCConnectionError e){
+			System.err.println(e.getMessage());
+		}
+		return user;
+	}
+
+	@Override
+	public boolean setOneTimePassword(String newPassword,int id) {
+		// TODO Auto-generated method stub
+		boolean success=false;
+		
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+				PreparedStatement st =con.prepareStatement(IQueryMapper.SET_ONE_TIME_PASSWORD)){
+			st.setString(1, newPassword);
+			st.setInt(2, id);
+			int result=st.executeUpdate();
+			if(result>0){
+				success=true;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+		}catch(JDBCConnectionError e){
+			System.err.println(e.getMessage());
+		}
+		
+		
+		return success;
+	}
+
+	@Override
+	public int getAccountId(int username) {
+		// TODO Auto-generated method stub
+		int account_id=0;
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+			PreparedStatement st =con.prepareStatement(IQueryMapper.GET_ACCOUNT_ID);){
+			resultset=st.executeQuery();
+			
+			if(resultset.next()){
+				account_id=resultset.getInt(1);
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+		}catch(JDBCConnectionError e){
+			System.err.println(e.getMessage());
+		}
+		return account_id;
 	}
 }
 	

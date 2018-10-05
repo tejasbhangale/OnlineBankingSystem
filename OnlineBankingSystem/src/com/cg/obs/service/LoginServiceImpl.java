@@ -85,6 +85,18 @@ public class LoginServiceImpl implements ILoginService {
 			success=true;
 		}
 		return success;
+	}
+
+	@Override
+	public User forgotPassword(int id) {
+		// TODO Auto-generated method stub
+		return loginDao.forgotPassword(id);
+	}
+
+	@Override
+	public boolean setOneTimePassword(String newPassword,int id) {
+		// TODO Auto-generated method stub
+		return loginDao.setOneTimePassword(newPassword,id);
 	}	
 
 }

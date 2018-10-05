@@ -144,6 +144,66 @@ public class LoginDaoImpl implements ILoginDao {
 		} 
 		return passcode;
 	}
+
+	@SuppressWarnings("null")
+	@Override
+	public User forgotPassword(int id) {
+		// TODO Auto-generated method stub
+		User user=null;
+		
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_FORGOT_PASSWORD_OBJECT)){
+			
+			st.setInt(1, id);
+			resultset=st.executeQuery();
+			if(resultset.next()){
+				user=new User();
+				user.setAccountId(resultset.getInt(1));
+				user.setUserId(resultset.getInt(2));
+				user.setLoginPassword(resultset.getString(3));
+				user.setSecretAnswer(resultset.getString(4));
+				user.setSecretQuestion(resultset.getString(5));
+				user.setTransactionPassword(resultset.getString(6));
+				user.setLockStatus(resultset.getString(7));
+			
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+		}catch(JDBCConnectionError e){
+			System.err.println(e.getMessage());
+		}
+		return user;
+	}
+
+	@Override
+	public boolean setOneTimePassword(String newPassword,int id) {
+		// TODO Auto-generated method stub
+		boolean success=false;
+		
+		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+				PreparedStatement st =con.prepareStatement(IQueryMapper.SET_ONE_TIME_PASSWORD)){
+			st.setString(1, newPassword);
+			st.setInt(2, id);
+			int result=st.executeUpdate();
+			if(result>0){
+				success=true;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println(e.getMessage());
+		}catch(JDBCConnectionError e){
+			System.err.println(e.getMessage());
+		}
+		
+		
+		return success;
+	}
 }
 	
 

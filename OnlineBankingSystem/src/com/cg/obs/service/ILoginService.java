@@ -1,5 +1,6 @@
 package com.cg.obs.service;
 
+import com.cg.obs.bean.User;
 import com.cg.obs.exception.InvalidCredentialsException;
 
 public interface ILoginService {
@@ -14,6 +15,10 @@ public interface ILoginService {
 	public boolean validateUserId(int id) throws InvalidCredentialsException;
 
 	public boolean validatePassword(int customerId, String customerPassword) throws InvalidCredentialsException;
+	
+	public User forgotPassword(int id);
+
+	public boolean setOneTimePassword(String newPassword, int id);
 
 	
 	

@@ -43,5 +43,9 @@ public interface IQueryMapper {
 
 	public static final String GET_ALL_REQUESTS = "select * from service_tracker where account_id=?";
 
+	public static final String GET_FORGOT_PASSWORD_OBJECT = "select * from user_table where user_id=?";
+
+	public static final String SET_ONE_TIME_PASSWORD = "update user_table set login_password=? where user_id=?";
+
 
 }

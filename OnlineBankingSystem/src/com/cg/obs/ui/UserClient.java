@@ -1,6 +1,7 @@
 package com.cg.obs.ui;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.cg.obs.bean.Customer;
@@ -90,6 +91,7 @@ public class UserClient {
 			case 4:// track service
 				break;
 			case 5:// fund transfer
+				fundTransfer(scan,ar);
 				break;
 			case 6:// ChangePassword
 
@@ -187,5 +189,35 @@ public class UserClient {
 		String pass = scan.next();
 		return pass;
 	}
-
+	private static void fundTransfer(Scanner scan, int ar){
+		int choice=0;
+		System.out.println("Funds Transfer to:");
+		System.out.println("1. Your Own Bank Account across India");
+		System.out.println("2. Other  account of same bank across india");
+		System.out.println("3. Go back");
+		try {
+			choice = scan.nextInt();
+			if (choice < 1 || choice > 2) {
+				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+			}
+		} catch (InputMismatchException e) {
+			System.err.println(Messages.INCORRECT_INPUT_TYPE);
+			scan.next();
+		} catch (InvalidChoiceException e) {
+			System.err.println(e.getMessage());
+		}
+		switch(choice){
+		case 1://Transfer to own accounts
+				List<Integer> selfaccounts=cService.getAccountList(ar);
+				int count= selfaccounts.size();
+				for(int index=0;index<count;index++){
+					System.out.println(index+". "+selfaccounts.get(index));
+				}
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		}
+	}
 }

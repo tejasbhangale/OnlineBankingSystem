@@ -1,5 +1,7 @@
 package com.cg.obs.service;
 
+import java.util.List;
+
 import com.cg.obs.bean.Customer;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.PasswordUpdateException;
@@ -20,6 +22,8 @@ public interface ICustomerService {
 	public void updatePassword(String newPass, int id) throws PasswordUpdateException;
 
 	public int requestChequeBook(int id);
+
+	public List<Integer> getAccountList(int ar);
 
 
 }

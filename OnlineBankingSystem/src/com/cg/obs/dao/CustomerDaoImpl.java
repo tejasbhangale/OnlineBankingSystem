@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.exception.JDBCConnectionError;
@@ -142,6 +144,31 @@ public class CustomerDaoImpl implements ICustomerDao {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public List<Integer> getAccountList(int id) {
+		List<Integer> accountList =new ArrayList<Integer>();
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_SELF_ACCOUNTS);) {
+			pt.setInt(1, id);
+			
+			ResultSet resultSet = pt.executeQuery();
+			
+			while(resultSet.next()){
+				accountList.add(resultSet.getInt(1));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JDBCConnectionError e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return accountList;
 	}
 
 }

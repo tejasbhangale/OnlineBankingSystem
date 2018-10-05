@@ -5,6 +5,8 @@ package com.cg.obs.service;
 import java.util.ArrayList;
 
 
+import java.util.List;
+
 import com.cg.obs.bean.Customer;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.InvalidDetailsEntered;
@@ -77,6 +79,12 @@ public class CustomerServiceImpl implements ICustomerService {
 	public int requestChequeBook(int id) {
 		// TODO Auto-generated method stub
 		return cDao.requestChequeBook(id);
+	}
+
+	@Override
+	public List<Integer> getAccountList(int id) {
+		// TODO Auto-generated method stub
+		return cDao.getAccountList(id);
 	}
 
 }

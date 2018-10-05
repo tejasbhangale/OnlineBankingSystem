@@ -1,6 +1,9 @@
 package com.cg.obs.ui;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -10,6 +13,7 @@ import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.InvalidChoiceException;
 import com.cg.obs.exception.InvalidDetailsEntered;
+import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;
@@ -28,7 +32,7 @@ public class UserClient {
 	
 	public static void main(String[] args) {
 		
-		user.clientConsole(1001);
+		user.clientConsole(1002);
 	}
 
 	public void clientConsole(int ar) {
@@ -229,22 +233,88 @@ public class UserClient {
 	
 	private void getMiniStatement(int ar) {
 		
-		List<Transactions> transaction = cService.getMiniStatement(ar);
+		List<Transactions> transaction;
+		try {
+			
+			transaction = cService.getMiniStatement(ar);
+			
+			if(transaction==null)
+			{
+				System.out.println("No Transaction found for given Account");
+			}
+			else
+			{
+			System.out.println(transaction);
+			}
+			
+			
+		} catch (JDBCConnectionError e) {
+			
+			System.out.println(e.getMessage());
+			
+		}
 		
-		if(transaction==null)
-		{
-			System.out.println("No Transaction found for given Account");
-		}
-		else
-		{
-		System.out.println(transaction);
-		}
+		
 	}
 
 	
      
 	
 	private void getDetailedStatement(int ar) {
+		
+		String sDate;
+		String eDate;
+
+		java.sql.Date startDate = null;
+		java.sql.Date endDate = null;
+
+		List<Transactions> list = new ArrayList<Transactions>();
+
+		System.out.println("Enter the starting date (dd/MM/yyyy) : ");
+		sDate = sc.next();
+		System.out.println("Enter the end date (dd/MM/yyyy) : ");
+		eDate = sc.next();
+
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		
+		try {
+
+			Date stDate = format.parse(sDate);
+			startDate = new java.sql.Date(stDate.getTime());
+
+			Date edDate = format.parse(eDate);
+			endDate = new java.sql.Date(edDate.getTime());
+
+			if (startDate.before(endDate)) {
+				
+				list = cService.getDetailedStatement(ar, startDate, endDate);
+
+				if (list.size() == 0) {
+
+					System.out.println("No Transaction exist for given dates");
+
+				} else {
+
+					for (Transactions tra : list) {
+
+						System.out.println(tra.toString());
+
+					}
+				}
+			} else {
+				System.err
+						.println("Start date can not be greater than end date");
+			}
+
+		} catch (ParseException e) {
+
+			System.err.println("Enter valid date format");
+
+		} catch (JDBCConnectionError e) {
+			
+			System.out.println(e.getMessage());
+			
+		}
 		
 		
 	}

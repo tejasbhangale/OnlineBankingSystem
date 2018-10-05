@@ -25,6 +25,10 @@ public interface IAdminService {
 
 	Customer getCustomerDetails(int accNumber) throws JDBCConnectionError;
 
+	long createNewUser() throws JDBCConnectionError;
+
+	void isValidateExistingUser(AccountMaster account) throws ValidationException;
+
 
 
 

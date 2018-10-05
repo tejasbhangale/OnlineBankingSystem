@@ -24,4 +24,6 @@ public interface IAdminDAO {
 
 	Customer getCustomerDetails(int accNumber) throws JDBCConnectionError;
 
+	long createNewUser() throws JDBCConnectionError;
+
 }

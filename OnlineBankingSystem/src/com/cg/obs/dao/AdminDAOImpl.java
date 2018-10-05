@@ -12,6 +12,9 @@ import java.util.List;
 
 
 
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
@@ -22,6 +25,46 @@ import com.cg.obs.util.Messages;
 
 public class AdminDAOImpl implements IAdminDAO {
 
+	
+	
+	@Override
+	public long createNewUser() throws JDBCConnectionError {
+		
+		Long userId = null;
+		
+		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pstm1 = conn.prepareStatement(IQueryMapper.GET_USER_ID_SEQ);
+				PreparedStatement pstm2 = conn.prepareStatement(IQueryMapper.INSERT_USER_TABLE);) {
+		
+		    ResultSet result = pstm1.executeQuery();
+		 
+		    while(result.next())
+		    {
+		    	 userId = result.getLong(1);
+		    }
+		    
+	          pstm2.setLong(1, userId);
+	          pstm2.setString(2, null);
+	          pstm2.setString(3, null);
+	          pstm2.setString(4, null);
+	          pstm2.setString(5, null);
+	          pstm2.setString(6, "u");
+		
+		     pstm2.executeUpdate();
+	          
+	          
+				} catch (SQLException e ) {
+
+		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+					
+				}
+				
+		
+		return userId;
+	}
+	
+	
 	@Override
 	public boolean addAccountDetails(Customer cust) throws JDBCConnectionError {
 		
@@ -35,7 +78,7 @@ public class AdminDAOImpl implements IAdminDAO {
 				.getConnection();
 				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_DETAILS);) {
 			
-			pstm.setLong(1, cust.getAccountId());
+			pstm.setLong(1, cust.getUserId());
 			pstm.setString(2, cust.getCustomerName());
             pstm.setLong(3, cust.getMobile());
             pstm.setString(4, cust.getEmail());
@@ -64,20 +107,43 @@ public class AdminDAOImpl implements IAdminDAO {
 	public boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError {
 		
 		
+		
+		
 		int status = 0;
 		
 
 		try(Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
-				PreparedStatement pstm = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_MASTER);) {
+				PreparedStatement pstm1 = conn.prepareStatement(IQueryMapper.GET_ACCOUNT_NUMBER);
+				PreparedStatement pstm2 = conn.prepareStatement(IQueryMapper.INSERT_ACCOUNT_MASTER);) {
 			
-			pstm.setLong(1, account.getAccountId());
-			pstm.setString(2, account.getAccountType());
-            pstm.setDouble(3, account.getOpeningBalance());
-            pstm.setDate(4, (Date) account.getOpenDate());
+			
+			
+			
+			
+			
+			ResultSet result = pstm1.executeQuery();
+			
+			
+			
+			 while(result.next())
+			    {
+				 
+				 account.setAccountId(result.getLong(1));
+				 
+			    }
+			
+			
+			 
+			
+			pstm2.setLong(1, account.getAccountId());
+			pstm2.setLong(2, account.getUserId());
+			pstm2.setString(3, account.getAccountType());
+            pstm2.setDouble(4, account.getOpeningBalance());
+            pstm2.setDate(5, (Date) account.getOpenDate());
            
-            
-            status = pstm.executeUpdate();
+           
+            status = pstm2.executeUpdate();
             
             
 				} catch (SQLException e ) {
@@ -246,6 +312,8 @@ public class AdminDAOImpl implements IAdminDAO {
 				} 
 		return customer;
 	}
+
+	
 
 	
 }

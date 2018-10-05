@@ -56,7 +56,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.UPDATE_CUSTOMER_DETAILS);) {
 			pt.setLong(1, customer.getMobile());
 			pt.setString(2, customer.getAddress());
-			pt.setInt(3, customer.getUserId());
+			pt.setLong(3, customer.getUserId());
 
 			int res = pt.executeUpdate();
 			if (res >= 1)

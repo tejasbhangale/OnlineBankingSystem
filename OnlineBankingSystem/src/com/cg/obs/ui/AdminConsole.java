@@ -10,6 +10,7 @@ import java.util.Scanner;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.bean.User;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.ValidationException;
 import com.cg.obs.service.AdminServiceImpl;
@@ -89,13 +90,49 @@ public class AdminConsole {
 		String accountType;
 		double openingBalance;
 		String existing;
-		long userId;
+		long userId = 0;
 		Date currentDate = new Date();
 		java.sql.Date openDate = new java.sql.Date(currentDate.getTime());
-
+		String check;
+		
 		try {
 
-			String check;
+			
+			System.out.println("Existing Customer(y/n)");
+			existing = sc.next();
+			
+			if(existing.toLowerCase().equals("y"))
+			{
+				System.out.println("Enter User id : ");
+				check = sc.next();
+				userId = Long.parseLong(check);
+				System.out.println("Account Type : ");
+				accountType = sc.next();
+				System.out.println("Opening Balance : ");
+				check = sc.next();
+				openingBalance = Double.parseDouble(check);
+				
+				AccountMaster account = new AccountMaster();
+				
+				account.setUserId(userId);
+				account.setAccountType(accountType);
+				account.setOpeningBalance(openingBalance);
+				account.setOpenDate(openDate);
+				
+				adminService.isValidateExistingUser(account);
+				
+				boolean status = adminService.addAccountMaster(account);
+				
+				if(status==true)
+				{
+					System.out.println("Account Created");
+				}
+				
+			}
+			else if(existing.toLowerCase().equals("n"))
+			{
+				
+			
 			
 			System.out.println("Customer Name :");
 			customerName = sc.next();
@@ -112,60 +149,65 @@ public class AdminConsole {
 			panDetail = sc.next();
 			System.out.println("Opening Balance : ");
 			check = sc.next();
-			System.out.println("Existing Customer(y/n)");
-			existing = sc.next();
-			
-			if(existing.toLowerCase().equals("y"))
-			{
-				System.out.println("Enter User id : ");
-				check = sc.next();
-				userId = Long.parseLong(check);
-				
-			}
-			
 			openingBalance = Double.parseDouble(check);
-
-			Customer cust = new Customer();
-			
-			cust.setCustomerName(customerName);
-			cust.setAddress(customerAddress);
-			cust.setMobile(customerMobileNum);
-			cust.setEmail(customerEmail);
-			cust.setPancard(panDetail);
 			
 			AccountMaster account = new AccountMaster();
 			
 			account.setAccountType(accountType);
 			account.setOpeningBalance(openingBalance);
 			account.setOpenDate(openDate);
+			
+			
+			Customer cust = new Customer();
+			
+			
+			cust.setCustomerName(customerName);
+			cust.setAddress(customerAddress);
+			cust.setMobile(customerMobileNum);
+			cust.setEmail(customerEmail);
+			cust.setPancard(panDetail);
 
 			boolean statusAdd = false;
 			boolean status = false;
+			
 
-			try {
+			
 
 				adminService.isValidate(cust, account);
+				
+				userId =  adminService.createNewUser();
+				cust.setUserId(userId);
+				account.setUserId(userId);
+				
 				statusAdd = adminService.addAccountMaster(account);
 				status = adminService.addAccountDetails(cust);
 
 				if (status == true && statusAdd == true) {
-					System.out.println("Data added");
+					System.out.println("Account Created");
 				}
 
-			} catch (ValidationException e2) {
-
-				System.err.println(e2.getMessage());
-			} catch (JDBCConnectionError e1) {
-
-				System.err.println(e1.getMessage());
-
+				
+		}
+			else
+			{
+				System.out.println("Enter valid Option");
 			}
+			
 
 		} catch (NumberFormatException e) {
 
 			System.err.println("Enter valid Input");
 
-		}
+		} catch (JDBCConnectionError e) {
+			
+			System.out.println(e.getMessage());
+			
+		} catch (ValidationException e) {
+			
+			System.out.println(e.getMessage());
+			
+		} 
+		
 
 	}
 
@@ -194,6 +236,7 @@ public class AdminConsole {
 			endDate = new java.sql.Date(edDate.getTime());
 
 			if (startDate.before(endDate)) {
+				
 				list = adminService.getTransactionDetails(startDate, endDate);
 
 				if (list.size() == 0) {
@@ -229,17 +272,17 @@ public class AdminConsole {
 private void accountLockStatus() {
 		
 		  
-	     System.out.println("Enter Account Number : ");
+	     System.out.println("Enter User Id : ");
 	     String accId = sc.next();
-	     int accNumber = 0;
+	     int userID = 0;
 	     
 	     try {
 	    	 
-	    	  accNumber = Integer.parseInt(accId);
+	    	  userID = Integer.parseInt(accId);
 	    	  
-	    	  String status = adminService.getLockStatus(accNumber);
+	    	  String status = adminService.getLockStatus(userID);
 	    	  
-	    	  Customer customer = adminService.getCustomerDetails(accNumber);
+	    	  Customer customer = adminService.getCustomerDetails(userID);
 	    	  
 	    	  if(customer==null)
 	    	  {
@@ -261,7 +304,7 @@ private void accountLockStatus() {
 	    	  
 	    	  
 	    	  System.out.println("Account Details");
-	    	  System.out.println("Account Number : "+accNumber);
+	    	  System.out.println("Account Number : "+userID);
 	    	  System.out.println("Customer Name : "+customer.getCustomerName());
 	    	  System.out.println("Customer Mobile Number : "+customer.getMobile());
 	    	  System.out.println("Customer Email Address : "+customer.getEmail());
@@ -285,7 +328,7 @@ private void accountLockStatus() {
 				else
 				{
 					status = "l";
-					boolean change = adminService.changeAccountStatus(accNumber, status);
+					boolean change = adminService.changeAccountStatus(userID, status);
 					if(change)
 					{
 						System.out.println("Account is Locked");
@@ -307,7 +350,7 @@ private void accountLockStatus() {
 				else
 				{
 					status = "u";
-					boolean change = adminService.changeAccountStatus(accNumber, status);
+					boolean change = adminService.changeAccountStatus(userID, status);
 					if(change)
 					{
 						System.out.println("Account is UnLocked");

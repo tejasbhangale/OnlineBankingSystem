@@ -2,7 +2,7 @@ package com.cg.obs.bean;
 
 public class Customer {
 	
-	private int userId;
+	private long userId;
 	private String customerName;
 	private long mobile;
 	private String email;
@@ -29,10 +29,15 @@ public class Customer {
 		this.address = address;
 		this.pancard = pancard;
 	}
-	public int getUserId() {
+	
+	public String getCustomerName() {
+		return customerName;
+	}
+	
+	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 	public String User() {

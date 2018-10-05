@@ -33,7 +33,7 @@ public class UserClient {
 	public static void main(String[] args) {
 
 		UserClient user = new UserClient();
-		user.clientConsole(1002);
+		user.clientConsole(1001);
 	}
 
 	public void clientConsole(int ar) {
@@ -248,7 +248,9 @@ public class UserClient {
 			if (transaction == null) {
 				System.out.println("No Transaction found for given Account");
 			} else {
-				System.out.println(transaction);
+				for (Transactions transactions : transaction) {
+					System.out.println(transactions);
+				}
 			}
 		} catch (JDBCConnectionError e) {
 			System.out.println(e.getMessage());

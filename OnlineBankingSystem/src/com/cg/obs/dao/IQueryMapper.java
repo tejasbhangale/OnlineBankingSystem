@@ -6,12 +6,18 @@ public interface IQueryMapper {
 	public static final String ADMIN_CREDENTIALS = "SELECT admin_id,user_id,password FROM admin_table WHERE user_id=?";
 	
 	public static final String USER_CREDENTIALS= "SELECT user_id,login_password,lock_status FROM user_table WHERE user_id=?";
+	
+	public static final String GET_ACCOUNT_NUMBER = "SELECT ACCNUM_SEQ.NEXTVAL from DUAL";
+
+	public static final String GET_USER_ID_SEQ = "SELECT USERID_SEQ.NEXTVAL from DUAL";
 
 	public static final String INSERT_ACCOUNT_DETAILS = "INSERT INTO Customer VALUES (?,?,?,?,?,?)";
 
-	public static final String INSERT_ACCOUNT_MASTER = "INSERT INTO Account_Master VALUES (?,?,?,?)";
+	public static final String INSERT_ACCOUNT_MASTER = "INSERT INTO Account_Master VALUES (?,?,?,?,?)";
+	
+	public static final String INSERT_USER_TABLE = "INSERT INTO User_Table VALUES (?,?,?,?,?,?)";	
 
-	public static final String GET_TRANSACTION_DETAILS = "SELECT * from Transactions where DateofTransaction>=? AND DateofTransaction<=?";
+	public static final String GET_TRANSACTION_DETAILS = "SELECT * from Transactions where Date_of_Transaction>=? AND Date_of_Transaction<=?";
 
 	public static final String GET_CUSTOMER_DETAILS = "SELECT * from Customer where USER_ID=?";
 	
@@ -21,9 +27,9 @@ public interface IQueryMapper {
 
 	public static final String UPDATE_CUSTOMER_PASSWORD = "UPDATE USER_TABLE SET LOGIN_PASSWORD=? WHERE USER_ID=?";
 	
-	public static final String GET_LOCK_STATUS = "SELECT lock_status from User_Table where Account_ID=?";
+	public static final String GET_LOCK_STATUS = "SELECT lock_status from User_Table where User_ID=?";
 
-	public static final String CHANGE_ACCOUNT_STATUS = "UPDATE USER_TABLE set lock_status=? where Account_ID=?";
+	public static final String CHANGE_ACCOUNT_STATUS = "UPDATE USER_TABLE set lock_status=? where User_ID=?";
 
 	public static final String LOCK_USER = "UPDATE user_table SET lock_status='l' WHERE user_id=?";
 
@@ -43,7 +49,7 @@ public interface IQueryMapper {
 
 	public static final String GET_ALL_REQUESTS = "SELECT * from SERVICE_TRACKER WHERE ACCOUNT_ID=?";
 	
-	public static final String GET_DETAILED_STATEMENT = "SELECT * from Transactions where Account_ID=? AND DateofTransaction>=? AND DateofTransaction<=?";
+	public static final String GET_DETAILED_STATEMENT = "SELECT * from Transactions where Account_ID=? AND Date_of_Transaction>=? AND Date_of_Transaction<=?";
 
 	public static final String GET_FORGOT_PASSWORD_OBJECT = "select * from user_table where user_id=?";
 

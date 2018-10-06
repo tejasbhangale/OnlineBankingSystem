@@ -66,11 +66,7 @@ public class ServiceTracker {
 
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		String result = "\nService Request Number: " + this.service_id
-=======
 		String result = "Service Request Number: " + this.serviceId
->>>>>>> 99d7e53eaba8390e835cab0c37d5e7f8234b66b7
 				+ "\nService Info: " + this.serviceDescription
 				+ "\nService Raised on: " + this.serviceRaisedDate
 				+ "\nService Status: " + this.status + "\n";

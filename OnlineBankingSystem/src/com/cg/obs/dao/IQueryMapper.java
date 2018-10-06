@@ -31,17 +31,23 @@ public interface IQueryMapper {
 
 	public static final String GET_USER_PASS = "SELECT login_password FROM user_table WHERE user_id=?";;;
 
-	public static final String GENERATE_SERVICE_REQUEST = "INSERT into SERVICE_TRACKER VALUES(service.nextval,?,?,?,?)";
+	public static final String GENERATE_SERVICE_REQUEST = "INSERT INTO SERVICE_TRACKER VALUES(service.nextval,?,?,?,?)";
 
 	public static final String GET_SERVICE_REQUEST_NUMBER = "SELECT service.currval from dual";
 	
 	public static final String GET_MINI_STATEMENT = "SELECT * from Transactions where Account_Id=?";
 
-	public static final String GET_REQUEST_STATUS = "SELECT * FROM SERVICE_TRACKER WHERE SERVICE_ID=? AND ACCOUNT_ID=? AND SERVICE_RAISED_DATE>(SYSDATE-180)";
+	public static final String GET_REQUEST_STATUS = "select * from service_tracker s where s.service_id=? and s.account_id in (select a.account_id from account_master a where a.user_id=?)";
 
-	public static final String GET_ALL_REQUESTS = "SELECT * from SERVICE_TRACKER WHERE ACCOUNT_ID=?";
+	public static final String GET_ALL_REQUESTS = "SELECT * from SERVICE_TRACKER WHERE ACCOUNT_ID=? AND SERVICE_RAISED_DATE>(SYSDATE-180)";
 	
 	public static final String GET_DETAILED_STATEMENT = "SELECT * from Transactions where Account_ID=? AND DateofTransaction>=? AND DateofTransaction<=?";
+
+	public static final String GET_ALL_ACCOUNTS = "SELECT ACCOUNT_ID FROM ACCOUNT_MASTER WHERE USER_ID=?";
+
+	public static final String IS_NEW_USER = "SELECT Transaction_password from USER_TABLE WHERE USER_ID=?";
+
+	public static final String COMPLETE_USER_PROFILE = "UPDATE USER_TABLE SET transaction_password=?,secret_question=?,secret_answer=? WHERE USER_ID=?";
 
 
 }

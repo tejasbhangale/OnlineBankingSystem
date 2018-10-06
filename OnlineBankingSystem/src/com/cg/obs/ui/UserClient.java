@@ -1,16 +1,21 @@
 package com.cg.obs.ui;
 
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.exception.CompleteProfileException;
+import com.cg.obs.exception.IncorrectPasswordException;
 import com.cg.obs.exception.InvalidChoiceException;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.JDBCConnectionError;
@@ -24,7 +29,6 @@ public class UserClient {
 
 	private static ICustomerService cService = OBSServiceFactory
 			.getCustomerBean();
-	// public static int ar = 1001;
 
 	public static int countPassTries = 0;
 	static UserClient user = new UserClient();
@@ -33,16 +37,31 @@ public class UserClient {
 	public static void main(String[] args) {
 
 		UserClient user = new UserClient();
-		user.clientConsole(1002);
+		user.clientConsole(135);
+		System.out.println("I'm Out");
 	}
 
-	public void clientConsole(int ar) {
+	public void clientConsole(int userId) {
 
-		int choice = 0;
 		Scanner scan = new Scanner(System.in);
-		while (true) {
-			if (choice == 7)
-				break;
+		if (cService.isFirstTimeUser(userId)) {
+			if (doNewUserActivity(scan, userId)) {
+				System.out.println("Thank you for completing your profile!");
+				doUserActivity(scan, userId);
+			}
+			else{
+				System.out.println("Sorry! You did not complete your profile.");
+				System.out.println("You will be logged out! Please try again.");
+			}
+		} else {
+			doUserActivity(scan, userId);
+		}
+
+	}
+	
+	public void doUserActivity(Scanner scan, int userId){
+		int choice = 0;
+		while (choice != 7) {
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:// mini/detailed statement
@@ -59,12 +78,12 @@ public class UserClient {
 					switch (check) {
 					case "1":
 
-						user.getMiniStatement(ar);
+						user.getMiniStatement(userId);
 
 						break;
 					case "2":
 
-						user.getDetailedStatement(ar);
+						user.getDetailedStatement(userId);
 
 						break;
 					case "3":
@@ -82,18 +101,18 @@ public class UserClient {
 
 				break;
 			case 2:// Update Mobile/Address
-				doDetailsUpdate(scan, ar);
+				doDetailsUpdate(scan, userId);
 				break;
 			case 3:// Checkbook request
-				doChequebookRequest(scan, ar);
+				doChequebookRequest(scan, userId);
 				break;
 			case 4:// track service
-				doTrackService(scan, ar);
+				doTrackService(scan, userId);
 				break;
 			case 5:// fund transfer
 				break;
 			case 6:// ChangePassword
-				doPasswordUpdate(scan, ar);
+				doPasswordUpdate(scan, userId);
 				break;
 			case 7:
 				// LogOut
@@ -105,15 +124,110 @@ public class UserClient {
 
 			}
 		}
-
+	}
+	
+	
+	private boolean doNewUserActivity(Scanner scan, int userId) {
+		ArrayList<String> userData = doInputGet(scan);
+		try {
+			cService.validateUserData(userData, userId);
+			System.out.println("Data Validated");
+			cService.completeProfile(userData, userId);
+			return true;
+		} catch (InvalidDetailsEntered e) {
+			System.out.println(e.getMessage());
+		} catch (CompleteProfileException e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
 	}
 
-	private void doChequebookRequest(Scanner scan, int ar) {
-		int requestNumber = cService.requestChequeBook(ar);
+	private ArrayList<String> doInputGet(Scanner scan) {
+		ArrayList<String> inpData = new ArrayList<String>();
+
+		System.out.println("It seems it is your first time here.");
+		System.out
+				.println("Please complete your profile to enhance your experience here.");
+		System.out.println("Here's a few things we'ed like to ask");
+
+		System.out.println("\nFirst, we need to change your old password!");
+		System.out.println("So,Enter your old pass to verify your identity:");
+
+		inpData.add(scan.next());
+
+		System.out
+				.println("Great!, Now its time to set up your transaction password, enter it:");
+		inpData.add(scan.next());
+
+		System.out
+				.println("You're doing great! Enter your secret question");
+		System.out.println("(Needed in-case you forget your password and need to change it):");
+		scan.nextLine();
+		inpData.add(scan.nextLine());
+		System.out.println("Lastly, enter the answer to this question:");
+		inpData.add(scan.nextLine());
+
+		System.out.println(inpData.toString());
+		return inpData;
+	}
+
+	private void doPasswordUpdate(Scanner scan, int userId) {
+		String[] pass = doPassInputAndValidate(scan, userId);
+		if (pass == null) {
+			System.err.println("Sorry, your request could not be processed!");
+		} else {
+			try {
+				cService.updatePassword(pass[1], userId);
+				System.out.println("Password Update Succesfully Completed.\n");
+			} catch (PasswordUpdateException e) {
+				System.err.println("Error adding password!");
+			}
+		}
+	}
+
+	private String[] doPassInputAndValidate(Scanner scan, int userId) {
+		countPassTries = 0;
+
+		while (countPassTries < 3) {
+			String[] pass = getPassInput(scan);
+			String[] validatedPass;
+			try {
+				validatedPass = cService.checkPass(pass, userId);
+				return validatedPass;
+			} catch (IncorrectPasswordException e) {
+				countPassTries++;
+				System.err.println(e.getMessage());
+			}
+		}
+		System.out.println("Maximum Tries Exceeded. Try Again.");
+		return null;
+	}
+
+	private String[] getPassInput(Scanner scan) {
+		System.out.println("Please enter your old password: ");
+		String[] res = { "", "", "" };
+		res[0] = scan.next();
+		System.out.println("Enter your new password:");
+		res[1] = scan.next();
+		System.out.println("Enter new password again:");
+		res[2] = scan.next();
+		return res;
+	}
+
+	private void doChequebookRequest(Scanner scan, int userId) {
+		System.out.println("Select Account to request ChequeBook for it:");
+
+		HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
+
+		int requestNumber = cService.requestChequeBook(mapAcc.get(scan
+				.nextInt()));
+
 		if (requestNumber != 0) {
 			System.out.println(Messages.CHEQUEBOOK_SUCCESS);
+
 			System.out.println("Your service request number is: "
 					+ requestNumber);
+
 		} else {
 			System.out.println(Messages.SERVICE_REQUEST_FAILED);
 		}
@@ -123,7 +237,7 @@ public class UserClient {
 		/*
 		 * Displaying Existing Details
 		 */
-		Customer customer = cService.getCustomerDetails(ar); 
+		Customer customer = cService.getCustomerDetails(ar);
 		System.out.println("Displaying Existing Details:");
 		System.out.println(customer);
 
@@ -144,11 +258,11 @@ public class UserClient {
 			customer.setMobile(mobile);
 			customer.setAddress(address);
 			boolean result = cService.updateCustomerDetails(customer);
+
 			if (result)
 				System.out.println(Messages.CUSTOMER_UPDATE_SUCCESS);
 			else
 				System.out.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
-
 		} catch (InvalidDetailsEntered e) {
 			System.out.println(e.getMessage());
 		} catch (UpdateCustomerException e) {
@@ -160,74 +274,28 @@ public class UserClient {
 
 	}
 
-	private void doPasswordUpdate(Scanner scan, int ar) {
-		/*
-		 * User is given 3 tries to enter 'old password' and 3 more tries to
-		 * enter valid 'new Password'
-		 */
-		countPassTries = 0;
-		boolean validPass = false;
-		while (!validPass && countPassTries < 3) {
-			String oldPass = getOldPass(scan);
-			validPass = cService.checkOldPass(oldPass, ar);
-			if (validPass)
-				break;
-			System.err.println(Messages.INVALID_OLD_PASS);
-			countPassTries++;
-		}
+	private void doTrackService(Scanner scan, int userId) {
 
-		boolean validNewPass = false;
-		countPassTries = 0;
-		while (!validNewPass && countPassTries < 3) {
-			String newPass = getNewPass(scan);
-			validNewPass = cService.checkNewPass(newPass);
-
-			if (validNewPass) {
-				try {
-					cService.updatePassword(newPass, ar);
-					System.out.println(Messages.PASSWORD_UPDATE_SUCCESS);
-					break;
-				} catch (PasswordUpdateException e) {
-					System.err.println(Messages.PASSWORD_UPDATE_FAILED);
-				}
-			} else {
-				countPassTries++;
-				if (countPassTries == 3) {
-					System.err.println(Messages.MAXIMUM_NEWPASS_TRIES);
-				}
-			}
-
-		}
-
-	}
-
-	private void doTrackService(Scanner scan, int ar) {
 		int sNum = getServiceChoice(scan);
 		switch (sNum) {
 		case 1:
 			System.out.println("Enter Service Request Number:");
-			int accNum = ar;
 			ServiceTracker sTrack = cService.getRequestStatus(scan.nextInt(),
-					accNum);
+					userId);
 			if (sTrack != null)
 				doSuccessRequest(sTrack);
 			else
 				doFailureRequest();
 			break;
 		case 2:
-			System.out.println("Enter Account Number:");
-			int accNumber = scan.nextInt();
-			if (accNumber == ar) {
-				ArrayList<ServiceTracker> requestList = cService
-						.getAllRequestStatus(accNumber);
-				if (requestList.isEmpty() | requestList == null)
-					doFailureAllRequests();
-				else
-					doSuccessAllRequests(requestList);
-			} else {
-				System.err.println("Wrong account number entered.");
-				break;
-			}
+			System.out.println("Select Account to Track Service for it:");
+			HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
+			ArrayList<ServiceTracker> requestList = cService
+					.getAllRequestStatus(mapAcc.get(scan.nextInt()));
+			if (requestList.isEmpty() | requestList == null)
+				doFailureAllRequests();
+			else
+				doSuccessAllRequests(requestList);
 			break;
 		case 3:
 			System.out.println("Going Back to your Home Page");
@@ -237,6 +305,19 @@ public class UserClient {
 			break;
 		}
 
+	}
+
+	private HashMap<Integer, Integer> printAndGetAllAccounts(int userId) {
+		ArrayList<Integer> accNums = cService.getAllAccounts(userId);
+		HashMap<Integer, Integer> mapAcc = new HashMap<Integer, Integer>();
+		AtomicInteger index = new AtomicInteger(1);
+		accNums.forEach((acc) -> {
+			int ind = index.getAndIncrement();
+			mapAcc.put(ind, acc);
+			System.out.println(ind + ". " + acc);
+		});
+		System.out.println("\nEnter Option:");
+		return mapAcc;
 	}
 
 	private void getMiniStatement(int ar) {
@@ -384,21 +465,6 @@ public class UserClient {
 			System.err.println(e.getMessage());
 		}
 		return choice;
-	}
-
-	private static String getNewPass(Scanner scan) {
-		System.out.println("Enter new Password:");
-		String newPass1 = scan.next();
-		System.out.println("Enter new Password again:");
-		String newPass2 = scan.next();
-		String res = newPass1 + " " + newPass2;
-		return res;
-	}
-
-	private static String getOldPass(Scanner scan) {
-		System.out.println("Enter your old Password:");
-		String pass = scan.next();
-		return pass;
 	}
 
 }

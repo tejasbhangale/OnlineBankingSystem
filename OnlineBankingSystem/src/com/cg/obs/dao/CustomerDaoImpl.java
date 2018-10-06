@@ -12,6 +12,7 @@ import java.util.List;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.exception.CompleteProfileException;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.util.ConnectionProvider;
@@ -101,9 +102,8 @@ public class CustomerDaoImpl implements ICustomerDao {
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.UPDATE_CUSTOMER_PASSWORD);) {
-
-			String[] pass = newPass.split(" ");
-			pt.setString(1, pass[0]);
+			
+			pt.setString(1, newPass);
 			pt.setInt(2, userId);
 			pt.executeUpdate();
 		} catch (JDBCConnectionError e) {
@@ -150,30 +150,25 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
+	public List<Transactions> getMiniStatement(int ar)
+			throws JDBCConnectionError {
 
-	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
-		
 		List<Transactions> transaction = new ArrayList<>();
-		
+
 		int count = 1;
-		
+
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_MINI_STATEMENT);) {
-		
-			
-			
+
 			pstm.setInt(1, ar);
-			
+
 			ResultSet result = pstm.executeQuery();
-			
-			
-			
-			while(result.next() && count<=10)
-			{
+
+			while (result.next() && count <= 10) {
 				Transactions tran = new Transactions();
-				
+
 				tran.setTransactionId(result.getLong(1));
 				tran.setTransactionDesc(result.getString(2));
 				tran.setDateOfTransaction(result.getDate(3));
@@ -183,32 +178,29 @@ public class CustomerDaoImpl implements ICustomerDao {
 				transaction.add(tran);
 				count++;
 			}
-		}catch (JDBCConnectionError e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-			}
-			
-			if(count==1)
-			{
-				return null;
-			}
-			
-			
-			return transaction;
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new JDBCConnectionError(
+					Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
-		
-		
-		
 
-	public ServiceTracker getRequestStatus(int reqNum, int accNum) {
+		if (count == 1) {
+			return null;
+		}
+
+		return transaction;
+	}
+
+	public ServiceTracker getRequestStatus(int reqNum, int userId) {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.GET_REQUEST_STATUS);) {
 
 			pt.setInt(1, reqNum);
-			pt.setInt(2, accNum);
+			pt.setInt(2, userId);
+
 			ServiceTracker sTrack = null;
 			ResultSet res = pt.executeQuery();
 			while (res.next()) {
@@ -226,10 +218,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		
-		
-
 		return null;
 	}
 
@@ -241,11 +229,11 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.GET_ALL_REQUESTS);) {
 
 			pt.setInt(1, accNum);
-			
+
 			ResultSet resSet = pt.executeQuery();
 			ArrayList<ServiceTracker> reqList = new ArrayList<ServiceTracker>();
 			int count = 0;
-			while (resSet.next() && count<20) {
+			while (resSet.next() && count < 20) {
 				count++;
 				ServiceTracker sTrack = new ServiceTracker();
 				sTrack.setService_id(resSet.getInt(1));
@@ -268,44 +256,110 @@ public class CustomerDaoImpl implements ICustomerDao {
 	@Override
 	public List<Transactions> getDetailedStatement(int ar, Date startDate,
 			Date endDate) throws JDBCConnectionError {
-		
+
 		List<Transactions> transaction = new ArrayList<>();
-		
+
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_DETAILED_STATEMENT);) {
-		
-		pstm.setInt(1, ar);
-		pstm.setDate(2, startDate);
-		pstm.setDate(3, endDate);
-		
-		ResultSet result = pstm.executeQuery();
-		
-		while(result.next())
-		{
-			Transactions tran = new Transactions();
-			
-			tran.setTransactionId(result.getLong(1));
-			tran.setTransactionDesc(result.getString(2));
-			tran.setDateOfTransaction(result.getDate(3));
-			tran.setTransactionType(result.getString(4));
-			tran.setTransactionAmount(result.getDouble(5));
-			tran.setAccountId(result.getLong(6));
-			transaction.add(tran);
-			
-			
+
+			pstm.setInt(1, ar);
+			pstm.setDate(2, startDate);
+			pstm.setDate(3, endDate);
+
+			ResultSet result = pstm.executeQuery();
+
+			while (result.next()) {
+				Transactions tran = new Transactions();
+
+				tran.setTransactionId(result.getLong(1));
+				tran.setTransactionDesc(result.getString(2));
+				tran.setDateOfTransaction(result.getDate(3));
+				tran.setTransactionType(result.getString(4));
+				tran.setTransactionAmount(result.getDouble(5));
+				tran.setAccountId(result.getLong(6));
+				transaction.add(tran);
+
+			}
+
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new JDBCConnectionError(
+					Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
-		
-		
-		
-	} catch (JDBCConnectionError e) {
-		e.printStackTrace();
-	} catch (SQLException e) {
-		 throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-	}
-		
+
 		return transaction;
+	}
+
+	@Override
+	public ArrayList<Integer> getAllAccounts(int userId) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_ALL_ACCOUNTS);) {
+
+			pt.setInt(1, userId);
+
+			ResultSet resSet = pt.executeQuery();
+			ArrayList<Integer> accList = new ArrayList<Integer>();
+			while (resSet.next()) {
+				accList.add(resSet.getInt(1));
+			}
+			return accList;
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isFirstTimeUser(int userId) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.IS_NEW_USER);) {
+
+			pt.setInt(1, userId);
+
+			ResultSet resSet = pt.executeQuery();
+
+			if (resSet.next()) {
+				if (resSet.getString(1)==null)
+					return true;
+				return false;
+			} else {
+				return true;
+			}
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public void completeProfile(ArrayList<String> userData, int userId) throws CompleteProfileException{
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.COMPLETE_USER_PROFILE);) {
+
+			pt.setString(1, userData.get(1));
+			pt.setString(2, userData.get(2));
+			pt.setString(3, userData.get(3));
+			pt.setInt(4, userId);
+			
+			pt.executeUpdate();
+		} catch (JDBCConnectionError e) {
+			throw new CompleteProfileException(Messages.UPDATE_FAILED);
+		} catch (SQLException e) {
+			throw new CompleteProfileException(Messages.UPDATE_FAILED);
+		}
 	}
 
 }

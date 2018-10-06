@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		if (mobile < Long.valueOf("1000000000")) {
 			errors.add("Mobile number must have 10 digits!");
 		}
-		if (mobile < Long.valueOf("7000000000")) {
+		if (!String.valueOf(mobile).matches("[789]\\d+")) {
 			errors.add("Mobile number must start with 7,8 or 9.");
 		}
 		if (address.equals("")) {

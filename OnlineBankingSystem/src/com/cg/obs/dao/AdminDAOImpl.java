@@ -8,18 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
-
-import javax.naming.spi.DirStateFactory.Result;
-
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.bean.User;
-import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.ConnectionProvider;
 import com.cg.obs.util.Messages;
 
@@ -28,7 +20,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	
 	
 	@Override
-	public long createNewUser() throws JDBCConnectionError {
+	public long createNewUser() throws OnlineBankingException {
 		
 		Long userId = null;
 		
@@ -56,7 +48,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	          
 				} catch (SQLException e ) {
 
-		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+		          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 					
 				}
 				
@@ -66,7 +58,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	
 	
 	@Override
-	public boolean addAccountDetails(Customer cust) throws JDBCConnectionError {
+	public boolean addAccountDetails(Customer cust) throws OnlineBankingException {
 		
 		
 				
@@ -90,7 +82,7 @@ public class AdminDAOImpl implements IAdminDAO {
             
 		} catch (SQLException e ) {
 
-          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 			
 		}
 		
@@ -103,7 +95,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	}
 
 	@Override
-	public boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError {
+	public boolean addAccountMaster(AccountMaster account) throws OnlineBankingException {
 		
 		
 		
@@ -147,7 +139,7 @@ public class AdminDAOImpl implements IAdminDAO {
             
 				} catch (SQLException e ) {
 
-			          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 						
 					} 
 		
@@ -163,7 +155,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 	@Override
 	public List<Transactions> getTransactionDetails(
-			Date startDate, Date endDate) throws JDBCConnectionError {
+			Date startDate, Date endDate) throws OnlineBankingException {
 		
 		List<Transactions> list = new ArrayList<Transactions>();
 
@@ -203,7 +195,7 @@ public class AdminDAOImpl implements IAdminDAO {
             
 		} catch (SQLException e ) {
 
-	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+	          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 				
 			} 
 		
@@ -215,7 +207,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	
 
 	@Override
-	public boolean changeAccountStatus(int accNumber,String status) throws JDBCConnectionError {
+	public boolean changeAccountStatus(int accNumber,String status) throws OnlineBankingException {
 		
 		int check = 0;
 
@@ -231,7 +223,7 @@ public class AdminDAOImpl implements IAdminDAO {
 		
 		} catch (SQLException e ) {
 
-	          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+	          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 				
 			} 
 		
@@ -245,7 +237,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	}
 
 	@Override
-	public String getLockStatus(int accNumber) throws JDBCConnectionError {
+	public String getLockStatus(int accNumber) throws OnlineBankingException {
 		
 		String status = null;
 		
@@ -268,7 +260,7 @@ public class AdminDAOImpl implements IAdminDAO {
 		
 		}	catch (SQLException e ) {
 
-		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+		          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 					
 				} 
 		
@@ -276,7 +268,7 @@ public class AdminDAOImpl implements IAdminDAO {
 	}
 
 	@Override
-	public Customer getCustomerDetails(int accNumber) throws JDBCConnectionError {
+	public Customer getCustomerDetails(int accNumber) throws OnlineBankingException {
 	
 		Customer customer = null;
 		
@@ -306,7 +298,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 		}	catch (SQLException e ) {
 
-		          throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+		          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 					
 				} 
 		return customer;

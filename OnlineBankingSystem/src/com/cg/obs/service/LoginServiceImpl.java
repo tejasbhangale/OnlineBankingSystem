@@ -3,7 +3,7 @@ package com.cg.obs.service;
 import com.cg.obs.bean.Admin;
 import com.cg.obs.bean.User;
 import com.cg.obs.dao.ILoginDao;
-import com.cg.obs.exception.InvalidCredentialsException;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSDaoFactory;
 
@@ -11,7 +11,7 @@ public class LoginServiceImpl implements ILoginService {
 
 	private static ILoginDao loginDao=OBSDaoFactory.getLoginDao();
 	@Override
-	public boolean getAdminLogin(String username, String password) throws InvalidCredentialsException {
+	public boolean getAdminLogin(String username, String password) throws OnlineBankingException {
 		// TODO Auto-generated method stub
 		boolean success=false;
 		
@@ -19,9 +19,9 @@ public class LoginServiceImpl implements ILoginService {
 		Admin admin=loginDao.getAdminLogin(username);
 		
 		if(admin==null){
-			throw new InvalidCredentialsException(Messages.INVALID_USERNAME);
+			throw new OnlineBankingException(Messages.INVALID_USERNAME);
 		}else if(!password.equals(admin.getAdminPassword())){
-			throw new InvalidCredentialsException(Messages.INVALID_PASSWORD);
+			throw new OnlineBankingException(Messages.INVALID_PASSWORD);
 		}else{
 			success=true;
 		}
@@ -31,7 +31,7 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public int getUserLogin(int username, String password) throws InvalidCredentialsException {
+	public int getUserLogin(int username, String password) throws OnlineBankingException {
 		// TODO Auto-generated method stub
 		
 		int user_id=0;
@@ -39,11 +39,11 @@ public class LoginServiceImpl implements ILoginService {
 		User user=loginDao.getUserLogin(username);
 		
 		if(user==null) {
-			throw new InvalidCredentialsException(Messages.INVALID_USERNAME);
+			throw new OnlineBankingException(Messages.INVALID_USERNAME);
 		}else if(!password.equals(user.getLoginPassword())) {
-			throw new InvalidCredentialsException(Messages.INVALID_PASSWORD);
+			throw new OnlineBankingException(Messages.INVALID_PASSWORD);
 		}else if(user.getLockStatus().equals("l")) {
-			throw new InvalidCredentialsException(Messages.ACCOUNT_LOCKED);
+			throw new OnlineBankingException(Messages.ACCOUNT_LOCKED);
 		}
 		else {
 			user_id=(int) user.getUserId();
@@ -61,7 +61,7 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public boolean validateUserId(int id) throws InvalidCredentialsException {
+	public boolean validateUserId(int id) throws OnlineBankingException {
 		int userId = loginDao.getUserId(id);
 		boolean success=false; 
 		if(userId!=0){
@@ -70,18 +70,18 @@ public class LoginServiceImpl implements ILoginService {
 		}
 		else {
 			success= false;
-			throw new InvalidCredentialsException(Messages.INVALID_USERNAME);
+			throw new OnlineBankingException(Messages.INVALID_USERNAME);
 		}
 		return success;
 	}
 
 	@Override
-	public boolean validatePassword(int customerId, String customerPassword) throws InvalidCredentialsException {
+	public boolean validatePassword(int customerId, String customerPassword) throws OnlineBankingException {
 		String verifyPass =loginDao.getPass(customerId);
 		boolean success=false;
 		if(!verifyPass.equals(customerPassword)) {
 			success=false;
-			throw new InvalidCredentialsException(Messages.INVALID_PASSWORD);
+			throw new OnlineBankingException(Messages.INVALID_PASSWORD);
 		}
 		else{
 			success=true;

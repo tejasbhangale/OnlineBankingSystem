@@ -6,8 +6,7 @@ import java.util.Scanner;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.cg.obs.bean.User;
-import com.cg.obs.exception.InvalidChoiceException;
-import com.cg.obs.exception.InvalidCredentialsException;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.service.ILoginService;
 import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSServiceFactory;
@@ -25,7 +24,7 @@ public class ClientMain {
 
 		int choice = -1;
 
-		while (choice != 3 /* && loginAttempts<=3 */) {
+		while (choice != 3) {
 			System.out
 					.println("\n*******Welcome to Online Banking System**********");
 			System.out.println("Login As--->");
@@ -55,7 +54,7 @@ public class ClientMain {
 						admin.adminConsole();
 					}
 
-				} catch (InvalidCredentialsException e) {
+				} catch (OnlineBankingException e) {
 					System.err.println(e.getMessage());
 				}
 
@@ -78,7 +77,7 @@ public class ClientMain {
 						userIdValid = loginService.validateUserId(customerId);
 					} catch (NumberFormatException e1) {
 						System.err.println("User ID must be in specified format only");
-					} catch (InvalidCredentialsException e1) {
+					} catch (OnlineBankingException e1) {
 
 						System.err.println(e1.getMessage());
 					}
@@ -91,7 +90,7 @@ public class ClientMain {
 							try {
 								credFlag = loginService.validatePassword(
 										customerId, customerPassword);
-							} catch (InvalidCredentialsException e) {
+							} catch (OnlineBankingException e) {
 								System.err.println(e.getMessage());
 							}
 
@@ -101,7 +100,7 @@ public class ClientMain {
 							try {
 								user_id = loginService.getUserLogin(customerId,
 										customerPassword);
-							} catch (InvalidCredentialsException e) {
+							} catch (OnlineBankingException e) {
 								System.err.println(e.getMessage());
 							}
 							if (user_id != 0) {
@@ -166,12 +165,12 @@ public class ClientMain {
 		try {
 			 choice= scan.nextInt();
 			if (choice < 1 || choice > 2) {
-				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+				throw new OnlineBankingException(Messages.INCORRECT_CHOICE);
 			}
 		} catch (InputMismatchException e) {
 			System.err.println(Messages.INCORRECT_INPUT_TYPE);
 			scan.next();
-		} catch (InvalidChoiceException e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
 		}
 		

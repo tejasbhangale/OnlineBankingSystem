@@ -1,6 +1,5 @@
 package com.cg.obs.ui;
 
-import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,14 +14,7 @@ import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.exception.CompleteProfileException;
-import com.cg.obs.exception.IncorrectPasswordException;
-import com.cg.obs.exception.InvalidChoiceException;
-import com.cg.obs.exception.InvalidDetailsEntered;
-import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.PasswordUpdateException;
-import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSServiceFactory;
@@ -38,7 +30,8 @@ public class UserClient {
 
 	public static void main(String[] args) {
 		UserClient user = new UserClient();
-		user.clientConsole(135);
+		Scanner sc2 = new Scanner(System.in);
+		user.clientConsole(sc2.nextInt());
 		System.out.println("I'm Out");
 	}
 
@@ -139,9 +132,9 @@ public class UserClient {
 			System.out.println("Data Validated");
 			cService.completeProfile(userData, userId);
 			return true;
-		} catch (InvalidDetailsEntered e) {
+		} catch (OnlineBankingException e) {
 			System.out.println(e.getMessage());
-		} catch (CompleteProfileException e) {
+		} catch (OnlineBankingException e) {
 			System.out.println(e.getMessage());
 		}
 		return false;
@@ -184,7 +177,7 @@ public class UserClient {
 			try {
 				cService.updatePassword(pass[1], userId);
 				System.out.println("Password Update Succesfully Completed.\n");
-			} catch (PasswordUpdateException e) {
+			} catch (OnlineBankingException e) {
 				System.err.println("Error adding password!");
 			}
 		}
@@ -199,7 +192,7 @@ public class UserClient {
 			try {
 				validatedPass = cService.checkPass(pass, userId);
 				return validatedPass;
-			} catch (IncorrectPasswordException e) {
+			} catch (OnlineBankingException e) {
 				countPassTries++;
 				System.err.println(e.getMessage());
 			}
@@ -268,9 +261,9 @@ public class UserClient {
 				System.out.println(Messages.CUSTOMER_UPDATE_SUCCESS);
 			else
 				System.out.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
-		} catch (InvalidDetailsEntered e) {
+		} catch (OnlineBankingException e) {
 			System.out.println(e.getMessage());
-		} catch (UpdateCustomerException e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(Messages.CUSTOMER_UPDATE_FAILED_DAO);
 		} catch (InputMismatchException e1) {
 			System.err.println(Messages.INVALID_MOBILE_FORMAT);
@@ -337,7 +330,7 @@ public class UserClient {
 					System.out.println(transactions);
 				}
 			}
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -392,7 +385,7 @@ public class UserClient {
 
 			System.err.println("Enter valid date format");
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 
 			System.out.println(e.getMessage());
 
@@ -437,12 +430,12 @@ public class UserClient {
 		try {
 			choice = scan.nextInt();
 			if (choice < 1 || choice > 7) {
-				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+				throw new OnlineBankingException(Messages.INCORRECT_CHOICE);
 			}
 		} catch (InputMismatchException e) {
 			System.err.println(Messages.INCORRECT_INPUT_TYPE);
 			scan.next();
-		} catch (InvalidChoiceException e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
 		}
 		return choice;
@@ -461,12 +454,12 @@ public class UserClient {
 		try {
 			choice = scan.nextInt();
 			if (choice < 1 || choice > 3) {
-				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+				throw new OnlineBankingException(Messages.INCORRECT_CHOICE);
 			}
 		} catch (InputMismatchException e) {
 			System.err.println(Messages.INCORRECT_INPUT_TYPE);
 			scan.next();
-		} catch (InvalidChoiceException e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
 		}
 		return choice;
@@ -478,7 +471,7 @@ public class UserClient {
 		long fromaccount = 0,toaccount = 0;
 		double transferAmount=0;
 		boolean FTFlag=true;
-		userId=120;
+		//userId=120;
 		while(FTFlag){
 		System.out.println("*******Funds Transfer*******");
 
@@ -489,13 +482,13 @@ public class UserClient {
 		System.out.println("****************************");
 		try {
 			choice = scan.nextInt();
-			if (choice < 1 || choice > 3) {
-				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+			if (choice < 1 || choice > 4) {
+				throw new OnlineBankingException(Messages.INCORRECT_CHOICE);
 			}
 		} catch (InputMismatchException e) {
 			System.err.println(Messages.INCORRECT_INPUT_TYPE);
 			scan.next();
-		} catch (InvalidChoiceException e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
 		}
 		
@@ -512,7 +505,7 @@ public class UserClient {
 				System.out.println("Enter the Sr.no of account to transfer funds from");
 				fromaccount=selfaccounts.get(scan.nextInt()-1);
 				System.out.println("Enter the Sr.no of account to transfer funds from");
-				toaccount=selfaccounts.get(scan.nextInt());
+				toaccount=selfaccounts.get(scan.nextInt()-1);
 				System.out.println("Enter Amount to be transferred:");
 				transferAmount=scan.nextDouble();
 				

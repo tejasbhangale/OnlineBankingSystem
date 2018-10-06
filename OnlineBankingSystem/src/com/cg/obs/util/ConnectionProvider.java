@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.OnlineBankingException;
 
 
 public enum ConnectionProvider {
@@ -38,7 +38,7 @@ public enum ConnectionProvider {
 		}
 	}
 
-	public Connection getConnection() throws JDBCConnectionError {
+	public Connection getConnection() throws OnlineBankingException {
 		Connection con = null;
 
 		try {
@@ -46,10 +46,10 @@ public enum ConnectionProvider {
 				con = DriverManager.getConnection(url, username, password);
 			}else
 				
-				throw new JDBCConnectionError(Messages.CONNECTION_CONFIGURATION_FAILURE);
+				throw new OnlineBankingException(Messages.CONNECTION_CONFIGURATION_FAILURE);
 		} catch (SQLException e) {
 			log.error(e);
-			throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
 		return con;
 	}

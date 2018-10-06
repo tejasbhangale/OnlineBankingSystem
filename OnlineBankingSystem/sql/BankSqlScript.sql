@@ -1,3 +1,4 @@
+
 drop table  Account_Master cascade constraints;
 drop table  Customer cascade constraints;
 drop table  Transactions cascade constraints;
@@ -41,6 +42,7 @@ INSERT INTO Account_Master Values(1006,130,'Savings',15000,'17-SEP-2000');
 INSERT INTO Account_Master Values(1007,125,'Current',600000,'23-OCT-2003');
 INSERT INTO Account_Master Values(1008,125,'Savings',177255,'01-JUN-1992');
 
+
 INSERT INTO Customer Values(120,'Alice',9957421711,'alice@gmail.com','Whitefeild','dchr22');
 INSERT INTO Customer Values(125,'Bob',9682316872,'bob@hotmail.com','Whitefeild','dchr22');
 INSERT INTO Customer Values(170,'Andrea',8011744401,'andrea@gmail.com','Whitefeild','dchr22');
@@ -56,15 +58,18 @@ INSERT INTO Service_Tracker Values(151,'Service2',1002,'15-AUG-2018','Done Sevic
 INSERT INTO Service_Tracker Values(152,'Service3',1003,'20-JAN-2000','Incomplete Sevice Request');
 INSERT INTO Service_Tracker Values(153,'Service4',1004,'19-FEB-2015','Done Sevice Request');
 
+
 create sequence service
 START WITH 1005
 INCREMENT BY 1
 NOCACHE;
 
+
 CREATE SEQUENCE TRANSFER_SEQ
 START WITH 4000
 INCREMENT BY 1
 NOCACHE;
+
 
 CREATE SEQUENCE ACCNUM_SEQ
 START WITH 1010
@@ -75,3 +80,5 @@ CREATE SEQUENCE USERID_SEQ
 START WITH 200
 INCREMENT BY 1
 NOCACHE;
+
+SELECT ACCNUM_SEQ.CURRVAL FROM DUAL;

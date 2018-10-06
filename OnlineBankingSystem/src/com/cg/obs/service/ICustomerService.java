@@ -26,6 +26,8 @@ public interface ICustomerService {
 
 	public int requestChequeBook(int id);
 
+	public List<Integer> getAccountList(int ar);
+
 	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError;
 
 	public ServiceTracker getRequestStatus(int reqNum,int userId);

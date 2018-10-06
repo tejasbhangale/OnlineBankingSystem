@@ -1,5 +1,7 @@
 package com.cg.obs.dao;
 
+import java.util.List;
+
 
 import java.sql.Date;
 import java.util.List;
@@ -26,6 +28,8 @@ public interface ICustomerDao {
 
 	public int requestChequeBook(int id);
 
+	public List<Integer> getAccountList(int id);
+	
 	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError;
 
 	public ServiceTracker getRequestStatus(int reqNum,int userId);

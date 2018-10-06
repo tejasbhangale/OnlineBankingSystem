@@ -57,7 +57,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.UPDATE_CUSTOMER_DETAILS);) {
 			pt.setLong(1, customer.getMobile());
 			pt.setString(2, customer.getAddress());
-			pt.setInt(3, customer.getUserId());
+			pt.setLong(3, customer.getUserId());
 
 			int res = pt.executeUpdate();
 			if (res >= 1)
@@ -149,9 +149,32 @@ public class CustomerDaoImpl implements ICustomerDao {
 		return 0;
 	}
 
+	public List<Integer> getAccountList(int id) {
+		List<Integer> accountList =new ArrayList<Integer>();
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_SELF_ACCOUNTS);) {
+			pt.setInt(1, id);
+			
+			ResultSet resultSet = pt.executeQuery();
+			
+			while(resultSet.next()){
+				accountList.add(resultSet.getInt(1));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JDBCConnectionError e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return accountList;
+	}
+	
 	@Override
-	public List<Transactions> getMiniStatement(int ar)
-			throws JDBCConnectionError {
+	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
 
 		List<Transactions> transaction = new ArrayList<>();
 

@@ -84,10 +84,14 @@ public class CustomerServiceImpl implements ICustomerService {
 	public int requestChequeBook(int accNum) {
 		return cDao.requestChequeBook(accNum);
 	}
-
+	
 	@Override
-	public List<Transactions> getMiniStatement(int ar)
-			throws JDBCConnectionError {
+	public List<Integer> getAccountList(int id) {
+		return cDao.getAccountList(id);
+	}
+	
+	@Override
+	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
 		return cDao.getMiniStatement(ar);
 	}
 

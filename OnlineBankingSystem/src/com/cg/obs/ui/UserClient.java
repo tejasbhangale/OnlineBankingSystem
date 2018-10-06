@@ -35,7 +35,6 @@ public class UserClient {
 	Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-
 		UserClient user = new UserClient();
 		user.clientConsole(135);
 		System.out.println("I'm Out");
@@ -65,40 +64,7 @@ public class UserClient {
 			choice = getChoice(scan);
 			switch (choice) {
 			case 1:// mini/detailed statement
-
-				boolean status = true;
-
-				while (status) {
-					System.out.println("1. Mini Statement");
-					System.out.println("2. Detailed Statement");
-					System.out.println("3. Exit");
-					System.out.println("Enter your choice");
-					String check = sc.next();
-
-					switch (check) {
-					case "1":
-
-						user.getMiniStatement(userId);
-
-						break;
-					case "2":
-
-						user.getDetailedStatement(userId);
-
-						break;
-					case "3":
-
-						status = false;
-
-						break;
-					default:
-						System.out.println("Enter a valid option");
-
-						break;
-					}
-
-				}
-
+				doDisplayStatement(userId);
 				break;
 			case 2:// Update Mobile/Address
 				doDetailsUpdate(scan, userId);
@@ -110,6 +76,7 @@ public class UserClient {
 				doTrackService(scan, userId);
 				break;
 			case 5:// fund transfer
+				fundTransfer(scan,userId);
 				break;
 			case 6:// ChangePassword
 				doPasswordUpdate(scan, userId);
@@ -127,6 +94,42 @@ public class UserClient {
 	}
 	
 	
+	private void doDisplayStatement(int userId) {
+		boolean status = true;
+
+		while (status) {
+			System.out.println("1. Mini Statement");
+			System.out.println("2. Detailed Statement");
+			System.out.println("3. Exit");
+			System.out.println("Enter your choice");
+			String check = sc.next();
+
+			switch (check) {
+			case "1":
+
+				user.getMiniStatement(userId);
+
+				break;
+			case "2":                                                                                                                                                                                                
+
+				user.getDetailedStatement(userId);
+
+				break;
+			case "3":
+
+				status = false;
+
+				break;
+			default:
+				System.out.println("Enter a valid option");
+
+				break;
+			}
+
+		}
+		
+	}
+
 	private boolean doNewUserActivity(Scanner scan, int userId) {
 		ArrayList<String> userData = doInputGet(scan);
 		try {
@@ -328,7 +331,9 @@ public class UserClient {
 			if (transaction == null) {
 				System.out.println("No Transaction found for given Account");
 			} else {
-				System.out.println(transaction);
+				for (Transactions transactions : transaction) {
+					System.out.println(transactions);
+				}
 			}
 		} catch (JDBCConnectionError e) {
 			System.out.println(e.getMessage());
@@ -394,7 +399,6 @@ public class UserClient {
 	}
 
 	private void doFailureAllRequests() {
-		// TODO Auto-generated method stub
 		System.out.println("Request Failed");
 	}
 
@@ -405,7 +409,6 @@ public class UserClient {
 	}
 
 	private void doFailureRequest() {
-		// TODO Auto-generated method stub
 		System.out.println("Request Failed");
 	}
 
@@ -467,4 +470,41 @@ public class UserClient {
 		return choice;
 	}
 
+	private static void fundTransfer(Scanner scan, int ar){
+		int choice=0;
+		System.out.println("Funds Transfer to:");
+		System.out.println("1. Your Own Bank Account across India");
+		System.out.println("2. Other  account of same bank across india");
+		System.out.println("3. Go back");
+		try {
+			choice = scan.nextInt();
+			if (choice < 1 || choice > 2) {
+				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+			}
+		} catch (InputMismatchException e) {
+			System.err.println(Messages.INCORRECT_INPUT_TYPE);
+			scan.next();
+		} catch (InvalidChoiceException e) {
+			System.err.println(e.getMessage());
+		}
+		switch(choice){
+		case 1://Transfer to own accounts
+				List<Integer> selfaccounts=cService.getAccountList(125);
+				System.out.println("getting account list");
+				System.out.println(selfaccounts);
+				int count= selfaccounts.size();
+				for(int index=0;index<count;index++){
+					
+					System.out.println(index+". "+selfaccounts.get(index));
+				}
+				System.out.println("Enter the Sr.no of account to transfer funds from");
+				
+				System.out.println("Enter the Sr.no of account to transfer funds from");
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		}
+	}
 }

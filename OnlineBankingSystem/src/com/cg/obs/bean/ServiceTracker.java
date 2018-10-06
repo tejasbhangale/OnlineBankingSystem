@@ -3,18 +3,18 @@ package com.cg.obs.bean;
 import java.sql.Date;
 
 public class ServiceTracker {
-	private int service_id;
+	private int serviceId;
 	private String serviceDescription;
 	private int accountId;
 	private Date serviceRaisedDate;
 	private String status;
 
 	public int getService_id() {
-		return service_id;
+		return serviceId;
 	}
 
 	public void setService_id(int service_id) {
-		this.service_id = service_id;
+		this.serviceId = service_id;
 	}
 
 	public String getServiceDescription() {
@@ -57,7 +57,7 @@ public class ServiceTracker {
 	public ServiceTracker(int service_id, String serviceDescription,
 			int accountId, Date serviceRaisedDate, String status) {
 		super();
-		this.service_id = service_id;
+		this.serviceId = service_id;
 		this.serviceDescription = serviceDescription;
 		this.accountId = accountId;
 		this.serviceRaisedDate = serviceRaisedDate;
@@ -66,7 +66,11 @@ public class ServiceTracker {
 
 	@Override
 	public String toString() {
+<<<<<<< HEAD
 		String result = "\nService Request Number: " + this.service_id
+=======
+		String result = "Service Request Number: " + this.serviceId
+>>>>>>> 99d7e53eaba8390e835cab0c37d5e7f8234b66b7
 				+ "\nService Info: " + this.serviceDescription
 				+ "\nService Raised on: " + this.serviceRaisedDate
 				+ "\nService Status: " + this.status + "\n";

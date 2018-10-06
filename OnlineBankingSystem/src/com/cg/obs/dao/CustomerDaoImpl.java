@@ -13,10 +13,10 @@ import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.exception.CompleteProfileException;
-import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.PasswordUpdateException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.ConnectionProvider;
 import com.cg.obs.util.Messages;
 
@@ -42,7 +42,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				return customer;
 			}
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -65,7 +65,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			if (res >= 1)
 				return true;
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -89,7 +89,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				}
 			}
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -99,7 +99,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	@Override
 	public void updatePassword(String newPass, int userId)
-			throws PasswordUpdateException {
+			throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
@@ -108,7 +108,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setString(1, newPass);
 			pt.setInt(2, userId);
 			pt.executeUpdate();
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -143,7 +143,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				return 0;
 			}
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,7 +169,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (JDBCConnectionError e1) {
+		} catch (OnlineBankingException e1) {
 			e1.printStackTrace();
 		}
 		return accountList;
@@ -177,7 +177,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	@Override
 	public List<Transactions> getMiniStatement(int ar)
-			throws JDBCConnectionError {
+			throws OnlineBankingException {
 
 		List<Transactions> transaction = new ArrayList<>();
 
@@ -204,10 +204,10 @@ public class CustomerDaoImpl implements ICustomerDao {
 				transaction.add(tran);
 				count++;
 			}
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new JDBCConnectionError(
+			throw new OnlineBankingException(
 					Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
 
@@ -239,7 +239,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			}
 			return sTrack;
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -270,7 +270,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				reqList.add(sTrack);
 			}
 			return reqList;
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -281,7 +281,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	@Override
 	public List<Transactions> getDetailedStatement(int ar, Date startDate,
-			Date endDate) throws JDBCConnectionError {
+			Date endDate) throws OnlineBankingException {
 
 		List<Transactions> transaction = new ArrayList<>();
 
@@ -309,10 +309,10 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			}
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new JDBCConnectionError(
+			throw new OnlineBankingException(
 					Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
 
@@ -332,7 +332,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				balance = resultSet.getDouble(1);
 			}
 
-		} catch (SQLException | JDBCConnectionError e) {
+		} catch (SQLException | OnlineBankingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -360,7 +360,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (JDBCConnectionError e1) {
+		} catch (OnlineBankingException e1) {
 			e1.printStackTrace();
 		}
 		return payeeList;
@@ -380,7 +380,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				System.out.println("debited");
 				return true;
 			}
-						} catch (JDBCConnectionError e) {
+						} catch (OnlineBankingException e) {
 							e.printStackTrace();
 						} catch (SQLException e) {
 							e.printStackTrace();
@@ -404,7 +404,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			}
 			return accList;
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -427,7 +427,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				System.out.println("credited");
 				return true;
 			}
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -460,7 +460,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			} else {
 				return 0;
 			} 
-		}catch (JDBCConnectionError e) {
+		}catch (OnlineBankingException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -486,7 +486,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			} else {
 				return true;
 			}
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -523,7 +523,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				return 0;
 			}
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -543,7 +543,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setLong(2, payee.getPayeeAccountId());
 			pt.setString(3, payee.getNickName());
 			rows = pt.executeUpdate();
-		} catch (JDBCConnectionError | SQLException e) {
+		} catch (OnlineBankingException | SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -564,7 +564,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				pass=resultset.getString(1);
 				
 			}
-		} catch (JDBCConnectionError | SQLException e) {
+		} catch (OnlineBankingException | SQLException e) {
 			e.printStackTrace();
 		} 
 		return pass;
@@ -572,7 +572,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public void completeProfile(ArrayList<String> userData, int userId) throws CompleteProfileException{
+	public void completeProfile(ArrayList<String> userData, int userId) throws OnlineBankingException{
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
@@ -584,10 +584,10 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setInt(4, userId);
 			
 			pt.executeUpdate();
-		} catch (JDBCConnectionError e) {
-			throw new CompleteProfileException(Messages.UPDATE_FAILED);
+		} catch (OnlineBankingException e) {
+			throw new OnlineBankingException(Messages.UPDATE_FAILED);
 		} catch (SQLException e) {
-			throw new CompleteProfileException(Messages.UPDATE_FAILED);
+			throw new OnlineBankingException(Messages.UPDATE_FAILED);
 		}
 
 	}

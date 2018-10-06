@@ -5,29 +5,29 @@ import java.util.List;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.exception.JDBCConnectionError;
-import com.cg.obs.exception.ValidationException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.bean.User;
 
 public interface IAdminService {
 
-	boolean addAccountDetails(Customer cust) throws JDBCConnectionError;
+	boolean addAccountDetails(Customer cust) throws OnlineBankingException;
 
-	boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError;
+	boolean addAccountMaster(AccountMaster account) throws OnlineBankingException;
 
-	List<Transactions> getTransactionDetails(java.sql.Date startDate, java.sql.Date endDate) throws JDBCConnectionError;
+	List<Transactions> getTransactionDetails(java.sql.Date startDate, java.sql.Date endDate) throws OnlineBankingException;
 
-	void isValidate(Customer customer, AccountMaster account) throws ValidationException;
+	void isValidate(Customer customer, AccountMaster account) throws OnlineBankingException;
 
-	boolean changeAccountStatus(int accNumber, String status) throws JDBCConnectionError;
+	boolean changeAccountStatus(int accNumber, String status) throws OnlineBankingException;
 
-	String getLockStatus(int accNumber) throws JDBCConnectionError;
+	String getLockStatus(int accNumber) throws OnlineBankingException;
 
-	Customer getCustomerDetails(int accNumber) throws JDBCConnectionError;
+	Customer getCustomerDetails(int accNumber) throws OnlineBankingException;
 
-	long createNewUser() throws JDBCConnectionError;
+	long createNewUser() throws OnlineBankingException;
 
-	void isValidateExistingUser(AccountMaster account) throws ValidationException;
+	void isValidateExistingUser(AccountMaster account) throws OnlineBankingException;
 
 
 

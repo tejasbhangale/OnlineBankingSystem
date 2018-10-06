@@ -13,10 +13,10 @@ import com.cg.obs.bean.Transactions;
 import java.util.ArrayList;
 
 import com.cg.obs.bean.ServiceTracker;
-import com.cg.obs.exception.CompleteProfileException;
-import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.PasswordUpdateException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
 
 public interface ICustomerDao {
 
@@ -26,20 +26,20 @@ public interface ICustomerDao {
 
 	public boolean checkOldPass(String oldPass, int id);
 
-	public void updatePassword(String newPass, int id) throws PasswordUpdateException;
+	public void updatePassword(String newPass, int id) throws OnlineBankingException;
 
 	public int requestChequeBook(int id);
 
 	public List<Integer> getAccountList(long id);
 	
-	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError;
+	public List<Transactions> getMiniStatement(int ar) throws OnlineBankingException;
 
 	public ServiceTracker getRequestStatus(int reqNum,int userId);
 
 	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum);
 
 	public List<Transactions> getDetailedStatement(int ar, Date startDate,
-			Date endDate) throws JDBCConnectionError;
+			Date endDate) throws OnlineBankingException;
 
 
 	public double getAccBalance(long accountId);
@@ -64,6 +64,6 @@ public interface ICustomerDao {
 
 	public boolean isFirstTimeUser(int userId);
 
-	public void completeProfile(ArrayList<String> userData, int userId) throws CompleteProfileException;
+	public void completeProfile(ArrayList<String> userData, int userId) throws OnlineBankingException;
 
 }

@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.dao.ICustomerDao;
-import com.cg.obs.exception.InvalidDetailsEntered;
-import com.cg.obs.exception.PasswordUpdateException;
-import com.cg.obs.exception.UpdateCustomerException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.OBSDaoFactory;
 
 
@@ -23,13 +23,13 @@ import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.dao.ICustomerDao;
-import com.cg.obs.exception.CompleteProfileException;
-import com.cg.obs.exception.IncorrectPasswordException;
-import com.cg.obs.exception.InvalidDetailsEntered;
-import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.PasswordUpdateException;
-import com.cg.obs.exception.UpdateCustomerException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.OBSDaoFactory;
 
 public class CustomerServiceImpl implements ICustomerService {
@@ -38,13 +38,13 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public void validate(long mobile, String address)
-			throws InvalidDetailsEntered {
+			throws OnlineBankingException {
 		ArrayList<String> errors = new ArrayList<String>();
 
 		if (mobile < Long.valueOf("1000000000")) {
 			errors.add("Mobile number must have 10 digits!");
 		}
-		if (mobile < Long.valueOf("7000000000")) {
+		if (!String.valueOf(mobile).matches("[789]\\d+")) {
 			errors.add("Mobile number must start with 7,8 or 9.");
 		}
 		if (address.equals("")) {
@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		}
 
 		if (!errors.isEmpty())
-			throw new InvalidDetailsEntered(errors.toString());
+			throw new OnlineBankingException(errors.toString());
 
 	}
 
@@ -71,13 +71,13 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 	@Override
 	public boolean updateCustomerDetails(Customer customer)
-			throws UpdateCustomerException {
+			throws OnlineBankingException {
 		return cDao.updateCustomerDetails(customer);
 	}
 
 	@Override
 	public String[] checkPass(String[] pass, int userId)
-			throws IncorrectPasswordException {
+			throws OnlineBankingException {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!cDao.checkOldPass(pass[0], userId)) {
 			errors.add("Incorrect Old Password");
@@ -91,13 +91,13 @@ public class CustomerServiceImpl implements ICustomerService {
 		if (errors.isEmpty()) {
 			return pass;
 		} else {
-			throw new IncorrectPasswordException(errors.toString());
+			throw new OnlineBankingException(errors.toString());
 		}
 	}
 
 	@Override
 	public void updatePassword(String newPass, int id)
-			throws PasswordUpdateException {
+			throws OnlineBankingException {
 		cDao.updatePassword(newPass, id);
 	}
 
@@ -109,7 +109,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		
 	
 	@Override
-	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
+	public List<Transactions> getMiniStatement(int ar) throws OnlineBankingException {
 		return cDao.getMiniStatement(ar);
 	}
 
@@ -126,7 +126,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public List<Transactions> getDetailedStatement(int ar, Date startDate,
-			Date endDate) throws JDBCConnectionError {
+			Date endDate) throws OnlineBankingException {
 		return cDao.getDetailedStatement(ar, startDate, endDate);
 	}
 
@@ -211,7 +211,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public boolean validateUserData(ArrayList<String> userData, int userId)
-			throws InvalidDetailsEntered {
+			throws OnlineBankingException {
 		ArrayList<String> errors = new ArrayList<String>();
 
 		if (!cDao.checkOldPass((userData.get(0)), userId)) {
@@ -230,13 +230,13 @@ public class CustomerServiceImpl implements ICustomerService {
 		if (errors.isEmpty()) {
 			return true;
 		} else {
-			throw new InvalidDetailsEntered(errors.toString());
+			throw new OnlineBankingException(errors.toString());
 		}
 
 	}
 
 	@Override
-	public void completeProfile(ArrayList<String> userData,int userId) throws CompleteProfileException {
+	public void completeProfile(ArrayList<String> userData,int userId) throws OnlineBankingException {
 		cDao.completeProfile(userData,userId);
 	}
 

@@ -10,8 +10,8 @@ import java.util.Scanner;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.exception.JDBCConnectionError;
-import com.cg.obs.exception.ValidationException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.service.AdminServiceImpl;
 import com.cg.obs.service.IAdminService;
 
@@ -201,11 +201,7 @@ public class AdminConsole {
 
 			System.err.println("Enter valid Input");
 
-		} catch (JDBCConnectionError e) {
-			
-			System.out.println(e.getMessage());
-			
-		} catch (ValidationException e) {
+		} catch (OnlineBankingException e) {
 			
 			System.out.println(e.getMessage());
 			
@@ -264,7 +260,7 @@ public class AdminConsole {
 
 			System.err.println("Enter valid date format");
 
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 
 			System.err.println(e.getMessage());
 
@@ -381,7 +377,7 @@ private void accountLockStatus() {
 
 		  System.out.println("Enter Valid Account Number");
 		
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			
 			System.err.println(e.getMessage());
 			

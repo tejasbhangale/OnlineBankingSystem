@@ -12,8 +12,8 @@ import com.cg.obs.bean.Transactions;
 import com.cg.obs.bean.User;
 import com.cg.obs.dao.AdminDAOImpl;
 import com.cg.obs.dao.IAdminDAO;
-import com.cg.obs.exception.JDBCConnectionError;
-import com.cg.obs.exception.ValidationException;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.exception.OnlineBankingException;
 
 public class AdminServiceImpl implements IAdminService {
 
@@ -21,14 +21,14 @@ public class AdminServiceImpl implements IAdminService {
 	
 	
 	@Override
-	public boolean addAccountDetails(Customer cust) throws JDBCConnectionError {
+	public boolean addAccountDetails(Customer cust) throws OnlineBankingException {
 	
 		return adminDAO.addAccountDetails(cust);
 	}
 
 
 	@Override
-	public boolean addAccountMaster(AccountMaster account) throws JDBCConnectionError {
+	public boolean addAccountMaster(AccountMaster account) throws OnlineBankingException {
 		
 		return adminDAO.addAccountMaster(account);
 	}
@@ -36,7 +36,7 @@ public class AdminServiceImpl implements IAdminService {
 
 	@Override
 	public List<Transactions> getTransactionDetails(
-			Date startDate, Date endDate) throws JDBCConnectionError {
+			Date startDate, Date endDate) throws OnlineBankingException {
 		
 		return adminDAO.getTransactionDetails(
 				startDate,endDate);
@@ -46,33 +46,33 @@ public class AdminServiceImpl implements IAdminService {
 
 	
 	@Override
-	public boolean changeAccountStatus(int accNumber, String status) throws JDBCConnectionError {
+	public boolean changeAccountStatus(int accNumber, String status) throws OnlineBankingException {
 		
 		return adminDAO.changeAccountStatus(accNumber, status);
 	}
 
 	
 	@Override
-	public String getLockStatus(int accNumber) throws JDBCConnectionError {
+	public String getLockStatus(int accNumber) throws OnlineBankingException {
 		
 		return adminDAO.getLockStatus(accNumber);
 	}
 	
 	@Override
-	public Customer getCustomerDetails(int accNumber) throws JDBCConnectionError {
+	public Customer getCustomerDetails(int accNumber) throws OnlineBankingException {
 
 		return adminDAO.getCustomerDetails(accNumber);
 	}
 
 
 	@Override
-	public long createNewUser() throws JDBCConnectionError {
+	public long createNewUser() throws OnlineBankingException {
 		
 		return adminDAO.createNewUser();
 	}
 	
 	@Override
-	public void isValidateExistingUser(AccountMaster account) throws ValidationException{
+	public void isValidateExistingUser(AccountMaster account) throws OnlineBankingException{
 		
 		List<String> validation = new ArrayList<String>();
 		
@@ -97,14 +97,14 @@ public class AdminServiceImpl implements IAdminService {
 
 		if(!validation.isEmpty())
 		{
-			throw new ValidationException(validation+"");
+			throw new OnlineBankingException(validation+"");
 		}
 		
 	}
 
 
 	@Override
-	public void isValidate(Customer customer, AccountMaster account) throws ValidationException
+	public void isValidate(Customer customer, AccountMaster account) throws OnlineBankingException
 	{
 		List<String> validation = new ArrayList<String>();
 		
@@ -149,7 +149,7 @@ public class AdminServiceImpl implements IAdminService {
 		
 		if(!validation.isEmpty())
 		{
-			throw new ValidationException(validation+"");
+			throw new OnlineBankingException(validation+"");
 		}
 		
 	}

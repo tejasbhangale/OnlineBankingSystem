@@ -11,9 +11,9 @@ public class Customer {
 	
 	@Override
 	public String toString() {
-		return "Customer [accountId=" + userId + ", customerName="
-				+ customerName + ", mobile=" + mobile + ", email=" + email
-				+ ", address=" + address + ", pancard=" + pancard + "]";
+		return "Customer Details:" +"\nUser ID: " + userId + "\nName: "
+				+ customerName + "\nMobile:" + mobile + "\nEmail: " + email
+				+ "\nAddress: " + address + "\nPancard: " + pancard;
 	}
 	public Customer() {
 		super();

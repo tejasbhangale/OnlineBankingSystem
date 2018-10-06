@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import com.cg.obs.bean.Admin;
 import com.cg.obs.bean.User;
-import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.ConnectionProvider;
 
 public class LoginDaoImpl implements ILoginDao {
@@ -41,7 +41,7 @@ public class LoginDaoImpl implements ILoginDao {
 			
 			
 			
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -68,7 +68,7 @@ public class LoginDaoImpl implements ILoginDao {
 				user.setLoginPassword(resultset.getString(2));
 				user.setLockStatus(resultset.getString(3));
 			}
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -93,7 +93,7 @@ public class LoginDaoImpl implements ILoginDao {
 						
 	} catch (SQLException e) {
 		System.err.println(e.getMessage());
-	} catch (JDBCConnectionError e1) {
+	} catch (OnlineBankingException e1) {
 		System.err.println(e1.getMessage());
 	}
 	
@@ -115,7 +115,7 @@ public class LoginDaoImpl implements ILoginDao {
 					id=resultset.getInt(1);
 				}
 				
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -136,7 +136,7 @@ public class LoginDaoImpl implements ILoginDao {
 					passcode=resultset.getString(1);
 				}
 				
-		} catch (JDBCConnectionError e) {
+		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -171,7 +171,7 @@ public class LoginDaoImpl implements ILoginDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
-		}catch(JDBCConnectionError e){
+		}catch(OnlineBankingException e){
 			System.err.println(e.getMessage());
 		}
 		return user;
@@ -195,7 +195,7 @@ public class LoginDaoImpl implements ILoginDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
-		}catch(JDBCConnectionError e){
+		}catch(OnlineBankingException e){
 			System.err.println(e.getMessage());
 		}
 		

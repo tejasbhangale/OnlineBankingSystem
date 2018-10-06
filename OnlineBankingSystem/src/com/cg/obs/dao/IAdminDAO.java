@@ -7,7 +7,7 @@ import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.bean.User;
-import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.OnlineBankingException;
 
 public interface IAdminDAO {

@@ -12,8 +12,8 @@ import com.cg.obs.bean.Transactions;
 
 import java.util.ArrayList;
 
-import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.ServiceTracker;
+import com.cg.obs.exception.CompleteProfileException;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.PasswordUpdateException;
@@ -34,12 +34,13 @@ public interface ICustomerDao {
 	
 	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError;
 
-	public ServiceTracker getRequestStatus(int reqNum,int accNum);
+	public ServiceTracker getRequestStatus(int reqNum,int userId);
 
 	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum);
 
 	public List<Transactions> getDetailedStatement(int ar, Date startDate,
 			Date endDate) throws JDBCConnectionError;
+
 
 	public double getAccBalance(long accountId);
 
@@ -58,5 +59,11 @@ public interface ICustomerDao {
 	public void addPayee(Payee payee) throws OnlineBankingException;
 
 	public String getUserTransPassword(long userId);
+
+	public ArrayList<Integer> getAllAccounts(int userId);
+
+	public boolean isFirstTimeUser(int userId);
+
+	public void completeProfile(ArrayList<String> userData, int userId) throws CompleteProfileException;
 
 }

@@ -13,6 +13,7 @@ import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.exception.CompleteProfileException;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.PasswordUpdateException;
@@ -58,7 +59,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.UPDATE_CUSTOMER_DETAILS);) {
 			pt.setLong(1, customer.getMobile());
 			pt.setString(2, customer.getAddress());
-			pt.setInt(3, customer.getUserId());
+			pt.setLong(3, customer.getUserId());
 
 			int res = pt.executeUpdate();
 			if (res >= 1)
@@ -104,8 +105,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.UPDATE_CUSTOMER_PASSWORD);) {
 
-			String[] pass = newPass.split(" ");
-			pt.setString(1, pass[0]);
+			pt.setString(1, newPass);
 			pt.setInt(2, userId);
 			pt.executeUpdate();
 		} catch (JDBCConnectionError e) {
@@ -153,52 +153,48 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	@Override
 	public List<Integer> getAccountList(long id) {
-		List<Integer> accountList =new ArrayList<Integer>();
+
+		List<Integer> accountList = new ArrayList<Integer>();
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.GET_SELF_ACCOUNTS);) {
 			pt.setLong(1, id);
-			
+
 			ResultSet resultSet = pt.executeQuery();
-			
-			while(resultSet.next()){
+
+			while (resultSet.next()) {
 				accountList.add(resultSet.getInt(1));
 			}
-			
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JDBCConnectionError e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return accountList;
 	}
+
 	@Override
-	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError {
-		
+	public List<Transactions> getMiniStatement(int ar)
+			throws JDBCConnectionError {
+
 		List<Transactions> transaction = new ArrayList<>();
-		
+
 		int count = 1;
-		
+
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_MINI_STATEMENT);) {
-		
-			
-			
+
 			pstm.setInt(1, ar);
-			
+
 			ResultSet result = pstm.executeQuery();
-			
-			
-			
-			while(result.next() && count<=10)
-			{
+
+			while (result.next() && count <= 10) {
 				Transactions tran = new Transactions();
-				
+
 				tran.setTransactionId(result.getLong(1));
 				tran.setTransactionDesc(result.getString(2));
 				tran.setDateOfTransaction(result.getDate(3));
@@ -208,32 +204,29 @@ public class CustomerDaoImpl implements ICustomerDao {
 				transaction.add(tran);
 				count++;
 			}
-		}catch (JDBCConnectionError e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-			}
-			
-			if(count==1)
-			{
-				return null;
-			}
-			
-			
-			return transaction;
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new JDBCConnectionError(
+					Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
-		
-		
-		
 
-	public ServiceTracker getRequestStatus(int reqNum, int accNum) {
+		if (count == 1) {
+			return null;
+		}
+
+		return transaction;
+	}
+
+	public ServiceTracker getRequestStatus(int reqNum, int userId) {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.GET_REQUEST_STATUS);) {
 
 			pt.setInt(1, reqNum);
-			pt.setInt(2, accNum);
+			pt.setInt(2, userId);
+
 			ServiceTracker sTrack = null;
 			ResultSet res = pt.executeQuery();
 			while (res.next()) {
@@ -251,10 +244,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		
-		
-
 		return null;
 	}
 
@@ -266,11 +255,11 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.GET_ALL_REQUESTS);) {
 
 			pt.setInt(1, accNum);
-			
+
 			ResultSet resSet = pt.executeQuery();
 			ArrayList<ServiceTracker> reqList = new ArrayList<ServiceTracker>();
 			int count = 0;
-			while (resSet.next() && count<20) {
+			while (resSet.next() && count < 20) {
 				count++;
 				ServiceTracker sTrack = new ServiceTracker();
 				sTrack.setService_id(resSet.getInt(1));
@@ -293,60 +282,56 @@ public class CustomerDaoImpl implements ICustomerDao {
 	@Override
 	public List<Transactions> getDetailedStatement(int ar, Date startDate,
 			Date endDate) throws JDBCConnectionError {
-		
+
 		List<Transactions> transaction = new ArrayList<>();
-		
+
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_DETAILED_STATEMENT);) {
-		
-		pstm.setInt(1, ar);
-		pstm.setDate(2, startDate);
-		pstm.setDate(3, endDate);
-		
-		ResultSet result = pstm.executeQuery();
-		
-		while(result.next())
-		{
-			Transactions tran = new Transactions();
-			
-			tran.setTransactionId(result.getLong(1));
-			tran.setTransactionDesc(result.getString(2));
-			tran.setDateOfTransaction(result.getDate(3));
-			tran.setTransactionType(result.getString(4));
-			tran.setTransactionAmount(result.getDouble(5));
-			tran.setAccountId(result.getLong(6));
-			transaction.add(tran);
-			
-			
+
+			pstm.setInt(1, ar);
+			pstm.setDate(2, startDate);
+			pstm.setDate(3, endDate);
+
+			ResultSet result = pstm.executeQuery();
+
+			while (result.next()) {
+				Transactions tran = new Transactions();
+
+				tran.setTransactionId(result.getLong(1));
+				tran.setTransactionDesc(result.getString(2));
+				tran.setDateOfTransaction(result.getDate(3));
+				tran.setTransactionType(result.getString(4));
+				tran.setTransactionAmount(result.getDouble(5));
+				tran.setAccountId(result.getLong(6));
+				transaction.add(tran);
+
+			}
+
+		} catch (JDBCConnectionError e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new JDBCConnectionError(
+					Messages.CONNECTION_ESTABILISHED_FAILURE);
 		}
-		
-		
-		
-	} catch (JDBCConnectionError e) {
-		e.printStackTrace();
-	} catch (SQLException e) {
-		 throw new JDBCConnectionError(Messages.CONNECTION_ESTABILISHED_FAILURE);
-	}
-		
+
 		return transaction;
 	}
 
 	@Override
 	public double getAccBalance(long accountId) {
-		double balance= 0;
+		double balance = 0;
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_ACCOUNT_BALANCE);) {
 			pstm.setLong(1, accountId);
 			ResultSet resultSet = pstm.executeQuery();
-			if(resultSet.next()){
-				balance= resultSet.getDouble(1);
+			if (resultSet.next()) {
+				balance = resultSet.getDouble(1);
 			}
-			
-		
+
 		} catch (SQLException | JDBCConnectionError e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -356,23 +341,23 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	@Override
 	public List<Payee> getPayeeList(long id) {
-		List<Payee> payeeList =new ArrayList<Payee>();
+		List<Payee> payeeList = new ArrayList<Payee>();
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.GET_PAYEE_LIST);) {
 			pt.setLong(1, id);
-			
+
 			ResultSet resultSet = pt.executeQuery();
-			
-			while(resultSet.next()){
-				Payee payee= new Payee();
+
+			while (resultSet.next()) {
+				Payee payee = new Payee();
 				payee.setAccountId(resultSet.getLong(1));
 				payee.setPayeeAccountId(resultSet.getLong(2));
 				payee.setNickName(resultSet.getString(3));
 				payeeList.add(payee);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (JDBCConnectionError e1) {
@@ -395,12 +380,37 @@ public class CustomerDaoImpl implements ICustomerDao {
 				System.out.println("debited");
 				return true;
 			}
+						} catch (JDBCConnectionError e) {
+							e.printStackTrace();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+		return false;
+	}
+
+	@Override
+	public ArrayList<Integer> getAllAccounts(int userId) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.GET_ALL_ACCOUNTS);) {
+
+			pt.setInt(1, userId);
+
+			ResultSet resSet = pt.executeQuery();
+			ArrayList<Integer> accList = new ArrayList<Integer>();
+			while (resSet.next()) {
+				accList.add(resSet.getInt(1));
+			}
+			return accList;
+
 		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+
+		return null;
 	}
 
 	@Override
@@ -413,7 +423,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setLong(2, accountID);
 
 			int res = pt.executeUpdate();
-			if (res == 1){
+			if (res == 1) {
 				System.out.println("credited");
 				return true;
 			}
@@ -449,14 +459,40 @@ public class CustomerDaoImpl implements ICustomerDao {
 				}
 			} else {
 				return 0;
+			} 
+		}catch (JDBCConnectionError e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			
+		return 0;
+		}
+
+	@Override
+	public boolean isFirstTimeUser(int userId) {
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.IS_NEW_USER);) {
+
+			pt.setInt(1, userId);
+
+			ResultSet resSet = pt.executeQuery();
+
+			if (resSet.next()) {
+				if (resSet.getString(1)==null)
+					return true;
+				return false;
+			} else {
+				return true;
+			}
 		} catch (JDBCConnectionError e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+
+		return false;
 	}
 
 	@Override
@@ -468,7 +504,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.RECORD_TRANSACTION);
 				PreparedStatement pt2 = conn
 						.prepareStatement(IQueryMapper.GET_TRANSACTION_ID);) {
-			String transDesc=("FT:"+fundTransferId);
+			String transDesc = ("FT:" + fundTransferId);
 			pt1.setString(1, transDesc);
 			pt1.setString(2, type);
 			pt1.setDouble(3, transferAmount);
@@ -476,7 +512,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			int result = pt1.executeUpdate();
 			if (result == 1) {
-				System.out.println("Transaction update "+ type);
+				System.out.println("Transaction update " + type);
 				ResultSet res = pt2.executeQuery();
 				if (res.next()) {
 					return res.getInt(1);
@@ -486,9 +522,9 @@ public class CustomerDaoImpl implements ICustomerDao {
 			} else {
 				return 0;
 			}
-			
+
 		} catch (JDBCConnectionError e) {
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -497,7 +533,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	@Override
 	public void addPayee(Payee payee) throws OnlineBankingException {
-		int rows=0;
+		int rows = 0;
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
@@ -506,11 +542,11 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setLong(1, payee.getAccountId());
 			pt.setLong(2, payee.getPayeeAccountId());
 			pt.setString(3, payee.getNickName());
-			rows=pt.executeUpdate();
+			rows = pt.executeUpdate();
 		} catch (JDBCConnectionError | SQLException e) {
 			e.printStackTrace();
-		} 
-		
+		}
+
 	}
 
 	@Override
@@ -532,6 +568,27 @@ public class CustomerDaoImpl implements ICustomerDao {
 			e.printStackTrace();
 		} 
 		return pass;
+
 	}
 
+	@Override
+	public void completeProfile(ArrayList<String> userData, int userId) throws CompleteProfileException{
+		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = conn
+						.prepareStatement(IQueryMapper.COMPLETE_USER_PROFILE);) {
+
+			pt.setString(1, userData.get(1));
+			pt.setString(2, userData.get(2));
+			pt.setString(3, userData.get(3));
+			pt.setInt(4, userId);
+			
+			pt.executeUpdate();
+		} catch (JDBCConnectionError e) {
+			throw new CompleteProfileException(Messages.UPDATE_FAILED);
+		} catch (SQLException e) {
+			throw new CompleteProfileException(Messages.UPDATE_FAILED);
+		}
+
+	}
 }

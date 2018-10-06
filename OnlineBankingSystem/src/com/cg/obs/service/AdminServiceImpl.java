@@ -64,16 +64,51 @@ public class AdminServiceImpl implements IAdminService {
 		return adminDAO.getCustomerDetails(accNumber);
 	}
 
+
+	@Override
+	public long createNewUser() throws JDBCConnectionError {
+		
+		return adminDAO.createNewUser();
+	}
 	
+	@Override
+	public void isValidateExistingUser(AccountMaster account) throws ValidationException{
+		
+		List<String> validation = new ArrayList<String>();
+		
+		if(!isValidUserID(account.getUserId()))
+		{
+			validation.add("\nEnter 3 digit User ID");
+		}
+		
+		
+		if(!isValidAccType(account.getAccountType()))
+		{
+			validation.add("Account type can be Saving or Current");
+		}
+		
+		
+
+		if(!isValidOpeningBalance(account.getOpeningBalance()))
+		{
+			validation.add("Enter valid Opening Balance");
+		}
+		
+
+		if(!validation.isEmpty())
+		{
+			throw new ValidationException(validation+"");
+		}
+		
+	}
+
+
 	@Override
 	public void isValidate(Customer customer, AccountMaster account) throws ValidationException
 	{
 		List<String> validation = new ArrayList<String>();
 		
-		if(!isValidAccNumber(customer.getAccountId()))
-		{
-			validation.add("\nEnter 4 digit account number");
-		}
+		
 		
 		if(!isValidName(customer.getCustomerName()))
 		{
@@ -121,13 +156,13 @@ public class AdminServiceImpl implements IAdminService {
 	
 	
 	
-	public boolean isValidAccNumber(int accNumber)
+	public boolean isValidUserID(long userId)
 	{
-		if(Integer.toString(accNumber).length()==4)
+		
+		if(Long.toString(userId).length()==3)
 		{
 			return true;
 		}
-		
 		
 		return false;
 	}
@@ -135,7 +170,7 @@ public class AdminServiceImpl implements IAdminService {
 	public boolean isValidName(String custName)
 	{
 		
-		Pattern pattern = Pattern.compile("^[A-Za-z]{3,}$");
+		Pattern pattern = Pattern.compile("^[a-zA-Z\\s]+");
 		Matcher match = pattern.matcher(custName);
 		return match.matches();
 		
@@ -198,7 +233,7 @@ public class AdminServiceImpl implements IAdminService {
 	
 	public boolean isValidOpeningBalance(double openingBalance)
 	{
-		if(openingBalance>0)
+		if(openingBalance>=0)
 		{
 			return true;
 		}
@@ -208,6 +243,10 @@ public class AdminServiceImpl implements IAdminService {
 		
 		
 	}
+
+
+	
+
 
 
 

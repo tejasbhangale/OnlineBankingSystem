@@ -31,6 +31,7 @@ INSERT INTO User_Table Values(120,'loginpwd','Pitbul','What is your pet name','t
 INSERT INTO User_Table Values(125,'loginpwd','Scarlet','What is your pet name','tranpwd','l');
 INSERT INTO User_Table Values(170,'loginpwd','Fluffy','What is your pet name','tranpwd','l');
 INSERT INTO User_Table Values(130,'loginpwd','Teju','What is your pet name','tranpwd','l');
+INSERT INTO USER_TABLE Values(135,'loginpwd',NULL,NULL,NULL,'l');
 
 INSERT INTO Account_Master Values(1001,120,'Savings',50000,'12-JAN-2013');
 INSERT INTO Account_Master Values(1002,125,'Current',70000,'1-DEC-2007');
@@ -86,9 +87,13 @@ START WITH 200
 INCREMENT BY 1
 NOCACHE;
 
+<<<<<<< HEAD
 CREATE SEQUENCE TRANSACTION_SEQ
 START WITH 5000
 INCREMENT BY 1
 NOCACHE;
 
  ALTER TABLE payeetable DROP PRIMARY KEY;
+
+SELECT ACCNUM_SEQ.CURRVAL FROM DUAL;
+

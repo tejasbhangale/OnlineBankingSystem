@@ -21,7 +21,7 @@ CREATE TABLE Service_Tracker(Service_ID NUMBER primary key, Service_Description 
 
 CREATE TABLE Fund_Transfer(Fund_Transfer_ID NUMBER primary key,Account_ID NUMBER(10) references Account_Master(Account_ID),Payee_Account_ID NUMBER(10), Date_Of_Transfer DATE, Transfer_Amount NUMBER(13,2));
 
-CREATE TABLE PayeeTable(Account_ID NUMBER(10) references Account_Master(Account_ID),Payee_Account_ID NUMBER(10) primary key , Nick_name VARCHAR2(40));
+CREATE TABLE PayeeTable(Account_ID NUMBER(10) references Account_Master(Account_ID),Payee_Account_ID NUMBER(10) , Nick_name VARCHAR2(40));
 
 CREATE TABLE ADMIN_TABLE(ADMIN_ID NUMBER(3) primary key,ADMIN_USER_ID VARCHAR2(20),ADMIN_PASSWORD VARCHAR(20));
 
@@ -58,6 +58,12 @@ INSERT INTO Service_Tracker Values(151,'Service2',1002,'15-AUG-2018','Done Sevic
 INSERT INTO Service_Tracker Values(152,'Service3',1003,'20-JAN-2000','Incomplete Sevice Request');
 INSERT INTO Service_Tracker Values(153,'Service4',1004,'19-FEB-2015','Done Sevice Request');
 
+INSERT INTO PayeeTable VALUES(1002,1001,'Alice-b');
+INSERT INTO PayeeTable VALUES(1007,1003,'Andrea-b');
+INSERT INTO PayeeTable VALUES(1002,1004,'Teja-b');
+INSERT INTO PayeeTable VALUES(1004,1001,'Alice-t');
+INSERT INTO PayeeTable VALUES(1004,1002,'Bob-t');
+
 
 create sequence service
 START WITH 1005
@@ -81,4 +87,13 @@ START WITH 200
 INCREMENT BY 1
 NOCACHE;
 
+<<<<<<< HEAD
+CREATE SEQUENCE TRANSACTION_SEQ
+START WITH 5000
+INCREMENT BY 1
+NOCACHE;
+
+ ALTER TABLE payeetable DROP PRIMARY KEY;
+
 SELECT ACCNUM_SEQ.CURRVAL FROM DUAL;
+

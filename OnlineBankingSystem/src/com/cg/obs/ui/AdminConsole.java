@@ -1,8 +1,5 @@
 package com.cg.obs.ui;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +10,6 @@ import java.util.Scanner;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.bean.User;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.ValidationException;
 import com.cg.obs.service.AdminServiceImpl;
@@ -37,15 +33,18 @@ public class AdminConsole {
 
 		boolean check = true;
 
-		System.out.println("\nAdmin Console\n");
+		System.out.println("***********************************");
+		System.out.println("Admin Console");
 
 		while (check) {
            
+			System.out.println("\n***********************************");
 			System.out.println("1. Create user Account");
 			System.out.println("2. Get Transaction Details");
 			System.out.println("3. Account lock status");
-			System.out.println("4. Exit");
+			System.out.println("4. Go Back");
 			System.out.println("Enter your choice");
+			System.out.println("***********************************");
 			choice = sc.nextLine();
 
 			switch (choice) {
@@ -249,6 +248,7 @@ public class AdminConsole {
 
 				} else {
 
+					System.out.println("Transaction Details \n");
 					for (Transactions tra : list) {
 
 						System.out.println(tra.toString());
@@ -307,7 +307,7 @@ private void accountLockStatus() {
 	    	  
 	    	  
 	    	  
-	    	  System.out.println("Account Details");
+	    	  System.out.println("Account Details \n");
 	    	  System.out.println("Account Number : "+userID);
 	    	  System.out.println("Customer Name : "+customer.getCustomerName());
 	    	  System.out.println("Customer Mobile Number : "+customer.getMobile());
@@ -318,9 +318,9 @@ private void accountLockStatus() {
 	    	  while(check)
 	    	  {
 	    		  
-	    		  System.out.println("1. Lock User Account");
+	    		  System.out.println("\n1. Lock User Account");
 		    	  System.out.println("2. Unlock User Account");
-		    	  System.out.println("Enter your Choice");
+		    	  System.out.println("\nEnter your Choice");
 		    	  String choice = sc.nextLine();
 		    	  
 	    	  switch (choice) {

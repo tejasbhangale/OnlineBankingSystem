@@ -6,8 +6,10 @@ import java.util.Scanner;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.cg.obs.bean.User;
+import com.cg.obs.exception.InvalidChoiceException;
 import com.cg.obs.exception.InvalidCredentialsException;
 import com.cg.obs.service.ILoginService;
+import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSServiceFactory;
 
 public class ClientMain {
@@ -95,16 +97,16 @@ public class ClientMain {
 
 						}
 						if (credFlag && userIdValid) {
-							int account_id = 0;
+							int user_id = 0;
 							try {
-								account_id = loginService.getUserLogin(customerId,
+								user_id = loginService.getUserLogin(customerId,
 										customerPassword);
 							} catch (InvalidCredentialsException e) {
 								System.err.println(e.getMessage());
 							}
-							if (account_id != 0) {
+							if (user_id != 0) {
 								UserClient userClient = new UserClient();
-								userClient.clientConsole(account_id);
+								userClient.clientConsole(user_id);
 								System.out.println("client login done");
 							}
 						} else if (loginAttempts == 3) {
@@ -148,9 +150,6 @@ public class ClientMain {
 					}catch(NullPointerException ne){
 						System.err.println(ne.getMessage());
 					}
-				}else{
-					System.err.println("\nInvalid choice");
-					
 				}
 			}
 
@@ -160,10 +159,22 @@ public class ClientMain {
 	}
 
 	private static int showLoginOptionsForCustomer() {
+		int choice=0;
 		System.out.println("**************Customer Login*************");
 		System.out.println("1. Proceed to Login");
 		System.out.println("2. Forgot Password");
-		int choice=scan.nextInt();
+		try {
+			 choice= scan.nextInt();
+			if (choice < 1 || choice > 2) {
+				throw new InvalidChoiceException(Messages.INCORRECT_CHOICE);
+			}
+		} catch (InputMismatchException e) {
+			System.err.println(Messages.INCORRECT_INPUT_TYPE);
+			scan.next();
+		} catch (InvalidChoiceException e) {
+			System.err.println(e.getMessage());
+		}
+		
 		return choice;
 		
 		

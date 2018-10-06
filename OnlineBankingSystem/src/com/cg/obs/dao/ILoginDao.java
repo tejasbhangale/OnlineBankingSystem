@@ -12,7 +12,7 @@ public interface ILoginDao {
 	public String getPass(int customerId);
 	public User forgotPassword(int id);
 	public boolean setOneTimePassword(String newPassword, int id);
-	public int getAccountId(int username);
+	
 	
 
 }

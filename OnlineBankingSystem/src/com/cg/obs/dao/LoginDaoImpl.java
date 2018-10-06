@@ -202,29 +202,6 @@ public class LoginDaoImpl implements ILoginDao {
 		
 		return success;
 	}
-
-	@Override
-	public int getAccountId(int username) {
-		// TODO Auto-generated method stub
-		int account_id=0;
-		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
-			PreparedStatement st =con.prepareStatement(IQueryMapper.GET_ACCOUNT_ID);){
-			resultset=st.executeQuery();
-			
-			if(resultset.next()){
-				account_id=resultset.getInt(1);
-			}
-			
-			
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.err.println(e.getMessage());
-		}catch(JDBCConnectionError e){
-			System.err.println(e.getMessage());
-		}
-		return account_id;
-	}
 }
 	
 

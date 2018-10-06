@@ -34,7 +34,7 @@ public class LoginServiceImpl implements ILoginService {
 	public int getUserLogin(int username, String password) throws InvalidCredentialsException {
 		// TODO Auto-generated method stub
 		
-		int account_id=0;
+		int user_id=0;
 		
 		User user=loginDao.getUserLogin(username);
 		
@@ -46,8 +46,8 @@ public class LoginServiceImpl implements ILoginService {
 			throw new InvalidCredentialsException(Messages.ACCOUNT_LOCKED);
 		}
 		else {
-			account_id=loginDao.getAccountId(username);
-			return account_id;
+			user_id=(int) user.getUserId();
+			return user_id;
 		}
 		
 		

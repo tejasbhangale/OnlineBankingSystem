@@ -20,11 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.util.OBSDaoFactory;
@@ -97,7 +99,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public List<Integer> getAccountList(int id) {
+	public List<Integer> getAccountList(long id) {
 		// TODO Auto-generated method stub
 		return cDao.getAccountList(id);
 	}
@@ -127,7 +129,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public boolean checkfunds(int accountId, double transfer_amt) {
+	public boolean checkfunds(long accountId, double transfer_amt) {
 		double balance=cDao.getAccBalance(accountId);
 		if(balance<transfer_amt){
 			return false;
@@ -138,13 +140,13 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public List<Integer> getPayeeList(int id) {
+	public List<Payee> getPayeeList(long id) {
 		// TODO Auto-generated method stub
 		return cDao.getPayeeList(id);
 	}
 
 	@Override
-	public int transferfunds(int fromaccount, int toaccount, double transferAmount) {
+	public int transferfunds(long fromaccount, long toaccount, double transferAmount) {
 		boolean transferSuccess=false;
 		if(cDao.debitFunds(fromaccount,transferAmount)){
 			transferSuccess=cDao.creditFunds(toaccount,transferAmount);
@@ -153,6 +155,45 @@ public class CustomerServiceImpl implements ICustomerService {
 		int transactionId = cDao.recordTransaction(fromaccount,fundTransferId,"d",transferAmount);
 		cDao.recordTransaction(toaccount,fundTransferId,"c",transferAmount);
 		return transactionId;
+	}
+
+	@Override
+	public boolean addPayee(Payee payee) throws OnlineBankingException {
+		boolean payeeFlag=false;
+		System.out.println("in service");
+		List<Payee> payeeList=getPayeeList(payee.getAccountId());
+		List<Integer> accountList=getAccountList(payee.getAccountId());
+		payee.setAccountId(accountList.get(0));
+		int i,count =payeeList.size();
+		System.out.println("count ="+count);
+		if(count>0){
+			for(i=0;i<count;i++){
+				System.out.println(payeeList.get(i).getPayeeAccountId()+"     "+payee.getPayeeAccountId());
+				if(payeeList.get(i).getPayeeAccountId()==payee.getPayeeAccountId()){
+					
+					payeeFlag=false;
+					System.out.println(payeeFlag);
+					break;
+				}
+		}
+		}
+			else{ 
+				cDao.addPayee(payee);
+				payeeFlag=true;
+			}
+		
+		return payeeFlag;
+	}
+
+	@Override
+	public boolean transactionAuthentication(long userId, long verifyId,
+			String verifyPass) {
+		
+		String userpassword=cDao.getUserTransPassword(userId);
+		if((userId==verifyId) && userpassword.equals(verifyPass) ){
+			return true;
+		}
+		return false;
 	}
 
 }

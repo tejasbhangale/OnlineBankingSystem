@@ -53,7 +53,7 @@ public interface IQueryMapper {
 
 	public static final String GET_ACCOUNT_BALANCE = "SELECT account_balance FROM account_master WHERE account_id=?";
 
-	public static final String GET_PAYEE_LIST = "SELECT payee_account_id FROM payeetable WHERE account_id IN (SELECT account_id FROM account_master WHERE user_id=?)";
+	public static final String GET_PAYEE_LIST = "SELECT account_id,payee_account_id,nick_name FROM payeetable WHERE account_id IN (SELECT account_id FROM account_master WHERE user_id=?)";
 
 	public static final String DEBIT_FUNDS = "UPDATE account_master SET account_balance=account_balance-? WHERE account_id=?";
 
@@ -65,7 +65,11 @@ public interface IQueryMapper {
 
 	public static final String RECORD_TRANSACTION = "INSERT INTO Transactions VALUES(TRANSACTION_SEQ.NEXTVAL,?,SYSDATE,?,?,?)";
 
-	public static final String GET_TRANSACTION_ID = "SELECT TRANSACTION_SEQ.CURRVAL FROM DUAL";;
+	public static final String GET_TRANSACTION_ID = "SELECT TRANSACTION_SEQ.CURRVAL FROM DUAL";
+
+	public static final String ADD_PAYEE = "INSERT INTO payeetable VALUES(?,?,?)";
+
+	public static final String GET_TRANSACTION_PASSWORD = "SELECT transaction_password FROM user_table WHERE user_id=?";
 	
 
 

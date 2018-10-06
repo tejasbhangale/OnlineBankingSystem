@@ -37,5 +37,8 @@ public class Messages {
 	public static final String SERVICE_REQUEST_FAILED = "Your request for ChequeBook has been declined.";
 	//exit
 	public static final String EXIT_MESSAGE = "Thank you for using ONLINE BANKING SYSTEM!!!";
+	
+	//Payee update failed 
+	public static final String PAYEE_UPDATE_FAILED = "Failed to add Payee!!! Please try afte some time";
 }
 

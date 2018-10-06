@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.InvalidChoiceException;
 import com.cg.obs.exception.InvalidDetailsEntered;
 import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.PasswordUpdateException;
 import com.cg.obs.exception.UpdateCustomerException;
 import com.cg.obs.service.ICustomerService;
@@ -401,17 +403,19 @@ public class UserClient {
 		String pass = scan.next();
 		return pass;
 	}
-	private static void fundTransfer(Scanner scan, int userId){
-		int choice = 0,count=0;
-		int fromaccount = 0,toaccount = 0,transactionId;
+	private static void fundTransfer(Scanner scan, long userId){
+		int choice = 0,count=0,transactionId;
+		long fromaccount = 0,toaccount = 0;
 		double transferAmount=0;
 		boolean FTFlag=true;
-		userId=125;
+		userId=120;
 		while(FTFlag){
-		System.out.println("Funds Transfer to:");
+		System.out.println("*******Funds Transfer*******");
 		System.out.println("1. Your Own Bank Account across India");
 		System.out.println("2. Other  account of same bank across india");
-		System.out.println("3. Go back");
+		System.out.println("3. Manage Payee");
+		System.out.println("4. Go back");
+		System.out.println("****************************");
 		try {
 			choice = scan.nextInt();
 			if (choice < 1 || choice > 3) {
@@ -448,8 +452,14 @@ public class UserClient {
 					
 				}
 				else if(cService.checkfunds(fromaccount,transferAmount)){
-					transactionId=cService.transferfunds(fromaccount,toaccount,transferAmount);
-					System.out.println("Funds Transfer is Success!!! Transaction Id is :"+transactionId);
+					if(verifyTransactionPassword(scan,userId)){
+						transactionId=cService.transferfunds(fromaccount,toaccount,transferAmount);
+						System.out.println("Funds Transfer is Success!!! Transaction Id is :"+transactionId);
+					}
+					else{
+						System.err.println("Transaction Authentication Failure!!!");
+					}
+					
 				}
 				else{
 					System.err.println("Insufficient funds to transfer");
@@ -462,8 +472,9 @@ public class UserClient {
 				}
 			break;
 		case 2:
-			List<Integer> payeeList=cService.getPayeeList(userId);
-			if(payeeList!=null){
+			List<Payee> payeeList=cService.getPayeeList(userId);
+//			System.out.println("payeelist:"+payeeList);
+			if(payeeList.size()>0){
 				List<Integer> selfaccountlist=cService.getAccountList(userId);
 				System.out.println("Your account list");
 				System.out.println("	Sr.No	Account_Number");
@@ -480,10 +491,10 @@ public class UserClient {
 				System.out.println("Payee account list");
 				count= payeeList.size();
 				for(int index=0;index<count;index++){
-					System.out.println("	"+(index+1)+". "+payeeList.get(index));
+					System.out.println("	"+(index+1)+". "+payeeList.get(index).getPayeeAccountId()+"	"+payeeList.get(index).getNickName());
 				}
 				System.out.println("Enter the Sr.no of account to transfer funds from");
-				toaccount=payeeList.get((scan.nextInt()-1));
+				toaccount=payeeList.get((scan.nextInt()-1)).getPayeeAccountId();
 				System.out.println("toaccount- "+toaccount);
 				System.out.println("Enter Amount to be transferred:");
 				transferAmount=scan.nextDouble();
@@ -492,8 +503,13 @@ public class UserClient {
 				
 				
 				if(cService.checkfunds(fromaccount,transferAmount)){
-					transactionId=cService.transferfunds(fromaccount,toaccount,transferAmount);
-					System.out.println("Funds Transfer is Success!!! Transaction Id is :"+transactionId);
+					if(verifyTransactionPassword(scan,userId)){
+						transactionId=cService.transferfunds(fromaccount,toaccount,transferAmount);
+						System.out.println("Funds Transfer is Success!!! Transaction Id is :"+transactionId);
+					}
+					else{
+						System.err.println("Transaction Authentication Failure!!!");
+					}
 				}
 				else{
 					System.out.println("Insufficient funds to transfer");
@@ -507,14 +523,63 @@ public class UserClient {
 			}
 			else
 			{
-				System.err.println("No Payee added!!! Kindly add beneficiary first.");
+				System.err.println("No Payee added!!! Kindly add Payee first.");
+				managePayee(scan,userId);
 			}
 			
 			break;
 		case 3:
+			managePayee(scan,userId);
+			break;
+		case 4:
 			FTFlag=false;
 			break;
 		}
 	}
+	}
+	private static boolean verifyTransactionPassword(Scanner scan,long userId){
+		long verifyId;
+		String verifyPass;
+		System.out.println("*****Fund Transfer Authentication*****");
+		System.out.println("Enter the User ID");
+		verifyId=scan.nextLong();
+		System.out.println("Enter the Transaction Password");
+		verifyPass=scan.next();
+		if(cService.transactionAuthentication(userId,verifyId,verifyPass)){
+			return true;
+		}else
+			return false;
+	}
+	private static void managePayee(Scanner scan, long userId){
+		System.out.println("Add Payee");
+		try{
+		System.out.println("Enter the Payee Account");
+		int payeeAccountId1 = Integer.parseInt(scan.next());
+		System.out.println("Confirm the Payee Account");
+		int payeeAccountId2=Integer.parseInt(scan.next());
+		
+		if(payeeAccountId1==payeeAccountId2){
+			System.out.println("Enter the nick name for the payee:");
+			scan.nextLine();
+			
+			String payeeNickname=scan.nextLine();
+			Payee payee = new Payee(userId,payeeAccountId2,payeeNickname);
+			
+			if(cService.addPayee(payee)){
+				System.out.println("Payee with account ID: "+payeeAccountId2+" with nick name as "+payeeNickname+" is added");
+			}
+			else{
+				System.err.println("Payee already exist");
+			}
+			
+		}else{
+			System.err.println("Mismatch in entered account IDs!!");
+		}
+		
+		}catch(OnlineBankingException e){
+			System.err.println(e.getMessage());
+		}catch(NumberFormatException e){
+			System.err.println("Enter the account Id correctly ");
+		}
 	}
 }

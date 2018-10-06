@@ -21,7 +21,7 @@ CREATE TABLE Service_Tracker(Service_ID NUMBER primary key, Service_Description 
 
 CREATE TABLE Fund_Transfer(Fund_Transfer_ID NUMBER primary key,Account_ID NUMBER(10) references Account_Master(Account_ID),Payee_Account_ID NUMBER(10), Date_Of_Transfer DATE, Transfer_Amount NUMBER(13,2));
 
-CREATE TABLE PayeeTable(Account_ID NUMBER(10) references Account_Master(Account_ID),Payee_Account_ID NUMBER(10) primary key , Nick_name VARCHAR2(40));
+CREATE TABLE PayeeTable(Account_ID NUMBER(10) references Account_Master(Account_ID),Payee_Account_ID NUMBER(10) , Nick_name VARCHAR2(40));
 
 CREATE TABLE ADMIN_TABLE(ADMIN_ID NUMBER(3) primary key,ADMIN_USER_ID VARCHAR2(20),ADMIN_PASSWORD VARCHAR(20));
 
@@ -90,3 +90,5 @@ CREATE SEQUENCE TRANSACTION_SEQ
 START WITH 5000
 INCREMENT BY 1
 NOCACHE;
+
+ ALTER TABLE payeetable DROP PRIMARY KEY;

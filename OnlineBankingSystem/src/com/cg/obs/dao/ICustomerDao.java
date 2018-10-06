@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.cg.obs.bean.Customer;
+import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.Transactions;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.exception.JDBCConnectionError;
+import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.PasswordUpdateException;
 
 public interface ICustomerDao {
@@ -28,7 +30,7 @@ public interface ICustomerDao {
 
 	public int requestChequeBook(int id);
 
-	public List<Integer> getAccountList(int id);
+	public List<Integer> getAccountList(long id);
 	
 	public List<Transactions> getMiniStatement(int ar) throws JDBCConnectionError;
 
@@ -39,18 +41,22 @@ public interface ICustomerDao {
 	public List<Transactions> getDetailedStatement(int ar, Date startDate,
 			Date endDate) throws JDBCConnectionError;
 
-	public double getAccBalance(int accountId);
+	public double getAccBalance(long accountId);
 
-	public List<Integer> getPayeeList(int id);
+	public List<Payee> getPayeeList(long id);
 
-	public boolean debitFunds(int accountID, double transferAmount);
+	public boolean debitFunds(long accountID, double transferAmount);
 
-	public boolean creditFunds(int accountID, double transferAmount);
+	public boolean creditFunds(long toaccount, double transferAmount);
 
-	public int recordFundTransfer(int fromaccount, int toaccount,
+	public int recordFundTransfer(long fromaccount, long toaccount,
 			double transferAmount);
 
-	public int recordTransaction(int accountId, int fundTransferId,
+	public int recordTransaction(long fromaccount, int fundTransferId,
 			String type, double transferAmount);
+
+	public void addPayee(Payee payee) throws OnlineBankingException;
+
+	public String getUserTransPassword(long userId);
 
 }

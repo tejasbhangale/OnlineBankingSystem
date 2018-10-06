@@ -170,7 +170,7 @@ public class AdminServiceImpl implements IAdminService {
 	public boolean isValidName(String custName)
 	{
 		
-		Pattern pattern = Pattern.compile("^[A-Za-z]{3,}$");
+		Pattern pattern = Pattern.compile("^[a-zA-Z\\s]+");
 		Matcher match = pattern.matcher(custName);
 		return match.matches();
 		

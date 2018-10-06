@@ -7,7 +7,6 @@ public class Messages {
 	 */
 	public static final String CONNECTION_CONFIGURATION_FAILURE="Connection Configuaration Not Loaded!";
 	public static final String CONNECTION_ESTABILISHED_FAILURE="Connection is not established!";
-	
 	/*
 	 * Login-Module Messages
 	 */
@@ -35,7 +34,12 @@ public class Messages {
 	//chequebook
 	public static final String CHEQUEBOOK_SUCCESS = "Your request for ChequeBook has been Approved.";
 	public static final String SERVICE_REQUEST_FAILED = "Your request for ChequeBook has been declined.";
+	//update exception
+	public static final String UPDATE_FAILED = "Update request failed!";
 	//exit
 	public static final String EXIT_MESSAGE = "Thank you for using ONLINE BANKING SYSTEM!!!";
+	
+	//Payee update failed 
+	public static final String PAYEE_UPDATE_FAILED = "Failed to add Payee!!! Please try afte some time";
 }
 

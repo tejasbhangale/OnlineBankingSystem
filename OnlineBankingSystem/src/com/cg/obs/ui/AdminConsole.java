@@ -10,7 +10,6 @@ import java.util.Scanner;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.bean.User;
 import com.cg.obs.exception.JDBCConnectionError;
 import com.cg.obs.exception.ValidationException;
 import com.cg.obs.service.AdminServiceImpl;
@@ -34,16 +33,19 @@ public class AdminConsole {
 
 		boolean check = true;
 
-		System.out.println("\nAdmin Console\n");
+		System.out.println("***********************************");
+		System.out.println("Admin Console");
 
 		while (check) {
-
+           
+			System.out.println("\n***********************************");
 			System.out.println("1. Create user Account");
 			System.out.println("2. Get Transaction Details");
 			System.out.println("3. Account lock status");
-			System.out.println("4. Exit");
+			System.out.println("4. Go Back");
 			System.out.println("Enter your choice");
-			choice = sc.next();
+			System.out.println("***********************************");
+			choice = sc.nextLine();
 
 			switch (choice) {
 			case "1":
@@ -99,17 +101,18 @@ public class AdminConsole {
 
 			
 			System.out.println("Existing Customer(y/n)");
-			existing = sc.next();
+			existing = sc.nextLine();
 			
 			if(existing.toLowerCase().equals("y"))
 			{
+				
 				System.out.println("Enter User id : ");
-				check = sc.next();
+				check = sc.nextLine();
 				userId = Long.parseLong(check);
 				System.out.println("Account Type : ");
-				accountType = sc.next();
+				accountType = sc.nextLine();
 				System.out.println("Opening Balance : ");
-				check = sc.next();
+				check = sc.nextLine();
 				openingBalance = Double.parseDouble(check);
 				
 				AccountMaster account = new AccountMaster();
@@ -132,23 +135,23 @@ public class AdminConsole {
 			else if(existing.toLowerCase().equals("n"))
 			{
 				
-			
+				
 			
 			System.out.println("Customer Name :");
-			customerName = sc.next();
+			customerName = sc.nextLine();
 			System.out.println("Customer Address : ");
-			customerAddress = sc.next();
+			customerAddress = sc.nextLine();
 			System.out.println("Customer Mobile Number : ");
-			check = sc.next();
+			check = sc.nextLine();
 			customerMobileNum = Long.parseLong(check);
 			System.out.println("Customer Email Id : ");
-			customerEmail = sc.next();
+			customerEmail = sc.nextLine();
 			System.out.println("Account Type : ");
-			accountType = sc.next();
+			accountType = sc.nextLine();
 			System.out.println("PAN Card Number : ");
-			panDetail = sc.next();
+			panDetail = sc.nextLine();
 			System.out.println("Opening Balance : ");
-			check = sc.next();
+			check = sc.nextLine();
 			openingBalance = Double.parseDouble(check);
 			
 			AccountMaster account = new AccountMaster();
@@ -222,9 +225,9 @@ public class AdminConsole {
 		List<Transactions> list = new ArrayList<Transactions>();
 
 		System.out.println("Enter the starting date (dd/MM/yyyy) : ");
-		sDate = sc.next();
+		sDate = sc.nextLine();
 		System.out.println("Enter the end date (dd/MM/yyyy) : ");
-		eDate = sc.next();
+		eDate = sc.nextLine();
 
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		try {
@@ -245,6 +248,7 @@ public class AdminConsole {
 
 				} else {
 
+					System.out.println("Transaction Details \n");
 					for (Transactions tra : list) {
 
 						System.out.println(tra.toString());
@@ -273,7 +277,7 @@ private void accountLockStatus() {
 		
 		  
 	     System.out.println("Enter User Id : ");
-	     String accId = sc.next();
+	     String accId = sc.nextLine();
 	     int userID = 0;
 	     
 	     try {
@@ -303,7 +307,7 @@ private void accountLockStatus() {
 	    	  
 	    	  
 	    	  
-	    	  System.out.println("Account Details");
+	    	  System.out.println("Account Details \n");
 	    	  System.out.println("Account Number : "+userID);
 	    	  System.out.println("Customer Name : "+customer.getCustomerName());
 	    	  System.out.println("Customer Mobile Number : "+customer.getMobile());
@@ -314,10 +318,10 @@ private void accountLockStatus() {
 	    	  while(check)
 	    	  {
 	    		  
-	    		  System.out.println("1. Lock User Account");
+	    		  System.out.println("\n1. Lock User Account");
 		    	  System.out.println("2. Unlock User Account");
-		    	  System.out.println("Enter your Choice");
-		    	  String choice = sc.next();
+		    	  System.out.println("\nEnter your Choice");
+		    	  String choice = sc.nextLine();
 		    	  
 	    	  switch (choice) {
 			case "1":

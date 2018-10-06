@@ -3,7 +3,7 @@ package com.cg.obs.dao;
 
 public interface IQueryMapper {
 
-	public static final String ADMIN_CREDENTIALS = "SELECT admin_id,user_id,password FROM admin_table WHERE user_id=?";
+	public static final String ADMIN_CREDENTIALS = "SELECT admin_id,admin_user_id,admin_password FROM admin_table WHERE admin_user_id=?";
 	
 	public static final String USER_CREDENTIALS= "SELECT user_id,login_password,lock_status FROM user_table WHERE user_id=?";
 	
@@ -37,7 +37,7 @@ public interface IQueryMapper {
 
 	public static final String GET_USER_PASS = "SELECT login_password FROM user_table WHERE user_id=?";;;
 
-	public static final String GENERATE_SERVICE_REQUEST = "INSERT into SERVICE_TRACKER VALUES(service.nextval,?,?,?,?)";
+	public static final String GENERATE_SERVICE_REQUEST = "INSERT INTO SERVICE_TRACKER VALUES(service.nextval,?,?,?,?)";
 
 	public static final String GET_SELF_ACCOUNTS = "SELECT account_id FROM account_master WHERE user_id=?";
 
@@ -45,9 +45,9 @@ public interface IQueryMapper {
 
 	public static final String GET_MINI_STATEMENT = "SELECT * from Transactions where Account_Id=?";
 
-	public static final String GET_REQUEST_STATUS = "SELECT * FROM SERVICE_TRACKER WHERE SERVICE_ID=? AND ACCOUNT_ID=? AND SERVICE_RAISED_DATE>(SYSDATE-180)";
+	public static final String GET_REQUEST_STATUS = "select * from service_tracker s where s.service_id=? and s.account_id in (select a.account_id from account_master a where a.user_id=?)";
 
-	public static final String GET_ALL_REQUESTS = "SELECT * from SERVICE_TRACKER WHERE ACCOUNT_ID=?";
+	public static final String GET_ALL_REQUESTS = "SELECT * from SERVICE_TRACKER WHERE ACCOUNT_ID=? AND SERVICE_RAISED_DATE>(SYSDATE-180)";
 	
 	public static final String GET_DETAILED_STATEMENT = "SELECT * from Transactions where Account_ID=? AND Date_of_Transaction>=? AND Date_of_Transaction<=?";
 
@@ -56,6 +56,32 @@ public interface IQueryMapper {
 	public static final String SET_ONE_TIME_PASSWORD = "update user_table set login_password=? where user_id=?";
 
 	public static final String GET_ACCOUNT_ID = "select account_id from account_master where user_id=?";
+
+	public static final String GET_ACCOUNT_BALANCE = "SELECT account_balance FROM account_master WHERE account_id=?";
+
+	public static final String GET_PAYEE_LIST = "SELECT account_id,payee_account_id,nick_name FROM payeetable WHERE account_id IN (SELECT account_id FROM account_master WHERE user_id=?)";
+
+	public static final String DEBIT_FUNDS = "UPDATE account_master SET account_balance=account_balance-? WHERE account_id=?";
+
+	public static final String CREDIT_FUNDS = "UPDATE account_master SET account_balance=account_balance+? WHERE account_id=?";
+
+	public static final String RECORD_FUND_TRANSFER = "INSERT INTO fund_transfer VALUES(TRANSFER_SEQ.NEXTVAl,?,?,SYSDATE,?)";
+
+	public static final String GET_FUND_TRANSFER_ID = "SELECT TRANSFER_SEQ.CURRVAL FROM DUAL";
+
+	public static final String RECORD_TRANSACTION = "INSERT INTO Transactions VALUES(TRANSACTION_SEQ.NEXTVAL,?,SYSDATE,?,?,?)";
+
+	public static final String GET_TRANSACTION_ID = "SELECT TRANSACTION_SEQ.CURRVAL FROM DUAL";
+
+	public static final String ADD_PAYEE = "INSERT INTO payeetable VALUES(?,?,?)";
+
+	public static final String GET_TRANSACTION_PASSWORD = "SELECT transaction_password FROM user_table WHERE user_id=?";
+	
+	public static final String GET_ALL_ACCOUNTS = "SELECT ACCOUNT_ID FROM ACCOUNT_MASTER WHERE USER_ID=?";
+
+	public static final String IS_NEW_USER = "SELECT Transaction_password from USER_TABLE WHERE USER_ID=?";
+
+	public static final String COMPLETE_USER_PROFILE = "UPDATE USER_TABLE SET transaction_password=?,secret_question=?,secret_answer=? WHERE USER_ID=?";
 
 
 }

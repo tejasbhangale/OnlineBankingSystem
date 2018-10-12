@@ -39,16 +39,20 @@ public class UserClient {
 	public void clientConsole(int userId) {
 
 		Scanner scan = new Scanner(System.in);
-		if (cService.isFirstTimeUser(userId)) {
-			if (doNewUserActivity(scan, userId)) {
-				System.out.println("Thank you for completing your profile!");
-				doUserActivity(scan, userId);
+		try {
+			if (cService.isFirstTimeUser(userId)) {
+				if (doNewUserActivity(scan, userId)) {
+					System.out.println("Thank you for completing your profile!");
+					doUserActivity(scan, userId);
+				} else {
+					System.out.println("Sorry! You did not complete your profile.");
+					System.out.println("You will be logged out! Please try again.");
+				}
 			} else {
-				System.out.println("Sorry! You did not complete your profile.");
-				System.out.println("You will be logged out! Please try again.");
+				doUserActivity(scan, userId);
 			}
-		} else {
-			doUserActivity(scan, userId);
+		} catch (OnlineBankingException e) {
+			System.err.println(e.getMessage());
 		}
 
 	}
@@ -211,9 +215,10 @@ public class UserClient {
 	private void doChequebookRequest(Scanner scan, int userId) {
 		System.out.println("Select Account to request ChequeBook for it:");
 
-		HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
+		
 
 		try {
+			HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
 			int requestNumber = cService.requestChequeBook(mapAcc.get(scan
 					.nextInt()));
 
@@ -230,22 +235,25 @@ public class UserClient {
 			System.err.println("Input must be numeric.");
 		}catch (NullPointerException e) {
 			System.err.println("Please Enter correct choice.");
+		} catch (OnlineBankingException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 
 	private void doDetailsUpdate(Scanner scan, int ar) {
-		/*
-		 * Displaying Existing Details
-		 */
-		Customer customer = cService.getCustomerDetails(ar);
-		System.out.println("Displaying Existing Details:");
-		System.out.println(customer);
-
-		/*
-		 * Functionality to be added later System.out.println(
-		 * "To keep existing data, leave the corresponding field empty" );
-		 */
+		
 		try {
+			/*
+			 * Displaying Existing Details
+			 */
+			Customer customer = cService.getCustomerDetails(ar);
+			System.out.println("Displaying Existing Details:");
+			System.out.println(customer);
+
+			/*
+			 * Functionality to be added later System.out.println(
+			 * "To keep existing data, leave the corresponding field empty" );
+			 */
 			System.out.println("\nEnter new Mobile Number:");
 			long mobile = scan.nextLong();
 			System.out.println("Enter new Address:");
@@ -288,12 +296,15 @@ public class UserClient {
 					doFailureRequest();
 			} catch (InputMismatchException e1) {
 				System.err.println("Service request number must be numeric");
+			} catch (OnlineBankingException e) {
+				System.err.println(e.getMessage());
 			}
 			break;
 		case 2:
 			System.out.println("Select Account to Track Service for it:");
-			HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
+			
 			try {
+				HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
 				ArrayList<ServiceTracker> requestList = cService
 						.getAllRequestStatus(mapAcc.get(scan.nextInt()));
 				if (requestList.isEmpty() | requestList == null)
@@ -304,6 +315,8 @@ public class UserClient {
 				System.err.println("Input must be numeric.");
 			}catch (NullPointerException e) {
 				System.err.println("Please Enter correct choice.");
+			} catch (OnlineBankingException e) {
+				System.err.println(e.getMessage());
 			}
 			break;
 		case 3:
@@ -316,7 +329,7 @@ public class UserClient {
 
 	}
 
-	private HashMap<Integer, Integer> printAndGetAllAccounts(int userId) {
+	private HashMap<Integer, Integer> printAndGetAllAccounts(int userId) throws OnlineBankingException {
 		ArrayList<Integer> accNums = cService.getAllAccounts(userId);
 		HashMap<Integer, Integer> mapAcc = new HashMap<Integer, Integer>();
 		AtomicInteger index = new AtomicInteger(1);
@@ -487,7 +500,7 @@ public class UserClient {
 		System.out.println("*******Funds Transfer*******");
 
 		System.out.println("1. Your Own Bank Account across India");
-		System.out.println("2. Other  account of same bank across india");
+		System.out.println("2. Other account of same bank across india");
 		System.out.println("3. Manage Payee");
 		System.out.println("4. Go back");
 		System.out.println("****************************");
@@ -505,22 +518,20 @@ public class UserClient {
 		
 		switch(choice){
 		case 1://Transfer to own accounts
-				List<Integer> selfaccounts=cService.getAccountList(userId);
-				System.out.println("	Sr.No	Account_Number");
-				count= selfaccounts.size();
-				for(int index=0;index<count;index++){
-					
-					System.out.println("	"+(index+1)+".	"+selfaccounts.get(index));
-				}
 				try{
+					List<Integer> selfaccounts=cService.getAccountList(userId);
+					System.out.println("	Sr.No	Account_Number");
+					count= selfaccounts.size();
+					for(int index=0;index<count;index++){
+						
+						System.out.println("	"+(index+1)+".	"+selfaccounts.get(index));
+					}
 				System.out.println("Enter the Sr.no of account to transfer funds from");
 				fromaccount=selfaccounts.get(scan.nextInt()-1);
 				System.out.println("Enter the Sr.no of account to transfer funds from");
 				toaccount=selfaccounts.get(scan.nextInt()-1);
 				System.out.println("Enter Amount to be transferred:");
 				transferAmount=scan.nextDouble();
-				
-				
 				
 				if(fromaccount==toaccount){
 					System.err.println("Same account has been selected");
@@ -547,11 +558,15 @@ public class UserClient {
 					System.err.println("Please enter in correct format");
 				} catch (IndexOutOfBoundsException e) {
 					System.err.println("Please select correct option");
+				} catch (OnlineBankingException e) {
+					System.err.println(e.getMessage());
 				}
 				break;
 			case 2:
-				List<Payee> payeeList = cService.getPayeeList(userId);
-				// System.out.println("payeelist:"+payeeList);
+			List<Payee> payeeList;
+			try {
+				payeeList = cService.getPayeeList(userId);
+			
 				if (payeeList.size() > 0) {
 					List<Integer> selfaccountlist = cService
 							.getAccountList(userId);
@@ -603,12 +618,15 @@ public class UserClient {
 						System.err.println("Please enter in correct format");
 					} catch (IndexOutOfBoundsException e) {
 						System.err.println("Please select correct option");
-					}
+					} 
 				} else {
 					System.err
 							.println("No Payee added!!! Kindly add Payee first.");
 					managePayee(scan, userId);
 				}
+			} catch (OnlineBankingException e1) {
+				System.err.println(e1.getMessage());
+			}
 
 				break;
 			case 3:
@@ -621,20 +639,19 @@ public class UserClient {
 		}
 	}
 
-	private static boolean verifyTransactionPassword(Scanner scan, long userId) {
+	private static boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
 		long verifyId;
 		String verifyPass;
 		System.out.println("*****Fund Transfer Authentication*****");
-		System.out.println("Enter the User ID");
-		verifyId = scan.nextLong();
 		System.out.println("Enter the Transaction Password");
 		verifyPass = scan.next();
-		if (cService.transactionAuthentication(userId, verifyId, verifyPass)) {
+		if (cService.transactionAuthentication(userId, verifyPass)) {
 			return true;
 		} else
 			return false;
 	}
 
+	
 	private static void managePayee(Scanner scan, long userId) {
 		System.out.println("Add Payee");
 		try {
@@ -649,15 +666,20 @@ public class UserClient {
 
 				String payeeNickname = scan.nextLine();
 				Payee payee = new Payee(userId, payeeAccountId2, payeeNickname);
-
-				if (cService.addPayee(payee)) {
-					System.out.println("Payee with account ID: "
-							+ payeeAccountId2 + " with nick name as "
-							+ payeeNickname + " is added");
-				} else {
-					System.err.println("Payee already exist");
+				System.out.println("Enter the URN(Unique Registration Number) to confirm the Payee :");
+				String urn=scan.next();
+				if(urn.equals("abc345")){
+					if (cService.addPayee(payee)) {
+						System.out.println("Payee with account ID: "
+								+ payeeAccountId2 + " with nick name as "
+								+ payeeNickname + " is added");
+					} else {
+						System.err.println("Payee already exist");
+					}
 				}
-
+				else{
+					System.err.println("URN not correct!! Payee not Added.");
+				}
 			} else {
 				System.err.println("Mismatch in entered account IDs!!");
 			}

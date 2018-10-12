@@ -20,38 +20,37 @@ public interface ICustomerService {
 	
 	public void validate(long mobile, String address) throws OnlineBankingException;
 
-	public Customer getCustomerDetails(int id);
+	public Customer getCustomerDetails(int id) throws OnlineBankingException;
 
 	public boolean updateCustomerDetails(Customer customer) throws OnlineBankingException;
 
 	public void updatePassword(String newPass, int id) throws OnlineBankingException;
 
-	public int requestChequeBook(int id);
+	public int requestChequeBook(int id) throws OnlineBankingException;
 
-	public List<Integer> getAccountList(long userId);
+	public List<Integer> getAccountList(long userId) throws OnlineBankingException;
 
 	public List<Transactions> getMiniStatement(int ar) throws OnlineBankingException;
 
-	public ServiceTracker getRequestStatus(int reqNum,int userId);
+	public ServiceTracker getRequestStatus(int reqNum,int userId) throws OnlineBankingException;
 
-	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum);
+	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException;
 
 	public List<Transactions> getDetailedStatement(int ar,
 			java.sql.Date startDate, java.sql.Date endDate) throws OnlineBankingException;
 
-	public boolean checkfunds(long fromaccount, double transferAmount);
+	public boolean checkfunds(long fromaccount, double transferAmount) throws OnlineBankingException;
 
-	public List<Payee> getPayeeList(long id);
+	public List<Payee> getPayeeList(long id) throws OnlineBankingException;
 
-	public int transferfunds(long fromaccount, long toaccount, double transferAmount);
+	public int transferfunds(long fromaccount, long toaccount, double transferAmount) throws OnlineBankingException;
 
 	public boolean addPayee(Payee payee) throws OnlineBankingException;
 
-	public boolean transactionAuthentication(long userId, long verifyId,
-			String verifyPass);
-	public ArrayList<Integer> getAllAccounts(int userId);
+	public boolean transactionAuthentication(long userId, String verifyPass) throws OnlineBankingException;
+	public ArrayList<Integer> getAllAccounts(int userId) throws OnlineBankingException;
 
-	public boolean isFirstTimeUser(int userId);
+	public boolean isFirstTimeUser(int userId) throws OnlineBankingException;
 
 	public String[] checkPass(String[] pass, int userId) throws OnlineBankingException;
 

@@ -10,6 +10,7 @@ import com.cg.obs.bean.Admin;
 import com.cg.obs.bean.User;
 import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.util.ConnectionProvider;
+import com.cg.obs.util.Messages;
 
 public class LoginDaoImpl implements ILoginDao {
 
@@ -21,7 +22,7 @@ public class LoginDaoImpl implements ILoginDao {
 	}
 
 	@Override
-	public Admin getAdminLogin(String userId) {
+	public Admin getAdminLogin(String userId) throws OnlineBankingException {
 		
 		Admin admin=null;
 	
@@ -36,15 +37,10 @@ public class LoginDaoImpl implements ILoginDao {
 				admin.setAdminId(resultset.getInt(1));
 				admin.setAdminUserId(resultset.getString(2));
 				admin.setAdminPassword(resultset.getString(3));
-				
 			}
 			
-			
-			
-		} catch (OnlineBankingException e) {
-			System.err.println(e.getMessage());
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		}
 		
 		
@@ -53,7 +49,7 @@ public class LoginDaoImpl implements ILoginDao {
 	}
 
 	@Override
-	public User getUserLogin(int userId) {
+	public User getUserLogin(int userId) throws OnlineBankingException {
 		User user=null;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
@@ -68,16 +64,14 @@ public class LoginDaoImpl implements ILoginDao {
 				user.setLoginPassword(resultset.getString(2));
 				user.setLockStatus(resultset.getString(3));
 			}
-		} catch (OnlineBankingException e) {
-			System.err.println(e.getMessage());
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+		}catch (SQLException e) {
+			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		} 
 		return user;
 	}
 
 	@Override
-	public boolean lockUserAccount(int id) {
+	public boolean lockUserAccount(int id) throws OnlineBankingException {
 		boolean lockSuccess=false;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.LOCK_USER);) {
@@ -92,10 +86,8 @@ public class LoginDaoImpl implements ILoginDao {
 				}
 						
 	} catch (SQLException e) {
-		System.err.println(e.getMessage());
-	} catch (OnlineBankingException e1) {
-		System.err.println(e1.getMessage());
-	}
+		throw new OnlineBankingException(Messages.CHANGE_LOCK_STATUS);
+	} 
 	
 	return lockSuccess;
 
@@ -103,7 +95,7 @@ public class LoginDaoImpl implements ILoginDao {
 	}
 
 	@Override
-	public int getUserId(int userId) {
+	public int getUserId(int userId) throws OnlineBankingException {
 		int id=0;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_USER_ID);) {
@@ -115,16 +107,14 @@ public class LoginDaoImpl implements ILoginDao {
 					id=resultset.getInt(1);
 				}
 				
-		} catch (OnlineBankingException e) {
-			System.err.println(e.getMessage());
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		} 
 		return id;
 	}
 
 	@Override
-	public String getPass(int userId) {
+	public String getPass(int userId) throws OnlineBankingException {
 		String passcode=null;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_USER_PASS)) {
@@ -136,18 +126,15 @@ public class LoginDaoImpl implements ILoginDao {
 					passcode=resultset.getString(1);
 				}
 				
-		} catch (OnlineBankingException e) {
-			System.err.println(e.getMessage());
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+		}  catch (SQLException e) {
+			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		} 
 		return passcode;
 	}
 
 	
 	@Override
-	public User forgotPassword(int id) {
-		// TODO Auto-generated method stub
+	public User forgotPassword(int id) throws OnlineBankingException {
 		User user=null;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
@@ -165,21 +152,14 @@ public class LoginDaoImpl implements ILoginDao {
 				user.setLockStatus(resultset.getString(6));
 			
 			}
-			
-			
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.err.println(e.getMessage());
-		}catch(OnlineBankingException e){
-			System.err.println(e.getMessage());
+			throw new OnlineBankingException(Messages.FORGOT_PASSWORD);
 		}
 		return user;
 	}
 
 	@Override
-	public boolean setOneTimePassword(String newPassword,int id) {
-		// TODO Auto-generated method stub
+	public boolean setOneTimePassword(String newPassword,int id) throws OnlineBankingException {
 		boolean success=false;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
@@ -193,10 +173,7 @@ public class LoginDaoImpl implements ILoginDao {
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.err.println(e.getMessage());
-		}catch(OnlineBankingException e){
-			System.err.println(e.getMessage());
+			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		}
 		
 		

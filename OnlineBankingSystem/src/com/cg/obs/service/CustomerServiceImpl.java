@@ -11,8 +11,8 @@ import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSDaoFactory;
-
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -60,12 +60,12 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public Customer getCustomerDetails(int id) {
+	public Customer getCustomerDetails(int id) throws OnlineBankingException {
 		return cDao.getCustomerDetails(id);
 	}
 
 	@Override
-	public List<Integer> getAccountList(long id) {
+	public List<Integer> getAccountList(long id) throws OnlineBankingException {
 		// TODO Auto-generated method stub
 		return cDao.getAccountList(id);
 	}
@@ -102,7 +102,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public int requestChequeBook(int accNum) {
+	public int requestChequeBook(int accNum) throws OnlineBankingException {
 		return cDao.requestChequeBook(accNum);
 	}
 	
@@ -114,12 +114,12 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public ServiceTracker getRequestStatus(int reqNum, int userId) {
+	public ServiceTracker getRequestStatus(int reqNum, int userId) throws OnlineBankingException {
 		return cDao.getRequestStatus(reqNum, userId);
 	}
 
 	@Override
-	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) {
+	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException {
 		return cDao.getAllRequestStatus(accNum);
 
 	}
@@ -131,7 +131,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public boolean checkfunds(long accountId, double transfer_amt) {
+	public boolean checkfunds(long accountId, double transfer_amt) throws OnlineBankingException {
 		double balance=cDao.getAccBalance(accountId);
 		if(balance<transfer_amt){
 			return false;
@@ -142,19 +142,31 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public List<Payee> getPayeeList(long id) {
-		// TODO Auto-generated method stub
+	public List<Payee> getPayeeList(long id) throws OnlineBankingException {
 		return cDao.getPayeeList(id);
 	}
 
 	@Override
-	public int transferfunds(long fromaccount, long toaccount, double transferAmount) {
-		boolean transferSuccess=false;
-		if(cDao.debitFunds(fromaccount,transferAmount)){
-			transferSuccess=cDao.creditFunds(toaccount,transferAmount);
-		}
+	public int transferfunds(long fromaccount, long toaccount, double transferAmount) throws OnlineBankingException {
+		boolean success=false;
 		int fundTransferId= cDao.recordFundTransfer(fromaccount,toaccount,transferAmount);
-		int transactionId = cDao.recordTransaction(fromaccount,fundTransferId,"d",transferAmount);
+		int transactionId =0;
+		try{
+			transactionId = cDao.recordTransaction(fromaccount,fundTransferId,"d",transferAmount);
+			cDao.debitFunds(fromaccount,transferAmount);
+			
+			try{
+				cDao.creditFunds(toaccount,transferAmount);
+			}catch(OnlineBankingException e){
+				cDao.creditFunds(fromaccount, transferAmount);
+				success=false;
+			}
+			
+		} catch(OnlineBankingException e){
+			
+			throw new OnlineBankingException(Messages.FUNDS_TRANSFER_ERROR);
+		}
+		success=cDao.creditFunds(toaccount,transferAmount);
 		cDao.recordTransaction(toaccount,fundTransferId,"c",transferAmount);
 		return transactionId;
 	}
@@ -188,11 +200,10 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public boolean transactionAuthentication(long userId, long verifyId,
-			String verifyPass) {
+	public boolean transactionAuthentication(long userId,String verifyPass) throws OnlineBankingException {
 		
 		String userpassword=cDao.getUserTransPassword(userId);
-		if((userId==verifyId) && userpassword.equals(verifyPass) ){
+		if(userpassword.equals(verifyPass) ){
 			return true;
 		}
 		return false;
@@ -200,12 +211,12 @@ public class CustomerServiceImpl implements ICustomerService {
 
 
 	@Override
-	public ArrayList<Integer> getAllAccounts(int userId) {
+	public ArrayList<Integer> getAllAccounts(int userId) throws OnlineBankingException {
 		return cDao.getAllAccounts(userId);
 	}
 
 	@Override
-	public boolean isFirstTimeUser(int userId) {
+	public boolean isFirstTimeUser(int userId) throws OnlineBankingException {
 		return cDao.isFirstTimeUser(userId);
 	}
 

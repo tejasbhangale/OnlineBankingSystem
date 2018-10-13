@@ -39,15 +39,8 @@ public interface ICustomerDao {
 
 	public List<Payee> getPayeeList(long id) throws OnlineBankingException;
 
-	public boolean debitFunds(long accountID, double transferAmount) throws OnlineBankingException;
-
-	public boolean creditFunds(long toaccount, double transferAmount) throws OnlineBankingException;
-
 	public int recordFundTransfer(long fromaccount, long toaccount,
 			double transferAmount) throws OnlineBankingException;
-
-	public int recordTransaction(long fromaccount, int fundTransferId,
-			String type, double transferAmount) throws OnlineBankingException;
 
 	public void addPayee(Payee payee) throws OnlineBankingException;
 
@@ -58,5 +51,8 @@ public interface ICustomerDao {
 	public boolean isFirstTimeUser(long userId) throws OnlineBankingException;
 
 	public void completeProfile(ArrayList<String> userData, long userId) throws OnlineBankingException;
+
+	public int transferfunds(long fromaccount, long toaccount,
+			double transferAmount) throws OnlineBankingException;
 
 }

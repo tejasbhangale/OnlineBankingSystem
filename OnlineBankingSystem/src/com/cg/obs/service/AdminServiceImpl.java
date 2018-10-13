@@ -9,10 +9,8 @@ import java.util.regex.Pattern;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.bean.User;
 import com.cg.obs.dao.AdminDAOImpl;
 import com.cg.obs.dao.IAdminDAO;
-import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.OnlineBankingException;
 
 public class AdminServiceImpl implements IAdminService {
@@ -27,7 +25,6 @@ public class AdminServiceImpl implements IAdminService {
 		 - Return Type		:	boolean 
 		 - Throws			:  	OnlineBankingException
 		 - Author			:	CAPGEMINI
-		 - Creation Date	:	11/11/2016
 		 - Description		:	adding customer details to database calls dao method addAccountDetails(cust)
 		 ********************************************************************************************************/
 	
@@ -46,7 +43,6 @@ public class AdminServiceImpl implements IAdminService {
 		 - Return Type		:	boolean 
 		 - Throws			:  	OnlineBankingException
 		 - Author			:	CAPGEMINI
-		 - Creation Date	:	11/11/2016
 		 - Description		:	adding account details to database calls dao method addAccountMaster(account)
 		 ********************************************************************************************************/
 	
@@ -65,7 +61,6 @@ public class AdminServiceImpl implements IAdminService {
 		 - Return Type		:	List<object> 
 		 - Throws			:  	OnlineBankingException
 		 - Author			:	CAPGEMINI
-		 - Creation Date	:	11/11/2016
 		 - Description		:	getting transaction details from database calls dao method getTransactionDetails(startDate, endDate)
 		 ****************************************************************************************************************************/
 	
@@ -85,7 +80,6 @@ public class AdminServiceImpl implements IAdminService {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	changing account status calls dao method changeAccountStatus(accNumber,status)
 	 ********************************************************************************************************/
 	
@@ -102,7 +96,6 @@ public class AdminServiceImpl implements IAdminService {
 	 - Return Type		:	String 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	getting account status calls dao method getLockStatus(accNumber)
 	 ********************************************************************************************************/
 	
@@ -119,7 +112,6 @@ public class AdminServiceImpl implements IAdminService {
 	 - Return Type		:	Object 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	getting Customer Details calls dao method getCustomerDetails(accNumber)
 	 ********************************************************************************************************/
 	
@@ -136,7 +128,6 @@ public class AdminServiceImpl implements IAdminService {
 	 - Return Type		:	long 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	creating new user calls dao method createNewUser()
 	 ********************************************************************************************************/
 	
@@ -153,7 +144,6 @@ public class AdminServiceImpl implements IAdminService {
 	 - Return Type		:	void 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	Validating user details
 	 ********************************************************************************************************/
 	
@@ -195,7 +185,6 @@ public class AdminServiceImpl implements IAdminService {
 	 - Return Type		:	void 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	Validating user details
 	 ********************************************************************************************************/
 

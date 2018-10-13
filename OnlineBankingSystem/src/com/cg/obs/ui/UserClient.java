@@ -36,6 +36,7 @@ public class UserClient {
 		System.out.println("Enter User_id");
 		user.clientConsole(sc2.nextInt());
 		System.out.println("I'm Out");
+		sc2.close();
 	}
 
 
@@ -329,7 +330,7 @@ public class UserClient {
 			else
 				System.out.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
 		} catch (OnlineBankingException e) {
-			System.err.println(Messages.CUSTOMER_UPDATE_FAILED_DAO);
+			System.err.println(e.getMessage());
 		} catch (InputMismatchException e1) {
 			System.err.println(Messages.INVALID_MOBILE_FORMAT);
 			scan.next();
@@ -559,7 +560,6 @@ public class UserClient {
 		return choice;
 	}
 	
-	
 
 	/*
 	 * This function is to perform Fund Transfer within different accounts of same user to other user accounts in same bank
@@ -567,12 +567,11 @@ public class UserClient {
 	 * based on the user choice, appropriated service layer methods are invoked and output is displayed
 	 */
 
-	private static void fundTransfer(Scanner scan, long userId) {
+	private void fundTransfer(Scanner scan, long userId) {
 		int choice = 0, count = 0, transactionId;
 		long fromaccount = 0, toaccount = 0;
 		double transferAmount = 0;
 		boolean FTFlag = true;
-		// userId=120;
 		while (FTFlag) {
 			System.out.println("*******Funds Transfer*******");
 
@@ -599,20 +598,19 @@ public class UserClient {
 					List<Integer> selfaccounts = cService
 							.getAccountList(userId);
 					System.out.println("	Sr.No	Account_Number");
-					count = selfaccounts.size();
-					for (int index = 0; index < count; index++) {
-
-						System.out.println("	" + (index + 1) + ".	"
-								+ selfaccounts.get(index));
+					count= selfaccounts.size();
+					for(int index=0;index<count;index++){
+						
+						System.out.println("	"+(index+1)+".	"+selfaccounts.get(index));
 					}
-					System.out
-							.println("Enter the Sr.no of account to transfer funds from");
-					fromaccount = selfaccounts.get(scan.nextInt() - 1);
-					System.out
-							.println("Enter the Sr.no of account to transfer funds from");
-					toaccount = selfaccounts.get(scan.nextInt() - 1);
-					System.out.println("Enter Amount to be transferred:");
-					transferAmount = scan.nextDouble();
+				System.out.println("Enter the Sr.no of account to transfer funds from");
+				fromaccount=selfaccounts.get(scan.nextInt()-1);
+				System.out.println("Enter the Sr.no of account to transfer funds to");
+				toaccount=selfaccounts.get(scan.nextInt()-1);
+				System.out.println("Enter Amount to be transferred:");
+				transferAmount=scan.nextDouble();
+				
+					
 
 					if (fromaccount == toaccount) {
 						System.err.println("Same account has been selected");
@@ -622,7 +620,7 @@ public class UserClient {
 							transactionId = cService.transferfunds(fromaccount,
 									toaccount, transferAmount);
 							System.out
-									.println("Funds Transfer is Success!!! Transaction Id is :"
+									.println("Transaction Id is :"
 											+ transactionId);
 						} else {
 							System.err
@@ -689,7 +687,7 @@ public class UserClient {
 											fromaccount, toaccount,
 											transferAmount);
 									System.out
-											.println("Funds Transfer is Success!!! Transaction Id is :"
+											.println("Transaction Id is :"
 													+ transactionId);
 								} else {
 									System.err
@@ -726,9 +724,8 @@ public class UserClient {
 		}
 	}
 
-	private static boolean verifyTransactionPassword(Scanner scan, long userId)
-			throws OnlineBankingException {
-		long verifyId;
+	private boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
+
 		String verifyPass;
 		System.out.println("*****Fund Transfer Authentication*****");
 		System.out.println("Enter the Transaction Password");
@@ -739,7 +736,7 @@ public class UserClient {
 			return false;
 	}
 
-	private static void managePayee(Scanner scan, long userId) {
+	private void managePayee(Scanner scan, long userId) {
 		System.out.println("Add Payee");
 		try {
 			System.out.println("Enter the Payee Account");

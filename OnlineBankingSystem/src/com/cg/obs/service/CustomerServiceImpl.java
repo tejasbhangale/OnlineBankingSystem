@@ -31,7 +31,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: void
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: validates the mobile number and address
 	 ********************************************************************************************************/
 	
@@ -100,7 +99,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to initiates the request for change password for requested userId 
 	 ********************************************************************************************************/
 	@Override
@@ -115,7 +113,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to the request for checkbook for a particular bank account number
 	 ********************************************************************************************************/
 	@Override
@@ -130,7 +127,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: List<Transactions>
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to produce mini statement for the requested account number containing first 10 transactions 
 	 ********************************************************************************************************/
 	@Override
@@ -144,7 +140,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: ServiceTracker
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to initiates the request for tracking service request status
 	 ********************************************************************************************************/
 	@Override
@@ -165,7 +160,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: List<Transactions>
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to produce detailed statement for the requested account number
 	 ********************************************************************************************************/
 
@@ -199,7 +193,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to initiate fund transfer request and record transaction
 	 ********************************************************************************************************/
 
@@ -235,7 +228,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: boolean
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to add beneficiary information for the requested user account
 	 ********************************************************************************************************/
 
@@ -275,7 +267,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: boolean
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to authenticate the user credentials for performing transaction
 	 ********************************************************************************************************/
 
@@ -296,7 +287,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: ArrayList<Integer>
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to fetch all the registered account of user
 	 ********************************************************************************************************/
 
@@ -317,8 +307,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Input Parameters	: ArrayList<String> userData, int userId
 	 - Return Type		: void
 	 - Throws		    : OnlineBankingException
-	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: validates the userData
 	 ********************************************************************************************************/
 	
@@ -355,7 +343,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Return Type		: void
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: calls dao method to complete user profile for first time user
 	 ********************************************************************************************************/
 

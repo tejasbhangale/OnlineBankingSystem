@@ -38,10 +38,6 @@ public class UserClient {
 		System.out.println("I'm Out");
 	}
 
-	public UserClient() {
-		PropertyConfigurator.configure("resources//log4j.properties");
-	}
-
 
 	public void clientConsole(long userId) {
 

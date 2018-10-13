@@ -30,13 +30,13 @@ public interface ICustomerService {
 
 	public List<Integer> getAccountList(long userId) throws OnlineBankingException;
 
-	public List<Transactions> getMiniStatement(int ar) throws OnlineBankingException;
+	public List<Transactions> getMiniStatement(long accNum) throws OnlineBankingException;
 
 	public ServiceTracker getRequestStatus(int reqNum,int userId) throws OnlineBankingException;
 
 	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException;
 
-	public List<Transactions> getDetailedStatement(int ar,
+	public List<Transactions> getDetailedStatement(long accId,
 			java.sql.Date startDate, java.sql.Date endDate) throws OnlineBankingException;
 
 	public boolean checkfunds(long fromaccount, double transferAmount) throws OnlineBankingException;
@@ -48,6 +48,7 @@ public interface ICustomerService {
 	public boolean addPayee(Payee payee) throws OnlineBankingException;
 
 	public boolean transactionAuthentication(long userId, String verifyPass) throws OnlineBankingException;
+	
 	public ArrayList<Integer> getAllAccounts(int userId) throws OnlineBankingException;
 
 	public boolean isFirstTimeUser(int userId) throws OnlineBankingException;

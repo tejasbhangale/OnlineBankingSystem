@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.log4j.PropertyConfigurator;
+
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
@@ -36,17 +38,25 @@ public class UserClient {
 		System.out.println("I'm Out");
 	}
 
+	public UserClient() {
+		PropertyConfigurator.configure("resources//log4j.properties");
+	}
+
+
 	public void clientConsole(int userId) {
 
 		Scanner scan = new Scanner(System.in);
 		try {
 			if (cService.isFirstTimeUser(userId)) {
 				if (doNewUserActivity(scan, userId)) {
-					System.out.println("Thank you for completing your profile!");
+					System.out
+							.println("Thank you for completing your profile!");
 					doUserActivity(scan, userId);
 				} else {
-					System.out.println("Sorry! You did not complete your profile.");
-					System.out.println("You will be logged out! Please try again.");
+					System.out
+							.println("Sorry! You did not complete your profile.");
+					System.out
+							.println("You will be logged out! Please try again.");
 				}
 			} else {
 				doUserActivity(scan, userId);
@@ -92,6 +102,12 @@ public class UserClient {
 		}
 	}
 
+
+	/*
+	 * This function will help user to view Mini Statement or Detailed
+	 * Statement, captures the choice and redirects to suitable method
+	 */
+
 	private void doDisplayStatement(int userId) {
 		boolean status = true;
 
@@ -104,13 +120,15 @@ public class UserClient {
 
 			switch (check) {
 			case "1":
-
-				user.getMiniStatement(userId);
+				long accNum = getAccountNumberFromUser(userId);
+				if (accNum != 0)
+					user.getMiniStatement(accNum);
 
 				break;
 			case "2":
-
-				user.getDetailedStatement(userId);
+				long accId = getAccountNumberFromUser(userId);
+				if (accId != 0)
+					user.getDetailedStatement(accId);
 
 				break;
 			case "3":
@@ -128,6 +146,27 @@ public class UserClient {
 
 	}
 
+
+	private long getAccountNumberFromUser(int userId) {
+		HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
+		try {
+			int accNum = mapAcc.get(sc.nextInt());
+			return accNum;
+		} catch (InputMismatchException e) {
+			System.err.println(Messages.INCORRECT_INPUT_TYPE);
+		} catch (NullPointerException e) {
+			System.err.println("Please Enter correct choice.");
+		}
+		return 0;
+	}
+
+	/*
+	 * This function is for first time user where user need to complete the
+	 * profile in order to access the services, it validates the userData and
+	 * then proceeds to setup the profile
+	 */
+
+
 	private boolean doNewUserActivity(Scanner scan, int userId) {
 		ArrayList<String> userData = doInputGet(scan);
 		try {
@@ -137,7 +176,7 @@ public class UserClient {
 			return true;
 		} catch (OnlineBankingException e) {
 			System.out.println(e.getMessage());
-		} 
+		}
 		return false;
 	}
 
@@ -168,6 +207,12 @@ public class UserClient {
 
 		return inpData;
 	}
+
+
+	/*
+	 * This function is for password change request where user credentials are
+	 * validated then password is updated for the requested user profile
+	 */
 
 	private void doPasswordUpdate(Scanner scan, int userId) {
 		String[] pass = doPassInputAndValidate(scan, userId);
@@ -215,8 +260,6 @@ public class UserClient {
 	private void doChequebookRequest(Scanner scan, int userId) {
 		System.out.println("Select Account to request ChequeBook for it:");
 
-		
-
 		try {
 			HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
 			int requestNumber = cService.requestChequeBook(mapAcc.get(scan
@@ -231,9 +274,9 @@ public class UserClient {
 			} else {
 				System.out.println(Messages.SERVICE_REQUEST_FAILED);
 			}
-		}catch (InputMismatchException e) {
+		} catch (InputMismatchException e) {
 			System.err.println("Input must be numeric.");
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			System.err.println("Please Enter correct choice.");
 		} catch (OnlineBankingException e) {
 			System.err.println(e.getMessage());
@@ -241,7 +284,7 @@ public class UserClient {
 	}
 
 	private void doDetailsUpdate(Scanner scan, int ar) {
-		
+
 		try {
 			/*
 			 * Displaying Existing Details
@@ -288,8 +331,8 @@ public class UserClient {
 		case 1:
 			System.out.println("Enter Service Request Number:");
 			try {
-				ServiceTracker sTrack = cService.getRequestStatus(scan.nextInt(),
-						userId);
+				ServiceTracker sTrack = cService.getRequestStatus(
+						scan.nextInt(), userId);
 				if (sTrack != null)
 					doSuccessRequest(sTrack);
 				else
@@ -302,7 +345,7 @@ public class UserClient {
 			break;
 		case 2:
 			System.out.println("Select Account to Track Service for it:");
-			
+
 			try {
 				HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
 				ArrayList<ServiceTracker> requestList = cService
@@ -311,9 +354,9 @@ public class UserClient {
 					doFailureAllRequests();
 				else
 					doSuccessAllRequests(requestList);
-			}catch (InputMismatchException e) {
+			} catch (InputMismatchException e) {
 				System.err.println("Input must be numeric.");
-			}catch (NullPointerException e) {
+			} catch (NullPointerException e) {
 				System.err.println("Please Enter correct choice.");
 			} catch (OnlineBankingException e) {
 				System.err.println(e.getMessage());
@@ -329,24 +372,30 @@ public class UserClient {
 
 	}
 
-	private HashMap<Integer, Integer> printAndGetAllAccounts(int userId) throws OnlineBankingException {
-		ArrayList<Integer> accNums = cService.getAllAccounts(userId);
-		HashMap<Integer, Integer> mapAcc = new HashMap<Integer, Integer>();
-		AtomicInteger index = new AtomicInteger(1);
-		accNums.forEach((acc) -> {
-			int ind = index.getAndIncrement();
-			mapAcc.put(ind, acc);
-			System.out.println(ind + ". " + acc);
-		});
-		System.out.println("\nEnter Option:");
-		return mapAcc;
+	private HashMap<Integer, Integer> printAndGetAllAccounts(int userId) {
+		ArrayList<Integer> accNums;
+		try {
+			accNums = cService.getAllAccounts(userId);
+			HashMap<Integer, Integer> mapAcc = new HashMap<Integer, Integer>();
+			AtomicInteger index = new AtomicInteger(1);
+			accNums.forEach((acc) -> {
+				int ind = index.getAndIncrement();
+				mapAcc.put(ind, acc);
+				System.out.println(ind + ". " + acc);
+			});
+			System.out.println("\nEnter Option:");
+			return mapAcc;
+		} catch (OnlineBankingException e) {
+			System.err.println(e.getMessage());
+		}
+		return null;
 	}
 
-	private void getMiniStatement(int ar) {
+	private void getMiniStatement(long accNum) {
 
 		List<Transactions> transaction;
 		try {
-			transaction = cService.getMiniStatement(ar);
+			transaction = cService.getMiniStatement(accNum);
 			if (transaction == null) {
 				System.out.println("No Transaction found for given Account");
 			} else {
@@ -359,7 +408,7 @@ public class UserClient {
 		}
 	}
 
-	private void getDetailedStatement(int ar) {
+	private void getDetailedStatement(long accId) {
 
 		String sDate;
 		String eDate;
@@ -386,7 +435,7 @@ public class UserClient {
 
 			if (startDate.before(endDate)) {
 
-				list = cService.getDetailedStatement(ar, startDate, endDate);
+				list = cService.getDetailedStatement(accId, startDate, endDate);
 
 				if (list.size() == 0) {
 
@@ -489,54 +538,55 @@ public class UserClient {
 		return choice;
 	}
 
+	private static void fundTransfer(Scanner scan, long userId) {
+		int choice = 0, count = 0, transactionId;
+		long fromaccount = 0, toaccount = 0;
+		double transferAmount = 0;
+		boolean FTFlag = true;
+		// userId=120;
+		while (FTFlag) {
+			System.out.println("*******Funds Transfer*******");
 
-	private static void fundTransfer(Scanner scan, long userId){
-		int choice = 0,count=0,transactionId;
-		long fromaccount = 0,toaccount = 0;
-		double transferAmount=0;
-		boolean FTFlag=true;
-		//userId=120;
-		while(FTFlag){
-		System.out.println("*******Funds Transfer*******");
-
-		System.out.println("1. Your Own Bank Account across India");
-		System.out.println("2. Other account of same bank across india");
-		System.out.println("3. Manage Payee");
-		System.out.println("4. Go back");
-		System.out.println("****************************");
-		try {
-			choice = scan.nextInt();
-			if (choice < 1 || choice > 4) {
-				throw new OnlineBankingException(Messages.INCORRECT_CHOICE);
+			System.out.println("1. Your Own Bank Account across India");
+			System.out.println("2. Other account of same bank across india");
+			System.out.println("3. Manage Payee");
+			System.out.println("4. Go back");
+			System.out.println("****************************");
+			try {
+				choice = scan.nextInt();
+				if (choice < 1 || choice > 4) {
+					throw new OnlineBankingException(Messages.INCORRECT_CHOICE);
+				}
+			} catch (InputMismatchException e) {
+				System.err.println(Messages.INCORRECT_INPUT_TYPE);
+				scan.next();
+			} catch (OnlineBankingException e) {
+				System.err.println(e.getMessage());
 			}
-		} catch (InputMismatchException e) {
-			System.err.println(Messages.INCORRECT_INPUT_TYPE);
-			scan.next();
-		} catch (OnlineBankingException e) {
-			System.err.println(e.getMessage());
-		}
-		
-		switch(choice){
-		case 1://Transfer to own accounts
-				try{
-					List<Integer> selfaccounts=cService.getAccountList(userId);
-					System.out.println("	Sr.No	Account_Number");
-					count= selfaccounts.size();
-					for(int index=0;index<count;index++){
-						
-						System.out.println("	"+(index+1)+".	"+selfaccounts.get(index));
-					}
-				System.out.println("Enter the Sr.no of account to transfer funds from");
-				fromaccount=selfaccounts.get(scan.nextInt()-1);
-				System.out.println("Enter the Sr.no of account to transfer funds from");
-				toaccount=selfaccounts.get(scan.nextInt()-1);
-				System.out.println("Enter Amount to be transferred:");
-				transferAmount=scan.nextDouble();
-				
-				if(fromaccount==toaccount){
-					System.err.println("Same account has been selected");
-					
 
+			switch (choice) {
+			case 1:// Transfer to own accounts
+				try {
+					List<Integer> selfaccounts = cService
+							.getAccountList(userId);
+					System.out.println("	Sr.No	Account_Number");
+					count = selfaccounts.size();
+					for (int index = 0; index < count; index++) {
+
+						System.out.println("	" + (index + 1) + ".	"
+								+ selfaccounts.get(index));
+					}
+					System.out
+							.println("Enter the Sr.no of account to transfer funds from");
+					fromaccount = selfaccounts.get(scan.nextInt() - 1);
+					System.out
+							.println("Enter the Sr.no of account to transfer funds from");
+					toaccount = selfaccounts.get(scan.nextInt() - 1);
+					System.out.println("Enter Amount to be transferred:");
+					transferAmount = scan.nextDouble();
+
+					if (fromaccount == toaccount) {
+						System.err.println("Same account has been selected");
 
 					} else if (cService.checkfunds(fromaccount, transferAmount)) {
 						if (verifyTransactionPassword(scan, userId)) {
@@ -563,70 +613,78 @@ public class UserClient {
 				}
 				break;
 			case 2:
-			List<Payee> payeeList;
-			try {
-				payeeList = cService.getPayeeList(userId);
-			
-				if (payeeList.size() > 0) {
-					List<Integer> selfaccountlist = cService
-							.getAccountList(userId);
-					System.out.println("Your account list");
-					System.out.println("	Sr.No	Account_Number");
-					count = selfaccountlist.size();
-					for (int index = 0; index < count; index++) {
-						System.out.println("	" + (index + 1) + ".	"
-								+ selfaccountlist.get(index));
-					}
-					try {
-						System.out
-								.println("Enter the Sr.no of account to transfer funds from");
-						fromaccount = selfaccountlist.get((scan.nextInt() - 1));
-						System.out.println("fromaccount- " + fromaccount);
+				List<Payee> payeeList;
+				try {
+					payeeList = cService.getPayeeList(userId);
 
-						System.out.println("Payee account list");
-						count = payeeList.size();
+					if (payeeList.size() > 0) {
+						List<Integer> selfaccountlist = cService
+								.getAccountList(userId);
+						System.out.println("Your account list");
+						System.out.println("	Sr.No	Account_Number");
+						count = selfaccountlist.size();
 						for (int index = 0; index < count; index++) {
-							System.out.println("	" + (index + 1) + ". "
-									+ payeeList.get(index).getPayeeAccountId()
-									+ "	" + payeeList.get(index).getNickName());
+							System.out.println("	" + (index + 1) + ".	"
+									+ selfaccountlist.get(index));
 						}
-						System.out
-								.println("Enter the Sr.no of account to transfer funds from");
-						toaccount = payeeList.get((scan.nextInt() - 1))
-								.getPayeeAccountId();
-						System.out.println("toaccount- " + toaccount);
-						System.out.println("Enter Amount to be transferred:");
-						transferAmount = scan.nextDouble();
-
-						if (cService.checkfunds(fromaccount, transferAmount)) {
-							if (verifyTransactionPassword(scan, userId)) {
-								transactionId = cService.transferfunds(
-										fromaccount, toaccount, transferAmount);
-								System.out
-										.println("Funds Transfer is Success!!! Transaction Id is :"
-												+ transactionId);
-							} else {
-								System.err
-										.println("Transaction Authentication Failure!!!");
-							}
-						} else {
+						try {
 							System.out
-									.println("Insufficient funds to transfer");
+									.println("Enter the Sr.no of account to transfer funds from");
+							fromaccount = selfaccountlist
+									.get((scan.nextInt() - 1));
+							System.out.println("fromaccount- " + fromaccount);
+
+							System.out.println("Payee account list");
+							count = payeeList.size();
+							for (int index = 0; index < count; index++) {
+								System.out.println("	"
+										+ (index + 1)
+										+ ". "
+										+ payeeList.get(index)
+												.getPayeeAccountId() + "	"
+										+ payeeList.get(index).getNickName());
+							}
+							System.out
+									.println("Enter the Sr.no of account to transfer funds from");
+							toaccount = payeeList.get((scan.nextInt() - 1))
+									.getPayeeAccountId();
+							System.out.println("toaccount- " + toaccount);
+							System.out
+									.println("Enter Amount to be transferred:");
+							transferAmount = scan.nextDouble();
+
+							if (cService
+									.checkfunds(fromaccount, transferAmount)) {
+								if (verifyTransactionPassword(scan, userId)) {
+									transactionId = cService.transferfunds(
+											fromaccount, toaccount,
+											transferAmount);
+									System.out
+											.println("Funds Transfer is Success!!! Transaction Id is :"
+													+ transactionId);
+								} else {
+									System.err
+											.println("Transaction Authentication Failure!!!");
+								}
+							} else {
+								System.out
+										.println("Insufficient funds to transfer");
+							}
+						} catch (InputMismatchException e) {
+							scan.next();
+							System.err
+									.println("Please enter in correct format");
+						} catch (IndexOutOfBoundsException e) {
+							System.err.println("Please select correct option");
 						}
-					} catch (InputMismatchException e) {
-						scan.next();
-						System.err.println("Please enter in correct format");
-					} catch (IndexOutOfBoundsException e) {
-						System.err.println("Please select correct option");
-					} 
-				} else {
-					System.err
-							.println("No Payee added!!! Kindly add Payee first.");
-					managePayee(scan, userId);
+					} else {
+						System.err
+								.println("No Payee added!!! Kindly add Payee first.");
+						managePayee(scan, userId);
+					}
+				} catch (OnlineBankingException e1) {
+					System.err.println(e1.getMessage());
 				}
-			} catch (OnlineBankingException e1) {
-				System.err.println(e1.getMessage());
-			}
 
 				break;
 			case 3:
@@ -639,7 +697,8 @@ public class UserClient {
 		}
 	}
 
-	private static boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
+	private static boolean verifyTransactionPassword(Scanner scan, long userId)
+			throws OnlineBankingException {
 		long verifyId;
 		String verifyPass;
 		System.out.println("*****Fund Transfer Authentication*****");
@@ -651,7 +710,6 @@ public class UserClient {
 			return false;
 	}
 
-	
 	private static void managePayee(Scanner scan, long userId) {
 		System.out.println("Add Payee");
 		try {
@@ -666,9 +724,10 @@ public class UserClient {
 
 				String payeeNickname = scan.nextLine();
 				Payee payee = new Payee(userId, payeeAccountId2, payeeNickname);
-				System.out.println("Enter the URN(Unique Registration Number) to confirm the Payee :");
-				String urn=scan.next();
-				if(urn.equals("abc345")){
+				System.out
+						.println("Enter the URN(Unique Registration Number) to confirm the Payee :");
+				String urn = scan.next();
+				if (urn.equals("abc345")) {
 					if (cService.addPayee(payee)) {
 						System.out.println("Payee with account ID: "
 								+ payeeAccountId2 + " with nick name as "
@@ -676,8 +735,7 @@ public class UserClient {
 					} else {
 						System.err.println("Payee already exist");
 					}
-				}
-				else{
+				} else {
 					System.err.println("URN not correct!! Payee not Added.");
 				}
 			} else {

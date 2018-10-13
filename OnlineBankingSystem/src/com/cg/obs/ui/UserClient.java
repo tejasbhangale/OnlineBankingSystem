@@ -43,7 +43,7 @@ public class UserClient {
 	}
 
 
-	public void clientConsole(int userId) {
+	public void clientConsole(long userId) {
 
 		Scanner scan = new Scanner(System.in);
 		try {
@@ -67,7 +67,7 @@ public class UserClient {
 
 	}
 
-	public void doUserActivity(Scanner scan, int userId) {
+	public void doUserActivity(Scanner scan, long userId) {
 		int choice = 0;
 		while (choice != 7) {
 			choice = getChoice(scan);
@@ -108,7 +108,7 @@ public class UserClient {
 	 * Statement, captures the choice and redirects to suitable method
 	 */
 
-	private void doDisplayStatement(int userId) {
+	private void doDisplayStatement(long userId) {
 		boolean status = true;
 
 		while (status) {
@@ -147,7 +147,7 @@ public class UserClient {
 	}
 
 
-	private long getAccountNumberFromUser(int userId) {
+	private long getAccountNumberFromUser(long userId) {
 		HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
 		try {
 			int accNum = mapAcc.get(sc.nextInt());
@@ -167,7 +167,7 @@ public class UserClient {
 	 */
 
 
-	private boolean doNewUserActivity(Scanner scan, int userId) {
+	private boolean doNewUserActivity(Scanner scan, long userId) {
 		ArrayList<String> userData = doInputGet(scan);
 		try {
 			cService.validateUserData(userData, userId);
@@ -214,7 +214,7 @@ public class UserClient {
 	 * validated then password is updated for the requested user profile
 	 */
 
-	private void doPasswordUpdate(Scanner scan, int userId) {
+	private void doPasswordUpdate(Scanner scan, long userId) {
 		String[] pass = doPassInputAndValidate(scan, userId);
 		if (pass == null) {
 			System.err.println("Sorry, your request could not be processed!");
@@ -228,7 +228,7 @@ public class UserClient {
 		}
 	}
 
-	private String[] doPassInputAndValidate(Scanner scan, int userId) {
+	private String[] doPassInputAndValidate(Scanner scan, long userId) {
 		countPassTries = 0;
 
 		while (countPassTries < 3) {
@@ -257,7 +257,7 @@ public class UserClient {
 		return res;
 	}
 
-	private void doChequebookRequest(Scanner scan, int userId) {
+	private void doChequebookRequest(Scanner scan, long userId) {
 		System.out.println("Select Account to request ChequeBook for it:");
 
 		try {
@@ -283,13 +283,13 @@ public class UserClient {
 		}
 	}
 
-	private void doDetailsUpdate(Scanner scan, int ar) {
+	private void doDetailsUpdate(Scanner scan, long userId) {
 
 		try {
 			/*
 			 * Displaying Existing Details
 			 */
-			Customer customer = cService.getCustomerDetails(ar);
+			Customer customer = cService.getCustomerDetails(userId);
 			System.out.println("Displaying Existing Details:");
 			System.out.println(customer);
 
@@ -324,7 +324,7 @@ public class UserClient {
 
 	}
 
-	private void doTrackService(Scanner scan, int userId) {
+	private void doTrackService(Scanner scan, long userId) {
 
 		int sNum = getServiceChoice(scan);
 		switch (sNum) {
@@ -372,7 +372,7 @@ public class UserClient {
 
 	}
 
-	private HashMap<Integer, Integer> printAndGetAllAccounts(int userId) {
+	private HashMap<Integer, Integer> printAndGetAllAccounts(long userId) {
 		ArrayList<Integer> accNums;
 		try {
 			accNums = cService.getAllAccounts(userId);

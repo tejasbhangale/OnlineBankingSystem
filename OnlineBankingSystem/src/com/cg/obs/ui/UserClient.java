@@ -39,10 +39,10 @@ public class UserClient {
 		sc2.close();
 	}
 
+
 	public UserClient() {
 		PropertyConfigurator.configure("res//log4j.properties");
 	}
-
 
 	public void clientConsole(long userId) {
 

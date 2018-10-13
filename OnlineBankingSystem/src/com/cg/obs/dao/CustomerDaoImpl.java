@@ -732,7 +732,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 		boolean creditSuccess = false;
 		int fundTransferId = 0;
 		int fromTransactionId = 0;
-		int toTransactionId;
 		try {
 			fundTransferId=recordFundTransfer(fromaccount, toaccount, transferAmount);
 			String tranDesc= ("FT:" + fundTransferId);
@@ -744,7 +743,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			debitSuccess=debitFunds(connection,fromaccount, transferAmount);
 			creditSuccess=creditFunds(connection,toaccount, transferAmount);
 			if(creditSuccess){
-				toTransactionId=recordTransaction(toaccount, tranDesc, "c", transferAmount);
+				recordTransaction(toaccount, tranDesc, "c", transferAmount);
 			}
 
 		} catch (OnlineBankingException | SQLException e) {

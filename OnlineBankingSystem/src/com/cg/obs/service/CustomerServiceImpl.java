@@ -11,7 +11,6 @@ import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSDaoFactory;
 
 

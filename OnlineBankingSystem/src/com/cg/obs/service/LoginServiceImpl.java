@@ -10,6 +10,18 @@ import com.cg.obs.util.OBSDaoFactory;
 public class LoginServiceImpl implements ILoginService {
 
 	private static ILoginDao loginDao=OBSDaoFactory.getLoginDao();
+	
+	
+	//------------------------ 1. Online Banking Application --------------------------
+		/*******************************************************************************************************
+		 - Function Name	:	getAdminLogin
+		 - Input Parameters	:	String username, String password
+		 - Return Type		:	boolean success
+		 - Throws			:  	OnlineBankingException
+		 - Author			:	CAPGEMINI
+		 - Creation Date	:	11/11/2016
+		 - Description		:	adding donor to database calls dao method addDonorDetails(donor)
+		 ********************************************************************************************************/
 	@Override
 	public boolean getAdminLogin(String username, String password) throws OnlineBankingException {
 		boolean success=false;
@@ -29,7 +41,7 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public int getUserLogin(int username, String password) throws OnlineBankingException {
+	public int getUserLogin(long username, String password) throws OnlineBankingException {
 		int user_id=0;
 		
 		User user=loginDao.getUserLogin(username);
@@ -49,13 +61,13 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public boolean lockUserAccount(int id) throws OnlineBankingException {
+	public boolean lockUserAccount(long id) throws OnlineBankingException {
 		boolean success =loginDao.lockUserAccount(id);
 		return success;
 	}
 
 	@Override
-	public boolean validateUserId(int id) throws OnlineBankingException {
+	public boolean validateUserId(long id) throws OnlineBankingException {
 		int userId = loginDao.getUserId(id);
 		boolean success=false; 
 		if(userId!=0){
@@ -70,7 +82,7 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public boolean validatePassword(int customerId, String customerPassword) throws OnlineBankingException {
+	public boolean validatePassword(long customerId, String customerPassword) throws OnlineBankingException {
 		String verifyPass =loginDao.getPass(customerId);
 		boolean success=false;
 		if(!verifyPass.equals(customerPassword)) {
@@ -84,13 +96,13 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public User forgotPassword(int id) throws OnlineBankingException {
+	public User forgotPassword(long id) throws OnlineBankingException {
 		// TODO Auto-generated method stub
 		return loginDao.forgotPassword(id);
 	}
 
 	@Override
-	public boolean setOneTimePassword(String newPassword,int id) throws OnlineBankingException {
+	public boolean setOneTimePassword(String newPassword,long id) throws OnlineBankingException {
 		// TODO Auto-generated method stub
 		return loginDao.setOneTimePassword(newPassword,id);
 	}	

@@ -82,7 +82,7 @@ public class ClientMain {
 					String customerPassword = null;
 					System.out.println("Enter User ID :");
 					customerUserName = scan.next();
-					int customerId = 0;
+					long customerId = 0;
 					boolean userIdValid = false;
 					boolean credFlag = false;
 					try {
@@ -148,7 +148,7 @@ public class ClientMain {
 					
 					System.out.println("Enter User ID :");
 					
-					int id=scan.nextInt();
+					long id=scan.nextLong();
 					try{
 						User user=loginService.forgotPassword(id);
 						if(user!=null){

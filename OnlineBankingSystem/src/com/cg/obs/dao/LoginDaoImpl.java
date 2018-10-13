@@ -49,13 +49,13 @@ public class LoginDaoImpl implements ILoginDao {
 	}
 
 	@Override
-	public User getUserLogin(int userId) throws OnlineBankingException {
+	public User getUserLogin(long userId) throws OnlineBankingException {
 		User user=null;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 			PreparedStatement st =con.prepareStatement(IQueryMapper.USER_CREDENTIALS);) {
 			
-			st.setInt(1, userId);
+			st.setLong(1, userId);
 			resultset=st.executeQuery();
 			
 			if(resultset.next()){
@@ -71,12 +71,12 @@ public class LoginDaoImpl implements ILoginDao {
 	}
 
 	@Override
-	public boolean lockUserAccount(int id) throws OnlineBankingException {
+	public boolean lockUserAccount(long id) throws OnlineBankingException {
 		boolean lockSuccess=false;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.LOCK_USER);) {
 				
-				st.setInt(1, id);
+				st.setLong(1, id);
 				int rows=st.executeUpdate();
 				if(rows==0){
 					lockSuccess= false;
@@ -95,12 +95,12 @@ public class LoginDaoImpl implements ILoginDao {
 	}
 
 	@Override
-	public int getUserId(int userId) throws OnlineBankingException {
+	public int getUserId(long userId) throws OnlineBankingException {
 		int id=0;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_USER_ID);) {
 				
-				st.setInt(1, userId);
+				st.setLong(1, userId);
 				resultset=st.executeQuery();
 				if(resultset.next()){
 					
@@ -114,12 +114,12 @@ public class LoginDaoImpl implements ILoginDao {
 	}
 
 	@Override
-	public String getPass(int userId) throws OnlineBankingException {
+	public String getPass(long userId) throws OnlineBankingException {
 		String passcode=null;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_USER_PASS)) {
 				
-				st.setInt(1, userId);
+				st.setLong(1, userId);
 				resultset=st.executeQuery();
 				if(resultset.next()){
 					
@@ -134,13 +134,13 @@ public class LoginDaoImpl implements ILoginDao {
 
 	
 	@Override
-	public User forgotPassword(int id) throws OnlineBankingException {
+	public User forgotPassword(long id) throws OnlineBankingException {
 		User user=null;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_FORGOT_PASSWORD_OBJECT)){
 			
-			st.setInt(1, id);
+			st.setLong(1, id);
 			resultset=st.executeQuery();
 			if(resultset.next()){
 				user=new User();
@@ -159,13 +159,13 @@ public class LoginDaoImpl implements ILoginDao {
 	}
 
 	@Override
-	public boolean setOneTimePassword(String newPassword,int id) throws OnlineBankingException {
+	public boolean setOneTimePassword(String newPassword,long id) throws OnlineBankingException {
 		boolean success=false;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.SET_ONE_TIME_PASSWORD)){
 			st.setString(1, newPassword);
-			st.setInt(2, id);
+			st.setLong(2, id);
 			int result=st.executeUpdate();
 			if(result>0){
 				success=true;

@@ -34,12 +34,7 @@ public class AdminConsole {
 
 	}
 
-	/*******************************************************************************************************
-	 * - Function Name : isValid - Input Parameters : CabRequest Object - Return
-	 * Type : boolean - Throws : CabException - Author : Aniruddhsinh Sodha -
-	 * Creation Date : 29/08/2018 - Description : validation for entered data by
-	 * user
-	 ********************************************************************************************************/
+	
 
 	public void adminConsole() {
 

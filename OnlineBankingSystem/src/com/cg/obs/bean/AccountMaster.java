@@ -19,7 +19,6 @@ public class AccountMaster {
 	
 	public AccountMaster() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 

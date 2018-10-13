@@ -2,6 +2,7 @@ package com.cg.obs.ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import org.apache.log4j.PropertyConfigurator;
 
@@ -16,19 +17,21 @@ public class ClientMain {
 	private static ILoginService loginService = OBSServiceFactory
 			.getLoginService();
 	static Scanner scan = new Scanner(System.in);
-
+	private Logger log = Logger.getLogger("C");
+	
+	
 	public static void main(String[] args) {
 
 		
 		PropertyConfigurator.configure("res/log4j.properties");
 
-		int choice = -1;
+		int choice = 0;
 
 		while (choice != 3) {
 			System.out
 					.println("\n*******Welcome to Online Banking System**********");
 			System.out.println("Login As--->");
-			System.out.print("[1]Admin [2]Customer [3]Quit >");
+			System.out.print("[1]Admin \n[2]Customer \n[3]Quit >");
 			try{
 				choice = scan.nextInt();
 			}catch(InputMismatchException e){
@@ -36,12 +39,10 @@ public class ClientMain {
 				System.err.println("Kindly enter correct option!!!");
 			}
 			
-			
-
 			if (choice == 1) {
-				System.out.print("UserName? ");
+				System.out.print("Enter UserName :");
 				String adminUserName = scan.next();
-				System.out.print("Password? ");
+				System.out.print("Enter Password :");
 				String adminPassword = scan.next();
 
 				try {
@@ -49,7 +50,7 @@ public class ClientMain {
 							adminPassword);
 
 					if (success) {
-						System.out.println("successfully logged in");
+						System.out.println("Successfully logged in");
 						AdminConsole admin = new AdminConsole();
 						admin.adminConsole();
 					}
@@ -67,7 +68,7 @@ public class ClientMain {
 					int loginAttempts = 0;
 					String customerUserName = null;
 					String customerPassword = null;
-					System.out.println("User ID :");
+					System.out.println("Enter User ID :");
 					customerUserName = scan.next();
 					int customerId = 0;
 					boolean userIdValid = false;
@@ -84,7 +85,7 @@ public class ClientMain {
 					if (userIdValid) {
 						while (loginAttempts < 3 && !credFlag) {
 
-							System.out.println("Password: ");
+							System.out.println("Enter Password :");
 							customerPassword = scan.next();
 							loginAttempts++;
 							try {
@@ -106,20 +107,24 @@ public class ClientMain {
 							if (user_id != 0) {
 								UserClient userClient = new UserClient();
 								userClient.clientConsole(user_id);
-								System.out.println("client login done");
+								//System.out.println("client login done");
 							}
 						} else if (loginAttempts == 3) {
-							boolean success = loginService
-									.lockUserAccount(customerId);
+							try {
+								boolean success = loginService
+										.lockUserAccount(customerId);
+							} catch (OnlineBankingException e) {
+								System.err.println(e.getMessage());
+							}
 							System.err
-									.println("Invalid Login attempts exceeded!!!.Your account has been locked");
+									.println("Invalid Login attempts exceeded!!! Your account has been locked");
 						}
 				}
 				
 
 				}else if(loginChoice==2){
 					
-					System.out.println("Enter customer ID");
+					System.out.println("Enter User ID :");
 					
 					int id=scan.nextInt();
 					try{
@@ -148,6 +153,8 @@ public class ClientMain {
 						}
 					}catch(NullPointerException ne){
 						System.err.println(ne.getMessage());
+					} catch (OnlineBankingException e) {
+						System.err.println(e.getMessage());
 					}
 				}
 			}
@@ -175,9 +182,6 @@ public class ClientMain {
 		}
 		
 		return choice;
-		
-		
-		
 	}
 
 }

@@ -5,7 +5,7 @@ public class Messages {
 	/*
 	 * Connection Configuration Messages
 	 */
-	public static final String CONNECTION_CONFIGURATION_FAILURE="Connection Configuaration Not Loaded!";
+	public static final String CONNECTION_CONFIGURATION_FAILURE="Connection Configuration Not Loaded!";
 	public static final String CONNECTION_ESTABILISHED_FAILURE="Connection is not established!";
 	/*
 	 * Login-Module Messages
@@ -44,5 +44,17 @@ public class Messages {
 	
 	//Admin
 	public static final String SQL_EXCEPTION_ERROR = "Error while fetching data";
+	
+	// SQL Exception
+	public static final String SQL_ADD_PAYEE= "Failed to add Payee!!! Please try after some time";
+	public static final String TRANS_PASSWORD = "Failed to verify Transaction Password!!! Please try after some time";
+	public static final String RECORD_TRANSACTION = "Transaction cannot be recored. System Issue!!!";
+	public static final String FIRST_TIME_USER = "Unable to perform action!!! Please Try after some time";
+	public static final String DATABASE_ERROR = "Unable to perform action!!! Please try after some time";
+	public static final String FUNDS_TRANSFER_ERROR = "Unable to tranfer Funds!!! Please try after some time";
+	public static final String PAYEELIST_FETCH = "Failed to get Payee list!!! Please try after some time";
+	public static final String FORGOT_PASSWORD = "Unable to change password due to server issue!!! Please try after some time ";
+	public static final String CHANGE_LOCK_STATUS = "Unable to change status due to server issue!!! Please try after some time ";
+
 }
 

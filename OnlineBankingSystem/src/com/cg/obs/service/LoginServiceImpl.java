@@ -12,9 +12,7 @@ public class LoginServiceImpl implements ILoginService {
 	private static ILoginDao loginDao=OBSDaoFactory.getLoginDao();
 	@Override
 	public boolean getAdminLogin(String username, String password) throws OnlineBankingException {
-		// TODO Auto-generated method stub
 		boolean success=false;
-		
 		
 		Admin admin=loginDao.getAdminLogin(username);
 		
@@ -32,8 +30,6 @@ public class LoginServiceImpl implements ILoginService {
 
 	@Override
 	public int getUserLogin(int username, String password) throws OnlineBankingException {
-		// TODO Auto-generated method stub
-		
 		int user_id=0;
 		
 		User user=loginDao.getUserLogin(username);
@@ -50,12 +46,10 @@ public class LoginServiceImpl implements ILoginService {
 			return user_id;
 		}
 		
-		
-		
 	}
 
 	@Override
-	public boolean lockUserAccount(int id) {
+	public boolean lockUserAccount(int id) throws OnlineBankingException {
 		boolean success =loginDao.lockUserAccount(id);
 		return success;
 	}
@@ -90,13 +84,13 @@ public class LoginServiceImpl implements ILoginService {
 	}
 
 	@Override
-	public User forgotPassword(int id) {
+	public User forgotPassword(int id) throws OnlineBankingException {
 		// TODO Auto-generated method stub
 		return loginDao.forgotPassword(id);
 	}
 
 	@Override
-	public boolean setOneTimePassword(String newPassword,int id) {
+	public boolean setOneTimePassword(String newPassword,int id) throws OnlineBankingException {
 		// TODO Auto-generated method stub
 		return loginDao.setOneTimePassword(newPassword,id);
 	}	

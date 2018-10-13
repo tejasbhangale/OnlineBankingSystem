@@ -214,7 +214,7 @@ public class AdminConsole {
 
 		} catch (OnlineBankingException e) {
 
-			log.error("Exception occured");
+			
 			System.out.println(e.getMessage());
 
 		}
@@ -279,7 +279,7 @@ public class AdminConsole {
 
 		} catch (OnlineBankingException e) {
 
-			log.error("Exception occured");
+			
 			System.err.println(e.getMessage());
 
 		}
@@ -390,7 +390,7 @@ public class AdminConsole {
 
 		} catch (OnlineBankingException e) {
 
-			log.error("Exception occured");
+			
 			System.err.println(e.getMessage());
 
 		}

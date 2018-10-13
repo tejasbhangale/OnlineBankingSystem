@@ -86,7 +86,7 @@ public class AdminDAOImpl implements IAdminDAO {
 			status = pstm.executeUpdate();
 
 		} catch (SQLException e) {
-
+			log.error("SQL Exception occured");
 			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 
 		}
@@ -128,7 +128,7 @@ public class AdminDAOImpl implements IAdminDAO {
 			status = pstm2.executeUpdate();
 
 		} catch (SQLException e) {
-
+			log.error("SQL Exception occured");
 			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 
 		}
@@ -170,7 +170,7 @@ public class AdminDAOImpl implements IAdminDAO {
 			}
 
 		} catch (SQLException e) {
-
+			log.error("SQL Exception occured");
 			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 
 		}
@@ -195,7 +195,7 @@ public class AdminDAOImpl implements IAdminDAO {
 			check = pstm.executeUpdate();
 
 		} catch (SQLException e) {
-
+			log.error("SQL Exception occured");
 			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 
 		}
@@ -227,7 +227,7 @@ public class AdminDAOImpl implements IAdminDAO {
 			}
 
 		} catch (SQLException e) {
-
+			log.error("SQL Exception occured");
 			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 
 		}
@@ -261,7 +261,7 @@ public class AdminDAOImpl implements IAdminDAO {
 			}
 
 		} catch (SQLException e) {
-
+			log.error("SQL Exception occured");
 			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 
 		}

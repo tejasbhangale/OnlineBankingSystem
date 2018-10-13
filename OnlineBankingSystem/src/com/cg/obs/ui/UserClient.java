@@ -31,6 +31,9 @@ public class UserClient {
 	static UserClient user = new UserClient();
 	Scanner sc = new Scanner(System.in);
 
+	
+	
+	
 	public static void main(String[] args) {
 		UserClient user = new UserClient();
 		Scanner sc2 = new Scanner(System.in);
@@ -478,7 +481,7 @@ public class UserClient {
 		System.out.println(sTrack);
 	}
 
-	private static int getChoice(Scanner scan) {
+	private int getChoice(Scanner scan) {
 		int choice = 0;
 		System.out
 				.println("**************WELCOME TO ONLINE BANKING SYSTEM**************");
@@ -508,7 +511,7 @@ public class UserClient {
 		return choice;
 	}
 
-	private static int getServiceChoice(Scanner scan) {
+	private int getServiceChoice(Scanner scan) {
 		int choice = 0;
 		System.out.println("***TRACK SERVICE REQUEST****");
 		System.out.println("Choose Option:");
@@ -532,7 +535,7 @@ public class UserClient {
 		return choice;
 	}
 
-	private static void fundTransfer(Scanner scan, long userId) {
+	private void fundTransfer(Scanner scan, long userId) {
 		int choice = 0, count = 0, transactionId;
 		long fromaccount = 0, toaccount = 0;
 		double transferAmount = 0;
@@ -691,7 +694,7 @@ public class UserClient {
 		}
 	}
 
-	private static boolean verifyTransactionPassword(Scanner scan, long userId)
+	private boolean verifyTransactionPassword(Scanner scan, long userId)
 			throws OnlineBankingException {
 		long verifyId;
 		String verifyPass;
@@ -704,7 +707,7 @@ public class UserClient {
 			return false;
 	}
 
-	private static void managePayee(Scanner scan, long userId) {
+	private void managePayee(Scanner scan, long userId) {
 		System.out.println("Add Payee");
 		try {
 			System.out.println("Enter the Payee Account");

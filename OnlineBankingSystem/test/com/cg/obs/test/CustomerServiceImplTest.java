@@ -1,6 +1,8 @@
 package com.cg.obs.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,11 +16,11 @@ import org.junit.Test;
 
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.dao.CustomerDaoImpl;
 import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.service.CustomerServiceImpl;
 import com.cg.obs.util.ConnectionProvider;
 
-public class CustomerDaoImplTest {
+public class CustomerServiceImplTest {
 
 	static Customer dummyCustomer;
 	static Transactions dummyTran;
@@ -31,7 +33,7 @@ public class CustomerDaoImplTest {
 		PreparedStatement setAddPt = conn.prepareStatement("UPDATE CUSTOMER SET ADDRESS=? WHERE USER_ID=?");
 		PreparedStatement selMinPt = conn.prepareStatement("INSERT INTO TRANSACTIONS VALUES(?,?,?,?,?,?)");
 		
-		dummyCustomer = (new CustomerDaoImpl()).getCustomerDetails(120);
+		dummyCustomer = (new CustomerServiceImpl()).getCustomerDetails(120);
 		dummyTran = new Transactions(12346,"SUCCESSFUL",Date.valueOf(LocalDate.now()),"c",5000,1001);
 		
 		setAddPt.setString(1, "Whitefield, Bangalore");
@@ -57,7 +59,7 @@ public class CustomerDaoImplTest {
 	@Test
 	public void testUpdateCustomerDetails() {
 		try {
-			Customer getCus = (new CustomerDaoImpl()).getCustomerDetails(120);
+			Customer getCus = (new CustomerServiceImpl()).getCustomerDetails(120);
 			assertNotNull(getCus);
 			assertEquals("Whitefield, Bangalore", getCus.getAddress());
 		} catch (OnlineBankingException e) {
@@ -69,16 +71,16 @@ public class CustomerDaoImplTest {
 	public void testGetMiniStatement() {
 		List<Transactions> tranList;
 		try {
-			tranList = (new CustomerDaoImpl()).getMiniStatement(1001);
+			tranList = (new CustomerServiceImpl()).getMiniStatement(1001);
 			assertNotNull(tranList);
 			//checking if same object retrieved, tran.get(0) gets the latest transaction 
 			assertEquals(dummyTran.toString(), tranList.get(0).toString());
 		} catch (OnlineBankingException e) {
 			fail(e.getMessage());
 		}
-		
 	}
-
+	
+	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		Connection conn = ConnectionProvider.DEFAULT_INSTANCE.getConnection();

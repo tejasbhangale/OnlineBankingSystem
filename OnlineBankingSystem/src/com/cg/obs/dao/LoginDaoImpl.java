@@ -27,7 +27,6 @@ public class LoginDaoImpl implements ILoginDao {
 	 - Return Type		:	Admin object
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	Getting Admin Credentials
 	 ********************************************************************************************************/	
 	@Override
@@ -63,7 +62,6 @@ public class LoginDaoImpl implements ILoginDao {
 	 - Return Type		:	User object
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	Getting User Credentials
 	 ********************************************************************************************************/
 	@Override
@@ -94,7 +92,6 @@ public class LoginDaoImpl implements ILoginDao {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	Updating lock status of user account
 	 ********************************************************************************************************/
 	@Override
@@ -127,7 +124,6 @@ public class LoginDaoImpl implements ILoginDao {
 	 - Return Type		:	int
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	Getting User ID
 	 ********************************************************************************************************/
 	@Override
@@ -155,7 +151,6 @@ public class LoginDaoImpl implements ILoginDao {
 	 - Return Type		:	String
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	Getting User's login Password
 	 ********************************************************************************************************/
 	@Override
@@ -184,7 +179,6 @@ public class LoginDaoImpl implements ILoginDao {
 	 - Return Type		:	User object 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	Getting User details
 	 ********************************************************************************************************/	
 	@Override
@@ -218,7 +212,6 @@ public class LoginDaoImpl implements ILoginDao {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	Setting one time password for user
 	 ********************************************************************************************************/
 	@Override

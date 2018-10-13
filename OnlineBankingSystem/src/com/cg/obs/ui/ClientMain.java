@@ -129,8 +129,7 @@ public class ClientMain {
 						} else if (loginAttempts == 3) {
 							try {
 								
-								boolean success = loginService
-										.lockUserAccount(customerId);
+								 loginService.lockUserAccount(customerId);
 							} catch (OnlineBankingException e) {
 								System.err.println(e.getMessage());
 							}
@@ -190,9 +189,9 @@ public class ClientMain {
 	//------------------------ 1. Online Banking Application --------------------------
 	/*******************************************************************************************************
 	 - Function Name	:	showLoginOptionsForCustomer
-	 - Input Parameters	:	
+	 - Input Parameters	:	-
 	 - Return Type		:	int 
-	 - Throws			:  	
+	 - Throws			:  	-
 	 - Author			:	CAPGEMINI	
 	 - Description		:	Showing Login Options for Customer
 	 ********************************************************************************************************/

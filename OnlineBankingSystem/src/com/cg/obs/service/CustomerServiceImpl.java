@@ -1,23 +1,18 @@
 package com.cg.obs.service;
 
 
+import java.sql.Date;
 import java.util.ArrayList;
-
-
 import java.util.List;
 
 import com.cg.obs.bean.Customer;
-import com.cg.obs.dao.ICustomerDao;
-import com.cg.obs.exception.OnlineBankingException;
-
-import com.cg.obs.util.Messages;
-import com.cg.obs.util.OBSDaoFactory;
-
-import java.sql.Date;
-
 import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
+import com.cg.obs.dao.ICustomerDao;
+import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.util.Messages;
+import com.cg.obs.util.OBSDaoFactory;
 
 
 public class CustomerServiceImpl implements ICustomerService {
@@ -198,26 +193,8 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public int transferfunds(long fromaccount, long toaccount, double transferAmount) throws OnlineBankingException {
-		boolean success=false;
-		int fundTransferId= cDao.recordFundTransfer(fromaccount,toaccount,transferAmount);
-		int transactionId =0;
-		try{
-			transactionId = cDao.recordTransaction(fromaccount,fundTransferId,"d",transferAmount);
-			cDao.debitFunds(fromaccount,transferAmount);
-			
-			try{
-				cDao.creditFunds(toaccount,transferAmount);
-			}catch(OnlineBankingException e){
-				cDao.creditFunds(fromaccount, transferAmount);
-				success=false;
-			}
-			
-		} catch(OnlineBankingException e){
-			
-			throw new OnlineBankingException(Messages.FUNDS_TRANSFER_ERROR);
-		}
-		success=cDao.creditFunds(toaccount,transferAmount);
-		cDao.recordTransaction(toaccount,fundTransferId,"c",transferAmount);
+		
+		int transactionId= cDao.transferfunds(fromaccount,toaccount,transferAmount);
 		return transactionId;
 	}
 	

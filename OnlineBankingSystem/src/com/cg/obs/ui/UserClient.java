@@ -36,6 +36,7 @@ public class UserClient {
 		System.out.println("Enter User_id");
 		user.clientConsole(sc2.nextInt());
 		System.out.println("I'm Out");
+		sc2.close();
 	}
 
 	public UserClient() {
@@ -623,7 +624,7 @@ public class UserClient {
 							transactionId = cService.transferfunds(fromaccount,
 									toaccount, transferAmount);
 							System.out
-									.println("Funds Transfer is Success!!! Transaction Id is :"
+									.println("Transaction Id is :"
 											+ transactionId);
 						} else {
 							System.err
@@ -690,7 +691,7 @@ public class UserClient {
 											fromaccount, toaccount,
 											transferAmount);
 									System.out
-											.println("Funds Transfer is Success!!! Transaction Id is :"
+											.println("Transaction Id is :"
 													+ transactionId);
 								} else {
 									System.err
@@ -728,7 +729,7 @@ public class UserClient {
 	}
 
 	private boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
-		long verifyId;
+
 		String verifyPass;
 		System.out.println("*****Fund Transfer Authentication*****");
 		System.out.println("Enter the Transaction Password");

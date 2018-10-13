@@ -34,7 +34,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	Customer
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Returns Customer Details
 	 ********************************************************************************************************/
 	@Override
@@ -71,7 +70,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	boolean
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Updates customer details
 	 ********************************************************************************************************/
 
@@ -129,7 +127,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	void
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Updates password
 	 ********************************************************************************************************/
 
@@ -164,7 +161,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns Checkbook Request ID
 	 ********************************************************************************************************/
 	@Override
@@ -231,7 +227,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: List<Transactions>
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns first 10 transactions for Mini Statement
 	 ********************************************************************************************************/
 	@Override
@@ -280,7 +275,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: ServiceTracker
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns Service Tracker details
 	 ********************************************************************************************************/
 
@@ -348,7 +342,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: List<Transactions>
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns Detailed Statement
 	 ********************************************************************************************************/
 	@Override
@@ -440,15 +433,12 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	boolean
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Debits funds from the payer's account
 	 ********************************************************************************************************/
 
-	@Override
-	public boolean debitFunds(long accountID, double transferAmount) throws OnlineBankingException {
-		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
-				.getConnection();
-				PreparedStatement pt = conn
+	
+	private boolean debitFunds(Connection connection, long accountID, double transferAmount) throws OnlineBankingException {
+		try (PreparedStatement pt = connection
 						.prepareStatement(IQueryMapper.DEBIT_FUNDS);) {
 			pt.setDouble(1, transferAmount);
 			pt.setLong(2, accountID);
@@ -471,7 +461,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	ArrayList<Integer>
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Returns List of all the bank accounts of a user
 	 ********************************************************************************************************/
 	@Override
@@ -504,15 +493,12 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: boolean
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Credits Funds to  payee acount
+	 * @param connection 
 	 ********************************************************************************************************/
 
-	@Override
-	public boolean creditFunds(long accountID, double transferAmount) throws OnlineBankingException {
-		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
-				.getConnection();
-				PreparedStatement pt = conn
+	private boolean creditFunds(Connection connection, long accountID, double transferAmount) throws OnlineBankingException {
+		try (PreparedStatement pt = connection
 						.prepareStatement(IQueryMapper.CREDIT_FUNDS);) {
 			pt.setDouble(1, transferAmount);
 			pt.setLong(2, accountID);
@@ -537,7 +523,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns Fund Transfer Id 
 	 ********************************************************************************************************/
 
@@ -599,17 +584,16 @@ public class CustomerDaoImpl implements ICustomerDao {
 	/*******************************************************************************************************
 	 - Function Name	: recordTransaction(long accountId, int fundTransferId,
 						  String type, double transferAmount)
-	 - Input Parameters	: long accountId, int fundTransferId,
+	 - Input Parameters	: long accountId, String transDesc,
 						  String type, double transferAmount
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Records transaction
 	 ********************************************************************************************************/
 
-	@Override
-	public int recordTransaction(long accountId, int fundTransferId,
+	
+	private int recordTransaction(long accountId, String transDesc,
 			String type, double transferAmount) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
@@ -617,7 +601,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.RECORD_TRANSACTION);
 				PreparedStatement pt2 = conn
 						.prepareStatement(IQueryMapper.GET_TRANSACTION_ID);) {
-			String transDesc = ("FT:" + fundTransferId);
 			pt1.setString(1, transDesc);
 			pt1.setString(2, type);
 			pt1.setDouble(3, transferAmount);
@@ -648,7 +631,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	void
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Adds Beneficiary to the user account
 	 ********************************************************************************************************/
 	@Override
@@ -677,7 +659,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	String
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Retrieves transaction password for the requested user
 	 ********************************************************************************************************/
 	@Override
@@ -708,7 +689,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	void
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Completes User Profile on First Time login
 	 ********************************************************************************************************/
 
@@ -734,6 +714,65 @@ public class CustomerDaoImpl implements ICustomerDao {
 		}
 
 	}
+	
+	/*******************************************************************************************************
+	 - Function Name	: transferfunds(long fromaccount, long toaccount, double transferAmount)
+	 - Input Parameters	: long fromaccount, long toaccount, double transferAmount
+	 - Return Type		: int
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: generate Funds transfer,transaction id and debit and credit funds from accounts
+	 ********************************************************************************************************/
 
+	@Override
+	public int transferfunds(long fromaccount, long toaccount,
+			double transferAmount) throws OnlineBankingException {
+		Connection connection = null ;
+		boolean debitSuccess = false;
+		boolean creditSuccess = false;
+		int fundTransferId = 0;
+		int fromTransactionId = 0;
+		int toTransactionId;
+		try {
+			fundTransferId=recordFundTransfer(fromaccount, toaccount, transferAmount);
+			String tranDesc= ("FT:" + fundTransferId);
+			fromTransactionId=recordTransaction(fromaccount, tranDesc, "d", transferAmount);
+
+			connection = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
+			connection.setAutoCommit(false);
+
+			debitSuccess=debitFunds(connection,fromaccount, transferAmount);
+			creditSuccess=creditFunds(connection,toaccount, transferAmount);
+			if(creditSuccess){
+				toTransactionId=recordTransaction(toaccount, tranDesc, "c", transferAmount);
+			}
+
+		} catch (OnlineBankingException | SQLException e) {
+			try {
+				String failedDesc=("FT:" + fundTransferId+" REVERTED");
+				if(debitSuccess && !creditSuccess){
+					connection.rollback();
+
+					fromTransactionId=recordTransaction(fromaccount, failedDesc, "c", transferAmount);
+				}
+
+			} catch (SQLException e1) {
+				throw new OnlineBankingException(Messages.FUNDS_ROLLBACK);
+			}
+			throw new OnlineBankingException(Messages.FUNDS_TRANSFER_ERROR);
+		} finally{
+			try {
+				connection.commit();
+				connection.setAutoCommit(true);
+				connection.close();
+			} catch (SQLException e) {
+				throw new OnlineBankingException(Messages.DB_CONNECTION);
+			}
+		}
+
+
+		return fromTransactionId;
+	}
+	
 	
 }

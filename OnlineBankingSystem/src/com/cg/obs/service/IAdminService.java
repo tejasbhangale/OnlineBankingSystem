@@ -6,8 +6,6 @@ import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.bean.User;
 
 public interface IAdminService {
 

@@ -506,7 +506,7 @@ public class UserClient {
 		System.out.println(sTrack);
 	}
 
-	private static int getChoice(Scanner scan) {
+	private int getChoice(Scanner scan) {
 		int choice = 0;
 		System.out
 				.println("**************WELCOME TO ONLINE BANKING SYSTEM**************");
@@ -536,7 +536,7 @@ public class UserClient {
 		return choice;
 	}
 
-	private static int getServiceChoice(Scanner scan) {
+	private int getServiceChoice(Scanner scan) {
 		int choice = 0;
 		System.out.println("***TRACK SERVICE REQUEST****");
 		System.out.println("Choose Option:");
@@ -559,14 +559,12 @@ public class UserClient {
 		}
 		return choice;
 	}
-	
 
 	/*
 	 * This function is to perform Fund Transfer within different accounts of same user to other user accounts in same bank
 	 * User can also manage beneficiary of his account and then perform transactions
 	 * based on the user choice, appropriated service layer methods are invoked and output is displayed
 	 */
-
 	private void fundTransfer(Scanner scan, long userId) {
 		int choice = 0, count = 0, transactionId;
 		long fromaccount = 0, toaccount = 0;
@@ -724,8 +722,8 @@ public class UserClient {
 		}
 	}
 
-	private boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
 
+	private boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
 		String verifyPass;
 		System.out.println("*****Fund Transfer Authentication*****");
 		System.out.println("Enter the Transaction Password");

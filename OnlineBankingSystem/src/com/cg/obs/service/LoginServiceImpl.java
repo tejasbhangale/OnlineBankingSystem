@@ -19,7 +19,6 @@ public class LoginServiceImpl implements ILoginService {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	calls dao's getAdminLogin(userId) method
 	 ********************************************************************************************************/
 	@Override
@@ -46,7 +45,6 @@ public class LoginServiceImpl implements ILoginService {
 	 - Return Type		:	int 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	calls dao's getUserLogin(userId) method
 	 ********************************************************************************************************/
 
@@ -76,7 +74,6 @@ public class LoginServiceImpl implements ILoginService {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	calls dao's lockUserAccount(id) method
 	 ********************************************************************************************************/
 	@Override
@@ -91,7 +88,6 @@ public class LoginServiceImpl implements ILoginService {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	calls dao's getUserId(id) method
 	 ********************************************************************************************************/
 	@Override
@@ -115,7 +111,6 @@ public class LoginServiceImpl implements ILoginService {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	calls dao's getPass(customerId) method
 	 ********************************************************************************************************/
 	@Override
@@ -138,7 +133,6 @@ public class LoginServiceImpl implements ILoginService {
 	 - Return Type		:	User object
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	calls dao's forgotPassword(id) method
 	 ********************************************************************************************************/
 	@Override
@@ -153,7 +147,6 @@ public class LoginServiceImpl implements ILoginService {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	
 	 - Description		:	calls dao's setOneTimePassword(ewPassword,id) method
 	 ********************************************************************************************************/
 	@Override

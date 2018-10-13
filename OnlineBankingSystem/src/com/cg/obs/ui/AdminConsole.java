@@ -34,6 +34,18 @@ public class AdminConsole {
 
 	}
 
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	adminConsole
+	 - Input Parameters	:	
+	 - Return Type		:	void
+	 - Throws			:  	
+	 - Author			:	CAPGEMINI	
+	 - Description		:	Showing actions to be done by Admin
+	 ********************************************************************************************************/
+	
+
+
 	public void adminConsole() {
 
 		PropertyConfigurator.configure("res/log4j.properties");
@@ -92,7 +104,15 @@ public class AdminConsole {
 		}
 
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+		/*******************************************************************************************************
+		 - Function Name	:	createAccount
+		 - Input Parameters	:	
+		 - Return Type		:	void
+		 - Throws			:  	
+		 - Author			:	CAPGEMINI	
+		 - Description		:	Creating Customer Account
+		 ********************************************************************************************************/
 	private void createAccount() {
 
 		String customerName;
@@ -213,7 +233,15 @@ public class AdminConsole {
 		}
 
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+		/*******************************************************************************************************
+		 - Function Name	:	getTransactionDetails
+		 - Input Parameters	:	
+		 - Return Type		:	void
+		 - Throws			:  	
+		 - Author			:	CAPGEMINI	
+		 - Description		:	Getting Transaction details of the user
+		 ********************************************************************************************************/
 	private void getTransactionDetails() {
 
 		log.info("Getting user transaction details");
@@ -278,7 +306,15 @@ public class AdminConsole {
 		}
 
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+		/*******************************************************************************************************
+		 - Function Name	:	accountLockStatus
+		 - Input Parameters	:	
+		 - Return Type		:	void
+		 - Throws			:  	
+		 - Author			:	CAPGEMINI	
+		 - Description		:	Getting the lock status of the user
+		 ********************************************************************************************************/
 	private void accountLockStatus() {
 
 		log.info("Getting User lock status");

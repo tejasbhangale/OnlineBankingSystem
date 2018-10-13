@@ -26,8 +26,6 @@ public class ClientMain {
 	
 	public static void main(String[] args) {
 
-		
-		
 		PropertyConfigurator.configure("res/log4j.properties");
 
 		log.info("Banking Application Started");
@@ -189,7 +187,15 @@ public class ClientMain {
 		log.info("Exiting the application");
 		System.out.println("Program Terminated");
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	showLoginOptionsForCustomer
+	 - Input Parameters	:	
+	 - Return Type		:	int 
+	 - Throws			:  	
+	 - Author			:	CAPGEMINI	
+	 - Description		:	Showing Login Options for Customer
+	 ********************************************************************************************************/
 	private static int showLoginOptionsForCustomer() {
 		int choice=0;
 		System.out.println("**************Customer Login*************");

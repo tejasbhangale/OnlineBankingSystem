@@ -273,7 +273,7 @@ public class UserClient {
 			else
 				System.out.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
 		} catch (OnlineBankingException e) {
-			System.err.println(Messages.CUSTOMER_UPDATE_FAILED_DAO);
+			System.err.println(e.getMessage());
 		} catch (InputMismatchException e1) {
 			System.err.println(Messages.INVALID_MOBILE_FORMAT);
 			scan.next();
@@ -490,7 +490,7 @@ public class UserClient {
 	}
 
 
-	private static void fundTransfer(Scanner scan, long userId){
+	private void fundTransfer(Scanner scan, long userId){
 		int choice = 0,count=0,transactionId;
 		long fromaccount = 0,toaccount = 0;
 		double transferAmount=0;
@@ -528,7 +528,7 @@ public class UserClient {
 					}
 				System.out.println("Enter the Sr.no of account to transfer funds from");
 				fromaccount=selfaccounts.get(scan.nextInt()-1);
-				System.out.println("Enter the Sr.no of account to transfer funds from");
+				System.out.println("Enter the Sr.no of account to transfer funds to");
 				toaccount=selfaccounts.get(scan.nextInt()-1);
 				System.out.println("Enter Amount to be transferred:");
 				transferAmount=scan.nextDouble();
@@ -639,7 +639,7 @@ public class UserClient {
 		}
 	}
 
-	private static boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
+	private boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
 		long verifyId;
 		String verifyPass;
 		System.out.println("*****Fund Transfer Authentication*****");
@@ -652,7 +652,7 @@ public class UserClient {
 	}
 
 	
-	private static void managePayee(Scanner scan, long userId) {
+	private void managePayee(Scanner scan, long userId) {
 		System.out.println("Add Payee");
 		try {
 			System.out.println("Enter the Payee Account");

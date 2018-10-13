@@ -34,7 +34,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	Customer
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Returns Customer Details
 	 ********************************************************************************************************/
 	@Override
@@ -71,7 +70,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	boolean
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Updates customer details
 	 ********************************************************************************************************/
 
@@ -129,7 +127,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	void
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Updates password
 	 ********************************************************************************************************/
 
@@ -164,7 +161,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns Checkbook Request ID
 	 ********************************************************************************************************/
 	@Override
@@ -231,7 +227,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: List<Transactions>
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns first 10 transactions for Mini Statement
 	 ********************************************************************************************************/
 	@Override
@@ -280,7 +275,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: ServiceTracker
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns Service Tracker details
 	 ********************************************************************************************************/
 
@@ -348,7 +342,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: List<Transactions>
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns Detailed Statement
 	 ********************************************************************************************************/
 	@Override
@@ -440,7 +433,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	boolean
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Debits funds from the payer's account
 	 ********************************************************************************************************/
 
@@ -471,7 +463,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	ArrayList<Integer>
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Returns List of all the bank accounts of a user
 	 ********************************************************************************************************/
 	@Override
@@ -504,7 +495,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: boolean
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Credits Funds to  payee acount
 	 ********************************************************************************************************/
 
@@ -537,7 +527,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Returns Fund Transfer Id 
 	 ********************************************************************************************************/
 
@@ -604,7 +593,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
-	 - Creation Date	: 13/10/2018
 	 - Description		: Records transaction
 	 ********************************************************************************************************/
 
@@ -648,7 +636,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	void
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Adds Beneficiary to the user account
 	 ********************************************************************************************************/
 	@Override
@@ -677,7 +664,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	String
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Retrieves transaction password for the requested user
 	 ********************************************************************************************************/
 	@Override
@@ -708,7 +694,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Return Type		:	void
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	13/10/2018
 	 - Description		:	Completes User Profile on First Time login
 	 ********************************************************************************************************/
 

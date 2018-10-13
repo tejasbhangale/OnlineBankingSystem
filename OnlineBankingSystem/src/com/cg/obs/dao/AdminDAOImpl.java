@@ -36,7 +36,6 @@ public class AdminDAOImpl implements IAdminDAO {
 	 - Return Type		:	long 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	creating new user in database 
 	 ********************************************************************************************************/
 
@@ -83,7 +82,6 @@ public class AdminDAOImpl implements IAdminDAO {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	Adding Customer details in database
 	 ********************************************************************************************************/
 	
@@ -128,7 +126,6 @@ public class AdminDAOImpl implements IAdminDAO {
 	 - Return Type		:	boolean 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	Adding Account details in database
 	 ********************************************************************************************************/
 	
@@ -181,7 +178,6 @@ public class AdminDAOImpl implements IAdminDAO {
 	 - Return Type		:	List<Transactions> 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	Getting transaction details between given date range
 	 ********************************************************************************************************/
 	
@@ -230,7 +226,6 @@ public class AdminDAOImpl implements IAdminDAO {
 	 - Return Type		:	List<Transactions> 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	Getting transaction details between given date range
 	 ********************************************************************************************************/
 
@@ -271,7 +266,6 @@ public class AdminDAOImpl implements IAdminDAO {
 	 - Return Type		:	String
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	Getting lock status of user Account
 	 ********************************************************************************************************/
 	
@@ -310,7 +304,6 @@ public class AdminDAOImpl implements IAdminDAO {
 	 - Return Type		:	String
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
-	 - Creation Date	:	11/11/2016
 	 - Description		:	Getting lock status of Account
 	 ********************************************************************************************************/
 	

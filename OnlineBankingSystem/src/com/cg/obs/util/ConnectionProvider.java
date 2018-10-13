@@ -38,6 +38,16 @@ public enum ConnectionProvider {
 		}
 	}
 
+	
+	/*****************************************************************
+	 *  - Method Name:getConnection() 
+	 *  - Input Parameters : 
+	 *  - Return Type :DBConnection instance
+	 *  - Throws : OnlineBankingException 
+	 *  - Author : CAPGEMINI 
+	 *  - Creation Date : 13/10/2018
+	 *  - Description :  Returns connection object
+	 *******************************************************************/
 	public Connection getConnection() throws OnlineBankingException {
 		Connection con = null;
 

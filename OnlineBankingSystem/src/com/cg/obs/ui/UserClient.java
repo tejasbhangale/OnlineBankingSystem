@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.cg.obs.bean.Customer;
@@ -26,27 +25,26 @@ public class UserClient {
 
 	private static ICustomerService cService = OBSServiceFactory
 			.getCustomerBean();
-	static Logger logger = Logger.getRootLogger();
+
 	public static int countPassTries = 0;
 	static UserClient user = new UserClient();
 	Scanner sc = new Scanner(System.in);
 
-	
-	
-	
 	public static void main(String[] args) {
 		UserClient user = new UserClient();
 		Scanner sc2 = new Scanner(System.in);
 		System.out.println("Enter User_id");
 		user.clientConsole(sc2.nextInt());
 		System.out.println("I'm Out");
+		sc2.close();
 	}
 
 	public UserClient() {
 		PropertyConfigurator.configure("resources//log4j.properties");
 	}
 
-	public void clientConsole(int userId) {
+
+	public void clientConsole(long userId) {
 
 		Scanner scan = new Scanner(System.in);
 		try {
@@ -54,6 +52,7 @@ public class UserClient {
 				if (doNewUserActivity(scan, userId)) {
 					System.out
 							.println("Thank you for completing your profile!");
+					
 					doUserActivity(scan, userId);
 				} else {
 					System.out
@@ -70,7 +69,7 @@ public class UserClient {
 
 	}
 
-	public void doUserActivity(Scanner scan, int userId) {
+	public void doUserActivity(Scanner scan, long userId) {
 		int choice = 0;
 		while (choice != 7) {
 			choice = getChoice(scan);
@@ -105,11 +104,13 @@ public class UserClient {
 		}
 	}
 
+
 	/*
 	 * This function will help user to view Mini Statement or Detailed
 	 * Statement, captures the choice and redirects to suitable method
 	 */
-	private void doDisplayStatement(int userId) {
+
+	private void doDisplayStatement(long userId) {
 		boolean status = true;
 
 		while (status) {
@@ -147,7 +148,8 @@ public class UserClient {
 
 	}
 
-	private long getAccountNumberFromUser(int userId) {
+
+	private long getAccountNumberFromUser(long userId) {
 		HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
 		try {
 			int accNum = mapAcc.get(sc.nextInt());
@@ -166,7 +168,8 @@ public class UserClient {
 	 * then proceeds to setup the profile
 	 */
 
-	private boolean doNewUserActivity(Scanner scan, int userId) {
+
+	private boolean doNewUserActivity(Scanner scan, long userId) {
 		ArrayList<String> userData = doInputGet(scan);
 		try {
 			cService.validateUserData(userData, userId);
@@ -207,11 +210,13 @@ public class UserClient {
 		return inpData;
 	}
 
+
 	/*
 	 * This function is for password change request where user credentials are
 	 * validated then password is updated for the requested user profile
 	 */
-	private void doPasswordUpdate(Scanner scan, int userId) {
+
+	private void doPasswordUpdate(Scanner scan, long userId) {
 		String[] pass = doPassInputAndValidate(scan, userId);
 		if (pass == null) {
 			System.err.println("Sorry, your request could not be processed!");
@@ -225,7 +230,10 @@ public class UserClient {
 		}
 	}
 
-	private String[] doPassInputAndValidate(Scanner scan, int userId) {
+
+	
+	private String[] doPassInputAndValidate(Scanner scan, long userId) {
+
 		countPassTries = 0;
 
 		while (countPassTries < 3) {
@@ -254,7 +262,13 @@ public class UserClient {
 		return res;
 	}
 
-	private void doChequebookRequest(Scanner scan, int userId) {
+
+	/*
+	 * This function is to place a request for Cheque Book for any user account,
+	 * it generates a requestNumber used to track the service request
+	 */
+	private void doChequebookRequest(Scanner scan, long userId) {
+
 		System.out.println("Select Account to request ChequeBook for it:");
 
 		try {
@@ -280,13 +294,20 @@ public class UserClient {
 		}
 	}
 
-	private void doDetailsUpdate(Scanner scan, int ar) {
+	/*
+	 * This function is for updating the user details like mobile number and address, 
+	 * it takes the input from user and calls service layer to update the records 
+	 * if update is success it return true
+	 */
+
+	private void doDetailsUpdate(Scanner scan, long userId) {
+
 
 		try {
 			/*
 			 * Displaying Existing Details
 			 */
-			Customer customer = cService.getCustomerDetails(ar);
+			Customer customer = cService.getCustomerDetails(userId);
 			System.out.println("Displaying Existing Details:");
 			System.out.println(customer);
 
@@ -301,7 +322,7 @@ public class UserClient {
 			String address = scan.nextLine();
 
 			/*
-			 * Validating Entered Details and if validated, Updating
+			 * Validating Entered Details and if validated, Updating the record
 			 */
 			cService.validate(mobile, address);
 			customer.setMobile(mobile);
@@ -313,7 +334,7 @@ public class UserClient {
 			else
 				System.out.println(Messages.CUSTOMER_UPDATE_FAILED_CLIENT);
 		} catch (OnlineBankingException e) {
-			System.err.println(Messages.CUSTOMER_UPDATE_FAILED_DAO);
+			System.err.println(e.getMessage());
 		} catch (InputMismatchException e1) {
 			System.err.println(Messages.INVALID_MOBILE_FORMAT);
 			scan.next();
@@ -321,7 +342,15 @@ public class UserClient {
 
 	}
 
-	private void doTrackService(Scanner scan, int userId) {
+
+	/*
+	 * This function is to track a service requested by the user, it accepts a request number or account number
+	 * and calls the service layer to get the service request details and 
+	 * then populates the ServiceTracker bean object or a requestList with the request details.
+	 */
+
+
+	private void doTrackService(Scanner scan, long userId) {
 
 		int sNum = getServiceChoice(scan);
 		switch (sNum) {
@@ -369,7 +398,7 @@ public class UserClient {
 
 	}
 
-	private HashMap<Integer, Integer> printAndGetAllAccounts(int userId) {
+	private HashMap<Integer, Integer> printAndGetAllAccounts(long userId) {
 		ArrayList<Integer> accNums;
 		try {
 			accNums = cService.getAllAccounts(userId);
@@ -535,12 +564,16 @@ public class UserClient {
 		return choice;
 	}
 
+	/*
+	 * This function is to perform Fund Transfer within different accounts of same user to other user accounts in same bank
+	 * User can also manage beneficiary of his account and then perform transactions
+	 * based on the user choice, appropriated service layer methods are invoked and output is displayed
+	 */
 	private void fundTransfer(Scanner scan, long userId) {
 		int choice = 0, count = 0, transactionId;
 		long fromaccount = 0, toaccount = 0;
 		double transferAmount = 0;
 		boolean FTFlag = true;
-		// userId=120;
 		while (FTFlag) {
 			System.out.println("*******Funds Transfer*******");
 
@@ -567,20 +600,19 @@ public class UserClient {
 					List<Integer> selfaccounts = cService
 							.getAccountList(userId);
 					System.out.println("	Sr.No	Account_Number");
-					count = selfaccounts.size();
-					for (int index = 0; index < count; index++) {
-
-						System.out.println("	" + (index + 1) + ".	"
-								+ selfaccounts.get(index));
+					count= selfaccounts.size();
+					for(int index=0;index<count;index++){
+						
+						System.out.println("	"+(index+1)+".	"+selfaccounts.get(index));
 					}
-					System.out
-							.println("Enter the Sr.no of account to transfer funds from");
-					fromaccount = selfaccounts.get(scan.nextInt() - 1);
-					System.out
-							.println("Enter the Sr.no of account to transfer funds from");
-					toaccount = selfaccounts.get(scan.nextInt() - 1);
-					System.out.println("Enter Amount to be transferred:");
-					transferAmount = scan.nextDouble();
+				System.out.println("Enter the Sr.no of account to transfer funds from");
+				fromaccount=selfaccounts.get(scan.nextInt()-1);
+				System.out.println("Enter the Sr.no of account to transfer funds to");
+				toaccount=selfaccounts.get(scan.nextInt()-1);
+				System.out.println("Enter Amount to be transferred:");
+				transferAmount=scan.nextDouble();
+				
+					
 
 					if (fromaccount == toaccount) {
 						System.err.println("Same account has been selected");
@@ -590,7 +622,7 @@ public class UserClient {
 							transactionId = cService.transferfunds(fromaccount,
 									toaccount, transferAmount);
 							System.out
-									.println("Funds Transfer is Success!!! Transaction Id is :"
+									.println("Transaction Id is :"
 											+ transactionId);
 						} else {
 							System.err
@@ -657,7 +689,7 @@ public class UserClient {
 											fromaccount, toaccount,
 											transferAmount);
 									System.out
-											.println("Funds Transfer is Success!!! Transaction Id is :"
+											.println("Transaction Id is :"
 													+ transactionId);
 								} else {
 									System.err
@@ -694,9 +726,8 @@ public class UserClient {
 		}
 	}
 
-	private boolean verifyTransactionPassword(Scanner scan, long userId)
-			throws OnlineBankingException {
-		long verifyId;
+
+	private boolean verifyTransactionPassword(Scanner scan, long userId) throws OnlineBankingException {
 		String verifyPass;
 		System.out.println("*****Fund Transfer Authentication*****");
 		System.out.println("Enter the Transaction Password");

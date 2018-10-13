@@ -20,7 +20,15 @@ public class LoginDaoImpl implements ILoginDao {
 	public LoginDaoImpl() {
 		super();
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getAdminLogin
+	 - Input Parameters	:	String userId
+	 - Return Type		:	Admin object
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Getting Admin Credentials
+	 ********************************************************************************************************/	
 	@Override
 	public Admin getAdminLogin(String userId) throws OnlineBankingException {
 		
@@ -47,15 +55,23 @@ public class LoginDaoImpl implements ILoginDao {
 		
 		return admin;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getUserLogin
+	 - Input Parameters	:	long userId
+	 - Return Type		:	User object
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Getting User Credentials
+	 ********************************************************************************************************/
 	@Override
-	public User getUserLogin(int userId) throws OnlineBankingException {
+	public User getUserLogin(long userId) throws OnlineBankingException {
 		User user=null;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 			PreparedStatement st =con.prepareStatement(IQueryMapper.USER_CREDENTIALS);) {
 			
-			st.setInt(1, userId);
+			st.setLong(1, userId);
 			resultset=st.executeQuery();
 			
 			if(resultset.next()){
@@ -69,14 +85,22 @@ public class LoginDaoImpl implements ILoginDao {
 		} 
 		return user;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	lockUserAccount
+	 - Input Parameters	:	long id
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Updating lock status of user account
+	 ********************************************************************************************************/
 	@Override
-	public boolean lockUserAccount(int id) throws OnlineBankingException {
+	public boolean lockUserAccount(long id) throws OnlineBankingException {
 		boolean lockSuccess=false;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.LOCK_USER);) {
 				
-				st.setInt(1, id);
+				st.setLong(1, id);
 				int rows=st.executeUpdate();
 				if(rows==0){
 					lockSuccess= false;
@@ -93,14 +117,22 @@ public class LoginDaoImpl implements ILoginDao {
 
 		
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getUserId
+	 - Input Parameters	:	long userId
+	 - Return Type		:	int
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Getting User ID
+	 ********************************************************************************************************/
 	@Override
-	public int getUserId(int userId) throws OnlineBankingException {
+	public int getUserId(long userId) throws OnlineBankingException {
 		int id=0;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_USER_ID);) {
 				
-				st.setInt(1, userId);
+				st.setLong(1, userId);
 				resultset=st.executeQuery();
 				if(resultset.next()){
 					
@@ -112,14 +144,22 @@ public class LoginDaoImpl implements ILoginDao {
 		} 
 		return id;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getPass
+	 - Input Parameters	:	long userId
+	 - Return Type		:	String
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Getting User's login Password
+	 ********************************************************************************************************/
 	@Override
-	public String getPass(int userId) throws OnlineBankingException {
+	public String getPass(long userId) throws OnlineBankingException {
 		String passcode=null;
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_USER_PASS)) {
 				
-				st.setInt(1, userId);
+				st.setLong(1, userId);
 				resultset=st.executeQuery();
 				if(resultset.next()){
 					
@@ -132,15 +172,23 @@ public class LoginDaoImpl implements ILoginDao {
 		return passcode;
 	}
 
-	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	forgotPassword
+	 - Input Parameters	:	long id
+	 - Return Type		:	User object 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Getting User details
+	 ********************************************************************************************************/	
 	@Override
-	public User forgotPassword(int id) throws OnlineBankingException {
+	public User forgotPassword(long id) throws OnlineBankingException {
 		User user=null;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.GET_FORGOT_PASSWORD_OBJECT)){
 			
-			st.setInt(1, id);
+			st.setLong(1, id);
 			resultset=st.executeQuery();
 			if(resultset.next()){
 				user=new User();
@@ -157,15 +205,23 @@ public class LoginDaoImpl implements ILoginDao {
 		}
 		return user;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	setOneTimePassword
+	 - Input Parameters	:	String newPassword,long id
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Setting one time password for user
+	 ********************************************************************************************************/
 	@Override
-	public boolean setOneTimePassword(String newPassword,int id) throws OnlineBankingException {
+	public boolean setOneTimePassword(String newPassword,long id) throws OnlineBankingException {
 		boolean success=false;
 		
 		try(Connection con = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 				PreparedStatement st =con.prepareStatement(IQueryMapper.SET_ONE_TIME_PASSWORD)){
 			st.setString(1, newPassword);
-			st.setInt(2, id);
+			st.setLong(2, id);
 			int result=st.executeUpdate();
 			if(result>0){
 				success=true;

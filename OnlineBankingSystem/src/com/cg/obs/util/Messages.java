@@ -55,6 +55,8 @@ public class Messages {
 	public static final String PAYEELIST_FETCH = "Failed to get Payee list!!! Please try after some time";
 	public static final String FORGOT_PASSWORD = "Unable to change password due to server issue!!! Please try after some time ";
 	public static final String CHANGE_LOCK_STATUS = "Unable to change status due to server issue!!! Please try after some time ";
+	public static final String DB_CONNECTION = "Technical issue occured!!! Check after some time";
+	public static final String FUNDS_ROLLBACK = "Technical issue occured!!! Unable to transfer/revert back funds.Please try after some time";
 
 }
 

@@ -6,7 +6,7 @@ package com.cg.obs.bean;
  */
 public class User {
 
-	private int accountId;
+	
 	private long userId;
 	private String loginPassword;
 	private String secretQuestion;
@@ -17,17 +17,17 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [accountId=" + accountId + ", userId=" + userId
+		return "User [userId=" + userId
 				+ ", loginPassword=" + loginPassword + ", secretQuestion="
 				+ secretQuestion + ", secretAnswer=" + secretAnswer
 				+ ", transactionPassword=" + transactionPassword
 				+ ", lockStatus=" + lockStatus + "]";
 	}
-	public User(int accountId, long userId, String loginPassword,
+	public User(long userId, String loginPassword,
 			String secretQuestion, String secretAnswer,
 			String transactionPassword, String lockStatus) {
 		super();
-		this.accountId = accountId;
+		
 		this.userId = userId;
 		this.loginPassword = loginPassword;
 		this.secretQuestion = secretQuestion;
@@ -43,12 +43,6 @@ public class User {
 	}
 	public void setSecretAnswer(String secretAnswer) {
 		this.secretAnswer = secretAnswer;
-	}
-	public int getAccountId() {
-		return accountId;
-	}
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
 	}
 	public long getUserId() {
 		return userId;

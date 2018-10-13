@@ -9,16 +9,24 @@ import java.util.regex.Pattern;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.bean.User;
 import com.cg.obs.dao.AdminDAOImpl;
 import com.cg.obs.dao.IAdminDAO;
-import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.OnlineBankingException;
 
 public class AdminServiceImpl implements IAdminService {
 
 	IAdminDAO adminDAO = new AdminDAOImpl();
 	
+	
+	//------------------------ 1. Online Banking Application --------------------------
+		/*******************************************************************************************************
+		 - Function Name	:	addAccountDetails
+		 - Input Parameters	:	Object cust
+		 - Return Type		:	boolean 
+		 - Throws			:  	OnlineBankingException
+		 - Author			:	CAPGEMINI
+		 - Description		:	adding customer details to database calls dao method addAccountDetails(cust)
+		 ********************************************************************************************************/
 	
 	@Override
 	public boolean addAccountDetails(Customer cust) throws OnlineBankingException {
@@ -27,6 +35,17 @@ public class AdminServiceImpl implements IAdminService {
 	}
 
 
+
+	//------------------------ 1. Online Banking Application --------------------------
+		/*******************************************************************************************************
+		 - Function Name	:	addAccountMaster
+		 - Input Parameters	:	Object account
+		 - Return Type		:	boolean 
+		 - Throws			:  	OnlineBankingException
+		 - Author			:	CAPGEMINI
+		 - Description		:	adding account details to database calls dao method addAccountMaster(account)
+		 ********************************************************************************************************/
+	
 	@Override
 	public boolean addAccountMaster(AccountMaster account) throws OnlineBankingException {
 		
@@ -34,6 +53,17 @@ public class AdminServiceImpl implements IAdminService {
 	}
 
 
+
+	//------------------------ 1. Online Banking Application --------------------------
+		/***************************************************************************************************************************
+		 - Function Name	:	getTransactionDetails
+		 - Input Parameters	:	Date startDate, Date endDate
+		 - Return Type		:	List<object> 
+		 - Throws			:  	OnlineBankingException
+		 - Author			:	CAPGEMINI
+		 - Description		:	getting transaction details from database calls dao method getTransactionDetails(startDate, endDate)
+		 ****************************************************************************************************************************/
+	
 	@Override
 	public List<Transactions> getTransactionDetails(
 			Date startDate, Date endDate) throws OnlineBankingException {
@@ -43,33 +73,79 @@ public class AdminServiceImpl implements IAdminService {
 	}
 	
 	
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	changeAccountStatus
+	 - Input Parameters	:	Long accNumber, String status
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	changing account status calls dao method changeAccountStatus(accNumber,status)
+	 ********************************************************************************************************/
 	
 	@Override
-	public boolean changeAccountStatus(int accNumber, String status) throws OnlineBankingException {
+	public boolean changeAccountStatus(Long accNumber, String status) throws OnlineBankingException {
 		
 		return adminDAO.changeAccountStatus(accNumber, status);
 	}
 
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getLockStatus
+	 - Input Parameters	:	Long accNumbers
+	 - Return Type		:	String 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	getting account status calls dao method getLockStatus(accNumber)
+	 ********************************************************************************************************/
 	
 	@Override
-	public String getLockStatus(int accNumber) throws OnlineBankingException {
+	public String getLockStatus(Long accNumber) throws OnlineBankingException {
 		
 		return adminDAO.getLockStatus(accNumber);
 	}
 	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getCustomerDetails
+	 - Input Parameters	:	int accNumbers
+	 - Return Type		:	Object 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	getting Customer Details calls dao method getCustomerDetails(accNumber)
+	 ********************************************************************************************************/
+	
 	@Override
-	public Customer getCustomerDetails(int accNumber) throws OnlineBankingException {
+	public Customer getCustomerDetails(Long accNumber) throws OnlineBankingException {
 
 		return adminDAO.getCustomerDetails(accNumber);
 	}
 
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	createNewUser
+	 - Input Parameters	:	-
+	 - Return Type		:	long 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	creating new user calls dao method createNewUser()
+	 ********************************************************************************************************/
+	
 	@Override
 	public long createNewUser() throws OnlineBankingException {
 		
 		return adminDAO.createNewUser();
 	}
+	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	isValidateExistingUser
+	 - Input Parameters	:	AccountMaster account
+	 - Return Type		:	void 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Validating user details
+	 ********************************************************************************************************/
 	
 	@Override
 	public void isValidateExistingUser(AccountMaster account) throws OnlineBankingException{
@@ -102,6 +178,15 @@ public class AdminServiceImpl implements IAdminService {
 		
 	}
 
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	isValidateExistingUser
+	 - Input Parameters	:	Customer customer, AccountMaster account
+	 - Return Type		:	void 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Description		:	Validating user details
+	 ********************************************************************************************************/
 
 	@Override
 	public void isValidate(Customer customer, AccountMaster account) throws OnlineBankingException

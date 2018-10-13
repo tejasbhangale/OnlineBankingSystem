@@ -43,13 +43,13 @@ public interface IQueryMapper {
 
 	public static final String GET_SERVICE_REQUEST_NUMBER = "SELECT service.currval from dual";
 
-	public static final String GET_MINI_STATEMENT = "SELECT * from Transactions where Account_Id=?";
+	public static final String GET_MINI_STATEMENT = "SELECT * from Transactions where Account_Id=? Order By DATE_OF_TRANSACTION desc";
 
 	public static final String GET_REQUEST_STATUS = "select * from service_tracker s where s.service_id=? and s.account_id in (select a.account_id from account_master a where a.user_id=?)";
 
 	public static final String GET_ALL_REQUESTS = "SELECT * from SERVICE_TRACKER WHERE ACCOUNT_ID=? AND SERVICE_RAISED_DATE>(SYSDATE-180)";
 	
-	public static final String GET_DETAILED_STATEMENT = "SELECT * from Transactions where Account_ID=? AND Date_of_Transaction>=? AND Date_of_Transaction<=?";
+	public static final String GET_DETAILED_STATEMENT = "SELECT * from Transactions where Account_ID=? AND Date_of_Transaction>=? AND Date_of_Transaction<=? Order By Date_of_Transaction desc";
 
 	public static final String GET_FORGOT_PASSWORD_OBJECT = "select * from user_table where user_id=?";
 

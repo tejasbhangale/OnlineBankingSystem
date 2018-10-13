@@ -160,7 +160,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public List<Transactions> getMiniStatement(int ar)
+	public List<Transactions> getMiniStatement(long accId)
 			throws OnlineBankingException {
 
 		List<Transactions> transaction = new ArrayList<>();
@@ -172,11 +172,11 @@ public class CustomerDaoImpl implements ICustomerDao {
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_MINI_STATEMENT);) {
 
-			pstm.setInt(1, ar);
+			pstm.setLong(1, accId);
 
 			ResultSet result = pstm.executeQuery();
 
-			while (result.next() && count <= 10) {
+			while (result.next() && count <= 2) {
 				Transactions tran = new Transactions();
 
 				tran.setTransactionId(result.getLong(1));
@@ -257,7 +257,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public List<Transactions> getDetailedStatement(int ar, Date startDate,
+	public List<Transactions> getDetailedStatement(long accNum, Date startDate,
 			Date endDate) throws OnlineBankingException {
 
 		List<Transactions> transaction = new ArrayList<>();
@@ -267,7 +267,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_DETAILED_STATEMENT);) {
 
-			pstm.setInt(1, ar);
+			pstm.setLong(1, accNum);
 			pstm.setDate(2, startDate);
 			pstm.setDate(3, endDate);
 

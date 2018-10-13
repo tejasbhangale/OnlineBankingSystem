@@ -26,13 +26,13 @@ public interface ICustomerDao {
 
 	public List<Integer> getAccountList(long id) throws OnlineBankingException;
 	
-	public List<Transactions> getMiniStatement(int ar) throws OnlineBankingException;
+	public List<Transactions> getMiniStatement(long accNum) throws OnlineBankingException;
 
 	public ServiceTracker getRequestStatus(int reqNum,int userId) throws OnlineBankingException;
 
 	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException;
 
-	public List<Transactions> getDetailedStatement(int ar, Date startDate,
+	public List<Transactions> getDetailedStatement(long accNum, Date startDate,
 			Date endDate) throws OnlineBankingException;
 
 	public double getAccBalance(long accountId) throws OnlineBankingException;

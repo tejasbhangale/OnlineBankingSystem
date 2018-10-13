@@ -109,8 +109,8 @@ public class CustomerServiceImpl implements ICustomerService {
 		
 	
 	@Override
-	public List<Transactions> getMiniStatement(int ar) throws OnlineBankingException {
-		return cDao.getMiniStatement(ar);
+	public List<Transactions> getMiniStatement(long accNum) throws OnlineBankingException {
+		return cDao.getMiniStatement(accNum);
 	}
 
 	@Override
@@ -125,9 +125,9 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public List<Transactions> getDetailedStatement(int ar, Date startDate,
+	public List<Transactions> getDetailedStatement(long accNum, Date startDate,
 			Date endDate) throws OnlineBankingException {
-		return cDao.getDetailedStatement(ar, startDate, endDate);
+		return cDao.getDetailedStatement(accNum, startDate, endDate);
 	}
 
 	@Override

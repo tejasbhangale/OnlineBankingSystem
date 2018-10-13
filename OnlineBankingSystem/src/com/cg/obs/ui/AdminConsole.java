@@ -291,12 +291,12 @@ public class AdminConsole {
 		log.info("Getting User lock status");
 		
 		System.out.println("Enter User Id : ");
-		String accId = sc.nextLine();
-		int userID = 0;
+		String uId = sc.nextLine();
+		long userID = 0;
 
 		try {
 
-			userID = Integer.parseInt(accId);
+			userID = Integer.parseInt(uId);
 
 			String status = adminService.getLockStatus(userID);
 

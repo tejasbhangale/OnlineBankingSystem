@@ -28,6 +28,17 @@ public class AdminDAOImpl implements IAdminDAO {
 		PropertyConfigurator.configure("res/log4j.properties");
 
 	}
+	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	createNewUser
+	 - Input Parameters	:	-
+	 - Return Type		:	long 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	11/11/2016
+	 - Description		:	creating new user in database 
+	 ********************************************************************************************************/
 
 	@Override
 	public long createNewUser() throws OnlineBankingException {
@@ -65,6 +76,17 @@ public class AdminDAOImpl implements IAdminDAO {
 		return userId;
 	}
 
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	addAccountDetails
+	 - Input Parameters	:	Customer cust
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	11/11/2016
+	 - Description		:	Adding Customer details in database
+	 ********************************************************************************************************/
+	
 	@Override
 	public boolean addAccountDetails(Customer cust)
 			throws OnlineBankingException {
@@ -98,6 +120,18 @@ public class AdminDAOImpl implements IAdminDAO {
 		return false;
 	}
 
+	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	addAccountMaster
+	 - Input Parameters	:	AccountMaster account
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	11/11/2016
+	 - Description		:	Adding Account details in database
+	 ********************************************************************************************************/
+	
 	@Override
 	public boolean addAccountMaster(AccountMaster account)
 			throws OnlineBankingException {
@@ -140,6 +174,17 @@ public class AdminDAOImpl implements IAdminDAO {
 		return false;
 	}
 
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getTransactionDetails
+	 - Input Parameters	:	Date startDate, Date endDate
+	 - Return Type		:	List<Transactions> 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	11/11/2016
+	 - Description		:	Getting transaction details between given date range
+	 ********************************************************************************************************/
+	
 	@Override
 	public List<Transactions> getTransactionDetails(Date startDate, Date endDate)
 			throws OnlineBankingException {
@@ -177,9 +222,20 @@ public class AdminDAOImpl implements IAdminDAO {
 
 		return list;
 	}
+	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	changeAccountStatus
+	 - Input Parameters	:	Date startDate, Date endDate
+	 - Return Type		:	List<Transactions> 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	11/11/2016
+	 - Description		:	Getting transaction details between given date range
+	 ********************************************************************************************************/
 
 	@Override
-	public boolean changeAccountStatus(int accNumber, String status)
+	public boolean changeAccountStatus(Long accNumber, String status)
 			throws OnlineBankingException {
 
 		int check = 0;
@@ -190,7 +246,7 @@ public class AdminDAOImpl implements IAdminDAO {
 						.prepareStatement(IQueryMapper.CHANGE_ACCOUNT_STATUS);) {
 
 			pstm.setString(1, status);
-			pstm.setInt(2, accNumber);
+			pstm.setLong(2, accNumber);
 
 			check = pstm.executeUpdate();
 
@@ -207,8 +263,20 @@ public class AdminDAOImpl implements IAdminDAO {
 		return false;
 	}
 
+	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getLockStatus
+	 - Input Parameters	:	Long accNumber
+	 - Return Type		:	String
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	11/11/2016
+	 - Description		:	Getting lock status of user Account
+	 ********************************************************************************************************/
+	
 	@Override
-	public String getLockStatus(int accNumber) throws OnlineBankingException {
+	public String getLockStatus(Long accNumber) throws OnlineBankingException {
 
 		String status = null;
 
@@ -217,7 +285,7 @@ public class AdminDAOImpl implements IAdminDAO {
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_LOCK_STATUS);) {
 
-			pstm.setInt(1, accNumber);
+			pstm.setLong(1, accNumber);
 
 			ResultSet result = pstm.executeQuery();
 
@@ -234,9 +302,21 @@ public class AdminDAOImpl implements IAdminDAO {
 
 		return status;
 	}
+	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getLockStatus
+	 - Input Parameters	:	Long accNumber
+	 - Return Type		:	String
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	11/11/2016
+	 - Description		:	Getting lock status of Account
+	 ********************************************************************************************************/
+	
 
 	@Override
-	public Customer getCustomerDetails(int accNumber)
+	public Customer getCustomerDetails(Long accNumber)
 			throws OnlineBankingException {
 
 		Customer customer = null;
@@ -246,7 +326,7 @@ public class AdminDAOImpl implements IAdminDAO {
 				PreparedStatement pstm = conn
 						.prepareStatement(IQueryMapper.GET_CUSTOMER_DETAILS);) {
 
-			pstm.setInt(1, accNumber);
+			pstm.setLong(1, accNumber);
 
 			ResultSet result = pstm.executeQuery();
 
@@ -268,4 +348,8 @@ public class AdminDAOImpl implements IAdminDAO {
 		return customer;
 	}
 
+	
+	
+
+	
 }

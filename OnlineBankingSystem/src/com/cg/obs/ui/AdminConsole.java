@@ -37,9 +37,9 @@ public class AdminConsole {
 	//------------------------ 1. Online Banking Application --------------------------
 	/*******************************************************************************************************
 	 - Function Name	:	adminConsole
-	 - Input Parameters	:	
+	 - Input Parameters	:	-
 	 - Return Type		:	void
-	 - Throws			:  	
+	 - Throws			:  	-
 	 - Author			:	CAPGEMINI	
 	 - Description		:	Showing actions to be done by Admin
 	 ********************************************************************************************************/
@@ -107,9 +107,9 @@ public class AdminConsole {
 	//------------------------ 1. Online Banking Application --------------------------
 		/*******************************************************************************************************
 		 - Function Name	:	createAccount
-		 - Input Parameters	:	
+		 - Input Parameters	:	-
 		 - Return Type		:	void
-		 - Throws			:  	
+		 - Throws			:  	-
 		 - Author			:	CAPGEMINI	
 		 - Description		:	Creating Customer Account
 		 ********************************************************************************************************/
@@ -236,9 +236,9 @@ public class AdminConsole {
 	//------------------------ 1. Online Banking Application --------------------------
 		/*******************************************************************************************************
 		 - Function Name	:	getTransactionDetails
-		 - Input Parameters	:	
+		 - Input Parameters	:	-
 		 - Return Type		:	void
-		 - Throws			:  	
+		 - Throws			:  	-
 		 - Author			:	CAPGEMINI	
 		 - Description		:	Getting Transaction details of the user
 		 ********************************************************************************************************/
@@ -309,9 +309,9 @@ public class AdminConsole {
 	//------------------------ 1. Online Banking Application --------------------------
 		/*******************************************************************************************************
 		 - Function Name	:	accountLockStatus
-		 - Input Parameters	:	
+		 - Input Parameters	:	-
 		 - Return Type		:	void
-		 - Throws			:  	
+		 - Throws			:  	-
 		 - Author			:	CAPGEMINI	
 		 - Description		:	Getting the lock status of the user
 		 ********************************************************************************************************/

@@ -129,8 +129,7 @@ public class ClientMain {
 						} else if (loginAttempts == 3) {
 							try {
 								
-								boolean success = loginService
-										.lockUserAccount(customerId);
+								 loginService.lockUserAccount(customerId);
 							} catch (OnlineBankingException e) {
 								System.err.println(e.getMessage());
 							}

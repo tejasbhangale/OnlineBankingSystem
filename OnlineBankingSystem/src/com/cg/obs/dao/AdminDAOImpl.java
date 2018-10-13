@@ -15,7 +15,6 @@ import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.ui.ClientMain;
 import com.cg.obs.util.ConnectionProvider;
 import com.cg.obs.util.Messages;
 

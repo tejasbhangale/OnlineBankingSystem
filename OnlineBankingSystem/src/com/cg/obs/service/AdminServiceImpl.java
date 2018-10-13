@@ -9,10 +9,8 @@ import java.util.regex.Pattern;
 import com.cg.obs.bean.AccountMaster;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.bean.User;
 import com.cg.obs.dao.AdminDAOImpl;
 import com.cg.obs.dao.IAdminDAO;
-import com.cg.obs.exception.OnlineBankingException;
 import com.cg.obs.exception.OnlineBankingException;
 
 public class AdminServiceImpl implements IAdminService {

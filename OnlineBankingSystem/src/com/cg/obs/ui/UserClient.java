@@ -36,6 +36,7 @@ public class UserClient {
 		System.out.println("Enter User_id");
 		user.clientConsole(sc2.nextInt());
 		System.out.println("I'm Out");
+		sc2.close();
 	}
 
 	public UserClient() {
@@ -732,7 +733,7 @@ public class UserClient {
 
 	private static boolean verifyTransactionPassword(Scanner scan, long userId)
 			throws OnlineBankingException {
-		long verifyId;
+		
 		String verifyPass;
 		System.out.println("*****Fund Transfer Authentication*****");
 		System.out.println("Enter the Transaction Password");

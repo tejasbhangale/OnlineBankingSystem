@@ -2,6 +2,7 @@ package com.cg.obs.ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import org.apache.log4j.PropertyConfigurator;
 
@@ -16,7 +17,9 @@ public class ClientMain {
 	private static ILoginService loginService = OBSServiceFactory
 			.getLoginService();
 	static Scanner scan = new Scanner(System.in);
-
+	private Logger log = Logger.getLogger("C");
+	
+	
 	public static void main(String[] args) {
 
 		

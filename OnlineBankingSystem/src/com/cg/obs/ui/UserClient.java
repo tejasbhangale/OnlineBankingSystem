@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
@@ -26,7 +23,7 @@ public class UserClient {
 
 	private static ICustomerService cService = OBSServiceFactory
 			.getCustomerBean();
-	static Logger logger = Logger.getRootLogger();
+
 	public static int countPassTries = 0;
 	static UserClient user = new UserClient();
 	Scanner sc = new Scanner(System.in);
@@ -37,11 +34,6 @@ public class UserClient {
 		System.out.println("Enter User_id");
 		user.clientConsole(sc2.nextInt());
 		System.out.println("I'm Out");
-	}
-	
-	
-	public UserClient(){
-		PropertyConfigurator.configure("resources//log4j.properties");
 	}
 
 	public void clientConsole(int userId) {
@@ -100,10 +92,6 @@ public class UserClient {
 		}
 	}
 
-	/*
-	 * This function will help user to view Mini Statement or Detailed Statement,
-	 * captures the choice and redirects to suitable method
-	 */
 	private void doDisplayStatement(int userId) {
 		boolean status = true;
 
@@ -140,10 +128,6 @@ public class UserClient {
 
 	}
 
-	/*
-	 * This function is for first time user where user need to complete the profile 
-	 * in order to access the services, it validates the userData and then proceeds to setup the profile
-	 */
 	private boolean doNewUserActivity(Scanner scan, int userId) {
 		ArrayList<String> userData = doInputGet(scan);
 		try {
@@ -185,10 +169,6 @@ public class UserClient {
 		return inpData;
 	}
 
-	/*
-	 * This function is for password change request where user credentials are validated then 
-	 * password is updated for the requested user profile
-	 */
 	private void doPasswordUpdate(Scanner scan, int userId) {
 		String[] pass = doPassInputAndValidate(scan, userId);
 		if (pass == null) {

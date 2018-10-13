@@ -38,12 +38,12 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Description		:	Returns Customer Details
 	 ********************************************************************************************************/
 	@Override
-	public Customer getCustomerDetails(int id) throws OnlineBankingException {
+	public Customer getCustomerDetails(long id) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.GET_CUSTOMER_DETAILS);) {
-			pt.setInt(1, id);
+			pt.setLong(1, id);
 			ResultSet cusResSet = pt.executeQuery();
 
 			while (cusResSet.next()) {
@@ -101,12 +101,12 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public boolean checkOldPass(String oldPass, int userId) throws OnlineBankingException {
+	public boolean checkOldPass(String oldPass, long userId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.CHECK_OLD_PASSWORD);) {
-			pt.setInt(1, userId);
+			pt.setLong(1, userId);
 
 			ResultSet res = pt.executeQuery();
 			if (res.next()) {
@@ -134,7 +134,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 ********************************************************************************************************/
 
 	@Override
-	public void updatePassword(String newPass, int userId)
+	public void updatePassword(String newPass, long userId)
 			throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
@@ -142,10 +142,16 @@ public class CustomerDaoImpl implements ICustomerDao {
 						.prepareStatement(IQueryMapper.UPDATE_CUSTOMER_PASSWORD);) {
 
 			pt.setString(1, newPass);
-			pt.setInt(2, userId);
+
+		
+			pt.setLong(2, userId);
+		
+
 			if(pt.executeUpdate()>0){
 				logger.info("Updated Customer Password");
 			}
+
+			
 		}  catch (SQLException e) {
 			logger.error("Error Updating Password"+e.getMessage());
 			throw new OnlineBankingException(Messages.DATABASE_ERROR);
@@ -278,14 +284,14 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Description		: Returns Service Tracker details
 	 ********************************************************************************************************/
 
-	public ServiceTracker getRequestStatus(int reqNum, int userId) throws OnlineBankingException {
+	public ServiceTracker getRequestStatus(int reqNum, long userId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.GET_REQUEST_STATUS);) {
 
 			pt.setInt(1, reqNum);
-			pt.setInt(2, userId);
+			pt.setLong(2, userId);
 
 			ServiceTracker sTrack = null;
 			ResultSet res = pt.executeQuery();
@@ -469,13 +475,13 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 - Description		:	Returns List of all the bank accounts of a user
 	 ********************************************************************************************************/
 	@Override
-	public ArrayList<Integer> getAllAccounts(int userId) throws OnlineBankingException {
+	public ArrayList<Integer> getAllAccounts(long userId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.GET_ALL_ACCOUNTS);) {
 
-			pt.setInt(1, userId);
+			pt.setLong(1, userId);
 
 			ResultSet resSet = pt.executeQuery();
 			ArrayList<Integer> accList = new ArrayList<Integer>();
@@ -567,13 +573,13 @@ public class CustomerDaoImpl implements ICustomerDao {
 		}
 
 	@Override
-	public boolean isFirstTimeUser(int userId) throws OnlineBankingException {
+	public boolean isFirstTimeUser(long userId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.IS_NEW_USER);) {
 
-			pt.setInt(1, userId);
+			pt.setLong(1, userId);
 
 			ResultSet resSet = pt.executeQuery();
 
@@ -707,7 +713,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 	 ********************************************************************************************************/
 
 	@Override
-	public void completeProfile(ArrayList<String> userData, int userId) throws OnlineBankingException{
+	public void completeProfile(ArrayList<String> userData, long userId) throws OnlineBankingException{
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
@@ -716,7 +722,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setString(1, userData.get(1));
 			pt.setString(2, userData.get(2));
 			pt.setString(3, userData.get(3));
-			pt.setInt(4, userId);
+			pt.setLong(4, userId);
 			
 			if(pt.executeUpdate()>0){
 				logger.info("First Time User Profile Completed");
@@ -728,4 +734,6 @@ public class CustomerDaoImpl implements ICustomerDao {
 		}
 
 	}
+
+	
 }

@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public Customer getCustomerDetails(int id) throws OnlineBankingException {
+	public Customer getCustomerDetails(long id) throws OnlineBankingException {
 		return cDao.getCustomerDetails(id);
 	}
 
@@ -75,7 +75,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public String[] checkPass(String[] pass, int userId)
+	public String[] checkPass(String[] pass, long userId)
 			throws OnlineBankingException {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!cDao.checkOldPass(pass[0], userId)) {
@@ -104,7 +104,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Description		: calls dao method to initiates the request for change password for requested userId 
 	 ********************************************************************************************************/
 	@Override
-	public void updatePassword(String newPass, int id)
+	public void updatePassword(String newPass, long id)
 			throws OnlineBankingException {
 		cDao.updatePassword(newPass, id);
 	}
@@ -148,7 +148,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 - Description		: calls dao method to initiates the request for tracking service request status
 	 ********************************************************************************************************/
 	@Override
-	public ServiceTracker getRequestStatus(int reqNum, int userId) throws OnlineBankingException {
+	public ServiceTracker getRequestStatus(int reqNum, long userId) throws OnlineBankingException {
 		return cDao.getRequestStatus(reqNum, userId);
 	}
 
@@ -301,12 +301,12 @@ public class CustomerServiceImpl implements ICustomerService {
 	 ********************************************************************************************************/
 
 	@Override
-	public ArrayList<Integer> getAllAccounts(int userId) throws OnlineBankingException {
+	public ArrayList<Integer> getAllAccounts(long userId) throws OnlineBankingException {
 		return cDao.getAllAccounts(userId);
 	}
 
 	@Override
-	public boolean isFirstTimeUser(int userId) throws OnlineBankingException {
+	public boolean isFirstTimeUser(long userId) throws OnlineBankingException {
 		return cDao.isFirstTimeUser(userId);
 	}
 
@@ -323,7 +323,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 ********************************************************************************************************/
 	
 	@Override
-	public boolean validateUserData(ArrayList<String> userData, int userId)
+	public boolean validateUserData(ArrayList<String> userData, long userId)
 			throws OnlineBankingException {
 		ArrayList<String> errors = new ArrayList<String>();
 
@@ -360,7 +360,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 ********************************************************************************************************/
 
 	@Override
-	public void completeProfile(ArrayList<String> userData,int userId) throws OnlineBankingException {
+	public void completeProfile(ArrayList<String> userData,long userId) throws OnlineBankingException {
 		cDao.completeProfile(userData,userId);
 	}
 

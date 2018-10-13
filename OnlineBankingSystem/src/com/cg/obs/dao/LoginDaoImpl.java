@@ -20,7 +20,16 @@ public class LoginDaoImpl implements ILoginDao {
 	public LoginDaoImpl() {
 		super();
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getAdminLogin
+	 - Input Parameters	:	String userId
+	 - Return Type		:	Admin object
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	Getting Admin Credentials
+	 ********************************************************************************************************/	
 	@Override
 	public Admin getAdminLogin(String userId) throws OnlineBankingException {
 		
@@ -47,7 +56,16 @@ public class LoginDaoImpl implements ILoginDao {
 		
 		return admin;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getUserLogin
+	 - Input Parameters	:	long userId
+	 - Return Type		:	User object
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	Getting User Credentials
+	 ********************************************************************************************************/
 	@Override
 	public User getUserLogin(long userId) throws OnlineBankingException {
 		User user=null;
@@ -69,7 +87,16 @@ public class LoginDaoImpl implements ILoginDao {
 		} 
 		return user;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	lockUserAccount
+	 - Input Parameters	:	long id
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	Updating lock status of user account
+	 ********************************************************************************************************/
 	@Override
 	public boolean lockUserAccount(long id) throws OnlineBankingException {
 		boolean lockSuccess=false;
@@ -93,7 +120,16 @@ public class LoginDaoImpl implements ILoginDao {
 
 		
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getUserId
+	 - Input Parameters	:	long userId
+	 - Return Type		:	int
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	Getting User ID
+	 ********************************************************************************************************/
 	@Override
 	public int getUserId(long userId) throws OnlineBankingException {
 		int id=0;
@@ -112,7 +148,16 @@ public class LoginDaoImpl implements ILoginDao {
 		} 
 		return id;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getPass
+	 - Input Parameters	:	long userId
+	 - Return Type		:	String
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	Getting User's login Password
+	 ********************************************************************************************************/
 	@Override
 	public String getPass(long userId) throws OnlineBankingException {
 		String passcode=null;
@@ -132,7 +177,16 @@ public class LoginDaoImpl implements ILoginDao {
 		return passcode;
 	}
 
-	
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	forgotPassword
+	 - Input Parameters	:	long id
+	 - Return Type		:	User object 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	Getting User details
+	 ********************************************************************************************************/	
 	@Override
 	public User forgotPassword(long id) throws OnlineBankingException {
 		User user=null;
@@ -157,7 +211,16 @@ public class LoginDaoImpl implements ILoginDao {
 		}
 		return user;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	setOneTimePassword
+	 - Input Parameters	:	String newPassword,long id
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	Setting one time password for user
+	 ********************************************************************************************************/
 	@Override
 	public boolean setOneTimePassword(String newPassword,long id) throws OnlineBankingException {
 		boolean success=false;

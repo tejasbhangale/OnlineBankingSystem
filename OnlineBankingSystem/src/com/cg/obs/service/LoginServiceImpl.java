@@ -13,15 +13,15 @@ public class LoginServiceImpl implements ILoginService {
 	
 	
 	//------------------------ 1. Online Banking Application --------------------------
-		/*******************************************************************************************************
-		 - Function Name	:	getAdminLogin
-		 - Input Parameters	:	String username, String password
-		 - Return Type		:	boolean success
-		 - Throws			:  	OnlineBankingException
-		 - Author			:	CAPGEMINI
-		 - Creation Date	:	11/11/2016
-		 - Description		:	adding donor to database calls dao method addDonorDetails(donor)
-		 ********************************************************************************************************/
+	/*******************************************************************************************************
+	 - Function Name	:	getAdminLogin
+	 - Input Parameters	:	String username, String password
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	calls dao's getAdminLogin(userId) method
+	 ********************************************************************************************************/
 	@Override
 	public boolean getAdminLogin(String username, String password) throws OnlineBankingException {
 		boolean success=false;
@@ -39,6 +39,16 @@ public class LoginServiceImpl implements ILoginService {
 		
 		return success;
 	}
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	getUserLogin
+	 - Input Parameters	:	long username, String password
+	 - Return Type		:	int 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	calls dao's getUserLogin(userId) method
+	 ********************************************************************************************************/
 
 	@Override
 	public int getUserLogin(long username, String password) throws OnlineBankingException {
@@ -59,13 +69,31 @@ public class LoginServiceImpl implements ILoginService {
 		}
 		
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	lockUserAccount
+	 - Input Parameters	:	long id
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	calls dao's lockUserAccount(id) method
+	 ********************************************************************************************************/
 	@Override
 	public boolean lockUserAccount(long id) throws OnlineBankingException {
 		boolean success =loginDao.lockUserAccount(id);
 		return success;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	validateUserId
+	 - Input Parameters	:	long id
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	calls dao's getUserId(id) method
+	 ********************************************************************************************************/
 	@Override
 	public boolean validateUserId(long id) throws OnlineBankingException {
 		int userId = loginDao.getUserId(id);
@@ -80,7 +108,16 @@ public class LoginServiceImpl implements ILoginService {
 		}
 		return success;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	validatePassword
+	 - Input Parameters	:	long customerId, String customerPassword
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	calls dao's getPass(customerId) method
+	 ********************************************************************************************************/
 	@Override
 	public boolean validatePassword(long customerId, String customerPassword) throws OnlineBankingException {
 		String verifyPass =loginDao.getPass(customerId);
@@ -94,13 +131,31 @@ public class LoginServiceImpl implements ILoginService {
 		}
 		return success;
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	forgotPassword
+	 - Input Parameters	:	long id
+	 - Return Type		:	User object
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	calls dao's forgotPassword(id) method
+	 ********************************************************************************************************/
 	@Override
 	public User forgotPassword(long id) throws OnlineBankingException {
 		// TODO Auto-generated method stub
 		return loginDao.forgotPassword(id);
 	}
-
+	//------------------------ 1. Online Banking Application --------------------------
+	/*******************************************************************************************************
+	 - Function Name	:	setOneTimePassword
+	 - Input Parameters	:	String newPassword,long id
+	 - Return Type		:	boolean 
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	
+	 - Description		:	calls dao's setOneTimePassword(ewPassword,id) method
+	 ********************************************************************************************************/
 	@Override
 	public boolean setOneTimePassword(String newPassword,long id) throws OnlineBankingException {
 		// TODO Auto-generated method stub

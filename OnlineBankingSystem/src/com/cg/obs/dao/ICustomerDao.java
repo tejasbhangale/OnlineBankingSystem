@@ -22,7 +22,7 @@ public interface ICustomerDao {
 
 	public void updatePassword(String newPass, long id) throws OnlineBankingException;
 
-	public int requestChequeBook(int id) throws OnlineBankingException;
+	public int requestChequeBook(long id) throws OnlineBankingException;
 
 	public List<Integer> getAccountList(long id) throws OnlineBankingException;
 	
@@ -30,7 +30,7 @@ public interface ICustomerDao {
 
 	public ServiceTracker getRequestStatus(int reqNum,long userId) throws OnlineBankingException;
 
-	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException;
+	public ArrayList<ServiceTracker> getAllRequestStatus(long accNum) throws OnlineBankingException;
 
 	public List<Transactions> getDetailedStatement(long accNum, Date startDate,
 			Date endDate) throws OnlineBankingException;

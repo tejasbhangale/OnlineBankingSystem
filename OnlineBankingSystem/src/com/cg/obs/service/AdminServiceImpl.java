@@ -21,7 +21,7 @@ public class AdminServiceImpl implements IAdminService {
 	//------------------------ 1. Online Banking Application --------------------------
 		/*******************************************************************************************************
 		 - Function Name	:	addAccountDetails
-		 - Input Parameters	:	Object cust
+		 - Input Parameters	:	Customer Bean
 		 - Return Type		:	boolean 
 		 - Throws			:  	OnlineBankingException
 		 - Author			:	CAPGEMINI
@@ -39,7 +39,7 @@ public class AdminServiceImpl implements IAdminService {
 	//------------------------ 1. Online Banking Application --------------------------
 		/*******************************************************************************************************
 		 - Function Name	:	addAccountMaster
-		 - Input Parameters	:	Object account
+		 - Input Parameters	:	Account Object
 		 - Return Type		:	boolean 
 		 - Throws			:  	OnlineBankingException
 		 - Author			:	CAPGEMINI
@@ -108,7 +108,7 @@ public class AdminServiceImpl implements IAdminService {
 	//------------------------ 1. Online Banking Application --------------------------
 	/*******************************************************************************************************
 	 - Function Name	:	getCustomerDetails
-	 - Input Parameters	:	int accNumbers
+	 - Input Parameters	:	Long accNumber
 	 - Return Type		:	Object 
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
@@ -267,9 +267,6 @@ public class AdminServiceImpl implements IAdminService {
 		Pattern pattern = Pattern.compile("(0/91)?[7-9][0-9]{9}"); 
 		Matcher match = pattern.matcher(Long.toString(mobNumber));
 		
-		
-		
-		
 		return match.matches();
 		
 	}
@@ -279,8 +276,6 @@ public class AdminServiceImpl implements IAdminService {
 		Pattern pattern = Pattern.compile("^(.+)@(.+)$");
 		Matcher match = pattern.matcher(email);
 		return match.matches();
-		
-		
 	}
 	
 	public boolean isValidAddress(String address)
@@ -291,8 +286,6 @@ public class AdminServiceImpl implements IAdminService {
 		}
 		
 		return false;
-		
-		
 	}
 	
 	
@@ -313,19 +306,15 @@ public class AdminServiceImpl implements IAdminService {
 		
 		return false;
 		
-		
 	}
 	
 	public boolean isValidOpeningBalance(double openingBalance)
 	{
-		if(openingBalance>=0)
-		{
+		if(openingBalance>=0){
 			return true;
 		}
 		
 		return false;
-		
-		
 		
 	}
 

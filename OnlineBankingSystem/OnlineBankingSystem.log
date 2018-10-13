@@ -111,3 +111,12 @@
 2018-10-13-main-INFO -Admin     :Creating user Account
 2018-10-13-main-INFO -ClientMain:Banking Application Started
 2018-10-13-main-INFO -ClientMain:Showing options to the customer
+2018-10-13-main-INFO -DB        :Driver Loaded
+2018-10-13-main-INFO -root      :Placed ChequeBook Request
+2018-10-13-main-INFO -DB        :Driver Loaded
+2018-10-13-main-INFO -root      :Updated Customer Details
+2018-10-13-main-INFO -root      :Placed ChequeBook Request
+2018-10-13-main-INFO -root      :Payee Added Successfully
+2018-10-13-main-INFO -DB        :Driver Loaded
+2018-10-13-main-INFO -DB        :Driver Loaded
+2018-10-13-main-INFO -DB        :Driver Loaded

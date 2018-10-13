@@ -21,7 +21,7 @@ public interface ICustomerService {
 
 	public void updatePassword(String newPass, long userId) throws OnlineBankingException;
 
-	public int requestChequeBook(int id) throws OnlineBankingException;
+	public int requestChequeBook(long userId) throws OnlineBankingException;
 
 	public List<Integer> getAccountList(long userId) throws OnlineBankingException;
 
@@ -29,14 +29,14 @@ public interface ICustomerService {
 
 	public ServiceTracker getRequestStatus(int reqNum,long userId) throws OnlineBankingException;
 
-	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException;
+	public ArrayList<ServiceTracker> getAllRequestStatus(long accNum) throws OnlineBankingException;
 
 	public List<Transactions> getDetailedStatement(long accId,
 			java.sql.Date startDate, java.sql.Date endDate) throws OnlineBankingException;
 
 	public boolean checkfunds(long fromaccount, double transferAmount) throws OnlineBankingException;
 
-	public List<Payee> getPayeeList(long id) throws OnlineBankingException;
+	public List<Payee> getPayeeList(long userId) throws OnlineBankingException;
 
 	public int transferfunds(long fromaccount, long toaccount, double transferAmount) throws OnlineBankingException;
 

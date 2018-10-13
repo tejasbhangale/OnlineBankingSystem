@@ -8,7 +8,7 @@ public interface ILoginService {
 	
 	public boolean getAdminLogin(String username,String password) throws OnlineBankingException;
 	
-	public int getUserLogin(long customerId,String password) throws OnlineBankingException;
+	public long getUserLogin(long customerId,String password) throws OnlineBankingException;
 
 	public boolean lockUserAccount(long customerId) throws OnlineBankingException;
 
@@ -16,9 +16,9 @@ public interface ILoginService {
 
 	public boolean validatePassword(long customerId, String customerPassword) throws OnlineBankingException;
 	
-	public User forgotPassword(long id) throws OnlineBankingException;
+	public User forgotPassword(long userId) throws OnlineBankingException;
 
-	public boolean setOneTimePassword(String newPassword, long id) throws OnlineBankingException;
+	public boolean setOneTimePassword(String newPassword, long userId) throws OnlineBankingException;
 
 	
 	

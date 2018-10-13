@@ -111,18 +111,18 @@ public class ClientMain {
 
 						}
 						if (credFlag && userIdValid) {
-							int user_id = 0;
+							long userId = 0;
 							try {
 								log.info("Getting User Credentials");
-								user_id = loginService.getUserLogin(customerId,
+								userId = loginService.getUserLogin(customerId,
 										customerPassword);
 							} catch (OnlineBankingException e) {
 								System.err.println(e.getMessage());
 							}
-							if (user_id != 0) {
+							if (userId != 0) {
 								UserClient userClient = new UserClient();
 								log.info("Moving to client console");
-								userClient.clientConsole(user_id);
+								userClient.clientConsole(userId);
 								//System.out.println("client login done");
 							}
 							

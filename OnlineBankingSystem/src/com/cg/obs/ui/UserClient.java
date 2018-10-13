@@ -40,7 +40,7 @@ public class UserClient {
 	}
 
 	public UserClient() {
-		PropertyConfigurator.configure("resources//log4j.properties");
+		PropertyConfigurator.configure("res//log4j.properties");
 	}
 
 

@@ -2,6 +2,7 @@ package com.cg.obs.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
@@ -11,20 +12,18 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.cg.obs.bean.Admin;
-import com.cg.obs.bean.User;
-import com.cg.obs.dao.LoginDaoImpl;
 import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.service.LoginServiceImpl;
 import com.cg.obs.util.ConnectionProvider;
 
-public class LoginDaoImplTest {
+public class LoginServiceImplTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Connection conn = ConnectionProvider.DEFAULT_INSTANCE.getConnection();
 
 		PreparedStatement addAdmin = conn.prepareStatement("INSERT INTO ADMIN_TABLE VALUES(?,?,?)");
-		PreparedStatement addUser = conn.prepareStatement("INSERT INTO USER_TABLE(user_id, login_password) VALUES(?,?)");
+		PreparedStatement addUser = conn.prepareStatement("INSERT INTO USER_TABLE(user_id, login_password, lock_status) VALUES(?,?,?)");
 
 		addAdmin.setInt(1, 100);
 		addAdmin.setString(2, "dummyadmin");
@@ -32,6 +31,7 @@ public class LoginDaoImplTest {
 		
 		addUser.setLong(1, 555);
 		addUser.setString(2, "dummy@pass");
+		addUser.setString(3, "u");
 		
 		addAdmin.executeUpdate();
 		addUser.executeUpdate();
@@ -44,9 +44,8 @@ public class LoginDaoImplTest {
 	@Test
 	public void testGetAdminLogin() {
 		try {
-			Admin dummyAdmin = (new LoginDaoImpl()).getAdminLogin("dummyadmin");
-			assertNotNull(dummyAdmin);
-			assertEquals("dummyadmin", dummyAdmin.getAdminUserId());
+			boolean dummyAdmin = (new LoginServiceImpl()).getAdminLogin("dummyadmin","dummypass");
+			assertTrue(dummyAdmin);
 		} catch (OnlineBankingException e) {
 			fail(e.getMessage());
 		}
@@ -55,9 +54,10 @@ public class LoginDaoImplTest {
 	@Test
 	public void testGetUserLogin() {
 		try {
-			User dummyUser = (new LoginDaoImpl()).getUserLogin(555);
-			assertNotNull(dummyUser);
-			assertEquals("dummy@pass", dummyUser.getLoginPassword());
+			LoginServiceImpl loginObj = new LoginServiceImpl();
+			long userId = loginObj.getUserLogin(555l,"dummy@pass");
+			assertNotNull(userId);
+			assertEquals(555, userId);
 		} catch (OnlineBankingException e) {
 			fail(e.getMessage());
 		}
@@ -76,5 +76,4 @@ public class LoginDaoImplTest {
 		if (conn != null && !conn.isClosed())
 			conn.close();
 	}
-
 }

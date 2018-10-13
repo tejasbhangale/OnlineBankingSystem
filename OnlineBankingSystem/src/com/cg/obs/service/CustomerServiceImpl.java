@@ -52,14 +52,14 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public Customer getCustomerDetails(long id) throws OnlineBankingException {
-		return cDao.getCustomerDetails(id);
+	public Customer getCustomerDetails(long userId) throws OnlineBankingException {
+		return cDao.getCustomerDetails(userId);
 	}
 
 	@Override
-	public List<Integer> getAccountList(long id) throws OnlineBankingException {
+	public List<Integer> getAccountList(long userId) throws OnlineBankingException {
 		// TODO Auto-generated method stub
-		return cDao.getAccountList(id);
+		return cDao.getAccountList(userId);
 	}
 	@Override
 	public boolean updateCustomerDetails(Customer customer)
@@ -88,29 +88,29 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	/*******************************************************************************************************
-	 - Function Name	: updatePassword(String newPass, int id)
-	 - Input Parameters	: String newPass, int id
-	 - Return Type		: int
+	 - Function Name	: updatePassword(String newPass, long userId)
+	 - Input Parameters	: String newPass, long userId
+	 - Return Type		: void
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
 	 - Description		: calls dao method to initiates the request for change password for requested userId 
 	 ********************************************************************************************************/
 	@Override
-	public void updatePassword(String newPass, long id)
+	public void updatePassword(String newPass, long userId)
 			throws OnlineBankingException {
-		cDao.updatePassword(newPass, id);
+		cDao.updatePassword(newPass, userId);
 	}
 
 	/*******************************************************************************************************
-	 - Function Name	: requestChequeBook(int accNum)
-	 - Input Parameters	: int accNum
+	 - Function Name	: requestChequeBook(long accNum)
+	 - Input Parameters	: long accNum
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
 	 - Description		: calls dao method to the request for checkbook for a particular bank account number
 	 ********************************************************************************************************/
 	@Override
-	public int requestChequeBook(int accNum) throws OnlineBankingException {
+	public int requestChequeBook(long accNum) throws OnlineBankingException {
 		return cDao.requestChequeBook(accNum);
 	}
 	
@@ -129,9 +129,9 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	/*******************************************************************************************************
-	 - Function Name	: getRequestStatus(int reqNum, int userId)
-	 - Input Parameters	: int reqNum, int userId
-	 - Return Type		: ServiceTracker
+	 - Function Name	: getRequestStatus(int reqNum, long userId)
+	 - Input Parameters	: int reqNum, long userId
+	 - Return Type		: ServiceTracker Bean
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
 	 - Description		: calls dao method to initiates the request for tracking service request status
@@ -142,7 +142,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException {
+	public ArrayList<ServiceTracker> getAllRequestStatus(long accNum) throws OnlineBankingException {
 		return cDao.getAllRequestStatus(accNum);
 
 	}
@@ -175,8 +175,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public List<Payee> getPayeeList(long id) throws OnlineBankingException {
-		return cDao.getPayeeList(id);
+	public List<Payee> getPayeeList(long userId) throws OnlineBankingException {
+		return cDao.getPayeeList(userId);
 	}
 	
 	
@@ -200,7 +200,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	/*******************************************************************************************************
 	 - Function Name	: addPayee(Payee payee)
-	 - Input Parameters	: Payee payee
+	 - Input Parameters	: Payee Bean
 	 - Return Type		: boolean
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
@@ -210,19 +210,19 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Override
 	public boolean addPayee(Payee payee) throws OnlineBankingException {
 		boolean payeeFlag=false;
-		System.out.println("in service");
-		List<Payee> payeeList=getPayeeList(payee.getAccountId());
+		System.out.println("acc: " + payee.getAccountId());
+		List<Payee> payeeList = getPayeeList(payee.getAccountId());
+		System.out.println(payeeList);
+		/*List<Payee> payeeList=getPayeeList(payee.getAccountId());
 		List<Integer> accountList=getAccountList(payee.getAccountId());
 		payee.setAccountId(accountList.get(0));
 		int i,count =payeeList.size();
-		System.out.println("count ="+count);
 		if(count>0){
 			for(i=0;i<count;i++){
 				System.out.println(payeeList.get(i).getPayeeAccountId()+"     "+payee.getPayeeAccountId());
 				if(payeeList.get(i).getPayeeAccountId()==payee.getPayeeAccountId()){
 					
 					payeeFlag=false;
-					System.out.println(payeeFlag);
 					break;
 				}
 		}
@@ -231,7 +231,7 @@ public class CustomerServiceImpl implements ICustomerService {
 				cDao.addPayee(payee);
 				payeeFlag=true;
 			}
-		
+		*/
 		return payeeFlag;
 	}
 
@@ -258,8 +258,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	/*******************************************************************************************************
-	 - Function Name	: getAllAccounts(int userId)
-	 - Input Parameters	: int userId
+	 - Function Name	: getAllAccounts(long userId)
+	 - Input Parameters	: long userId
 	 - Return Type		: ArrayList<Integer>
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
@@ -279,8 +279,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	
 	
 	/*******************************************************************************************************
-	 - Function Name	: validateUserData(ArrayList<String> userData, int userId)
-	 - Input Parameters	: ArrayList<String> userData, int userId
+	 - Function Name	: validateUserData(ArrayList<String> userData, long userId)
+	 - Input Parameters	: ArrayList<String> userData, long userId
 	 - Return Type		: void
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
@@ -315,8 +315,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	
 	
 	/*******************************************************************************************************
-	 - Function Name	: completeProfile(ArrayList<String> userData,int userId)
-	 - Input Parameters	: ArrayList<String> userData, int userId
+	 - Function Name	: completeProfile(ArrayList<String> userData,long userId)
+	 - Input Parameters	: ArrayList<String> userData, long userId
 	 - Return Type		: void
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI

@@ -31,6 +31,7 @@ public class CustomerServiceImplTest {
 
 		// for Change in Address
 		PreparedStatement setAddPt = conn.prepareStatement("UPDATE CUSTOMER SET ADDRESS=? WHERE USER_ID=?");
+		//For adding dummy transaction
 		PreparedStatement selMinPt = conn.prepareStatement("INSERT INTO TRANSACTIONS VALUES(?,?,?,?,?,?)");
 		
 		dummyCustomer = (new CustomerServiceImpl()).getCustomerDetails(120);

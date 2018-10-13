@@ -25,12 +25,12 @@ public class CustomerDaoImpl implements ICustomerDao {
 	Logger logger=Logger.getRootLogger();
 	public CustomerDaoImpl()
 	{
-	PropertyConfigurator.configure("resources//log4j.properties");
+	PropertyConfigurator.configure("res//log4j.properties");
 	
 	}
 	/*******************************************************************************************************
-	 - Function Name	:	getCustomerDetails(int id)
-	 - Input Parameters	:	int id
+	 - Function Name	:	getCustomerDetails(long id)
+	 - Input Parameters	:	long id
 	 - Return Type		:	Customer
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
@@ -122,8 +122,8 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 	
 	/*******************************************************************************************************
-	 - Function Name	:	updatePassword(String newPass, int userId)
-	 - Input Parameters	:	String newPass, int userId
+	 - Function Name	:	updatePassword(String newPass, long userId)
+	 - Input Parameters	:	String newPass, long userId
 	 - Return Type		:	void
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
@@ -156,15 +156,15 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	/*******************************************************************************************************
-	 - Function Name	: requestChequeBook(int accId)
-	 - Input Parameters	: int accId
+	 - Function Name	: requestChequeBook(long accId)
+	 - Input Parameters	: long accId
 	 - Return Type		: int
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
 	 - Description		: Returns Checkbook Request ID
 	 ********************************************************************************************************/
 	@Override
-	public int requestChequeBook(int accId) throws OnlineBankingException {
+	public int requestChequeBook(long accId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
@@ -174,7 +174,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			Date date = Date.valueOf(LocalDate.now());
 			pt.setString(1, "New ChequeBook Request");
-			pt.setInt(2, accId);
+			pt.setLong(2, accId);
 			pt.setDate(3, date);
 			pt.setString(4, "Issued");
 
@@ -306,13 +306,13 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
-	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException {
+	public ArrayList<ServiceTracker> getAllRequestStatus(long accNum) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
 						.prepareStatement(IQueryMapper.GET_ALL_REQUESTS);) {
 
-			pt.setInt(1, accNum);
+			pt.setLong(1, accNum);
 
 			ResultSet resSet = pt.executeQuery();
 			ArrayList<ServiceTracker> reqList = new ArrayList<ServiceTracker>();

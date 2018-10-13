@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
@@ -19,6 +22,21 @@ import com.cg.obs.util.Messages;
 
 public class CustomerDaoImpl implements ICustomerDao {
 
+	Logger logger=Logger.getRootLogger();
+	public CustomerDaoImpl()
+	{
+	PropertyConfigurator.configure("resources//log4j.properties");
+	
+	}
+	/*******************************************************************************************************
+	 - Function Name	:	getCustomerDetails(int id)
+	 - Input Parameters	:	int id
+	 - Return Type		:	Customer
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	13/10/2018
+	 - Description		:	Returns Customer Details
+	 ********************************************************************************************************/
 	@Override
 	public Customer getCustomerDetails(int id) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
@@ -40,11 +58,22 @@ public class CustomerDaoImpl implements ICustomerDao {
 			}
 
 		} catch (SQLException e) {
+			logger.error("Error fetching Customer Details"+e.getMessage());
 			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		}
 
 		return null;
 	}
+	
+	/*******************************************************************************************************
+	 - Function Name	:	updateCustomerDetails(Customer customer)
+	 - Input Parameters	:	Customer customer
+	 - Return Type		:	boolean
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	13/10/2018
+	 - Description		:	Updates customer details
+	 ********************************************************************************************************/
 
 	@Override
 	public boolean updateCustomerDetails(Customer customer) throws OnlineBankingException {
@@ -57,10 +86,14 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setLong(3, customer.getUserId());
 
 			int res = pt.executeUpdate();
-			if (res >= 1)
+			if (res >= 1){
+				logger.info("Updated Customer Details");
 				return true;
 
+			}
+			
 		} catch (SQLException e) {
+			logger.error("Error Updating Customer Details"+e.getMessage());
 			throw new OnlineBankingException(Messages.CUSTOMER_UPDATE_FAILED_DAO);
 		}
 		return false;
@@ -78,15 +111,27 @@ public class CustomerDaoImpl implements ICustomerDao {
 			ResultSet res = pt.executeQuery();
 			if (res.next()) {
 				if (res.getString(1).equals(oldPass)) {
+					
 					return true;
 				}
 			}
 
 		} catch (SQLException e) {
+			logger.error("Error Validating Old Password"+e.getMessage());
 			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		}
 		return false;
 	}
+	
+	/*******************************************************************************************************
+	 - Function Name	:	updatePassword(String newPass, int userId)
+	 - Input Parameters	:	String newPass, int userId
+	 - Return Type		:	void
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	13/10/2018
+	 - Description		:	Updates password
+	 ********************************************************************************************************/
 
 	@Override
 	public void updatePassword(String newPass, int userId)
@@ -98,12 +143,24 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			pt.setString(1, newPass);
 			pt.setInt(2, userId);
-			pt.executeUpdate();
+			if(pt.executeUpdate()>0){
+				logger.info("Updated Customer Password");
+			}
 		}  catch (SQLException e) {
+			logger.error("Error Updating Password"+e.getMessage());
 			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		}
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	: requestChequeBook(int accId)
+	 - Input Parameters	: int accId
+	 - Return Type		: int
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Creation Date	: 13/10/2018
+	 - Description		: Returns Checkbook Request ID
+	 ********************************************************************************************************/
 	@Override
 	public int requestChequeBook(int accId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
@@ -124,6 +181,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			if (result >= 1) {
 				ResultSet res = pt2.executeQuery();
 				if (res.next()) {
+					logger.info("Placed ChequeBook Request");
 					return res.getInt(1);
 				} else {
 					return 0;
@@ -133,6 +191,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			}
 
 		} catch (SQLException e) {
+			logger.error("Error Requesting Cheque Book"+e.getMessage());
 			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		}
 	}
@@ -150,15 +209,25 @@ public class CustomerDaoImpl implements ICustomerDao {
 			ResultSet resultSet = pt.executeQuery();
 
 			while (resultSet.next()) {
+				
 				accountList.add(resultSet.getInt(1));
 			}
 
 		} catch (SQLException e) {
+			logger.error("Error Fetching Accounts List"+e.getMessage());
 			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		} 
 		return accountList;
 	}
-
+	/*******************************************************************************************************
+	 - Function Name	: getMiniStatement(long accNum) 
+	 - Input Parameters	: long accNum
+	 - Return Type		: List<Transactions>
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Creation Date	: 13/10/2018
+	 - Description		: Returns first 10 transactions for Mini Statement
+	 ********************************************************************************************************/
 	@Override
 	public List<Transactions> getMiniStatement(long accId)
 			throws OnlineBankingException {
@@ -189,6 +258,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				count++;
 			}
 		} catch (SQLException e) {
+			logger.error("Error Fetching Mini Statement"+e.getMessage());
 			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 		}
 		if (count == 1) {
@@ -197,6 +267,16 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 		return transaction;
 	}
+	
+	/*******************************************************************************************************
+	 - Function Name	: getRequestStatus(int reqNum, int userId)
+	 - Input Parameters	: int reqNum, int userId
+	 - Return Type		: ServiceTracker
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Creation Date	: 13/10/2018
+	 - Description		: Returns Service Tracker details
+	 ********************************************************************************************************/
 
 	public ServiceTracker getRequestStatus(int reqNum, int userId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
@@ -220,6 +300,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			return sTrack;
 
 		} catch (SQLException e) {
+			logger.error("Error Fetching RequestStatus"+e.getMessage());
 			throw new OnlineBankingException(Messages.DATABASE_ERROR);
 		}
 	}
@@ -254,6 +335,16 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	}
 
+	
+	/*******************************************************************************************************
+	 - Function Name	: getDetailedStatement(long accNum, Date startDate, Date endDate)
+	 - Input Parameters	: long accNum, Date startDate,Date endDate
+	 - Return Type		: List<Transactions>
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Creation Date	: 13/10/2018
+	 - Description		: Returns Detailed Statement
+	 ********************************************************************************************************/
 	@Override
 	public List<Transactions> getDetailedStatement(long accNum, Date startDate,
 			Date endDate) throws OnlineBankingException {
@@ -285,6 +376,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			}
 
 		} catch (SQLException e) {
+			logger.error("Error Fetching Detailed Statement"+e.getMessage());
 			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 		}
 
@@ -330,10 +422,21 @@ public class CustomerDaoImpl implements ICustomerDao {
 			}
 
 		} catch (SQLException e) {
+			logger.error("Error Fetching Payee List"+e.getMessage());
 			throw new OnlineBankingException(Messages.PAYEELIST_FETCH);
 		} 
 		return payeeList;
 	}
+	
+	/*******************************************************************************************************
+	 - Function Name	:	debitFunds(long accountID, double transferAmount) 
+	 - Input Parameters	:	long accountID, double transferAmount
+	 - Return Type		:	boolean
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	13/10/2018
+	 - Description		:	Debits funds from the payer's account
+	 ********************************************************************************************************/
 
 	@Override
 	public boolean debitFunds(long accountID, double transferAmount) throws OnlineBankingException {
@@ -346,14 +449,25 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			int res = pt.executeUpdate();
 			if (res == 1){
+				logger.info("Account Debit Success for :"+accountID);
 				return true;
 			}
 		} catch (SQLException e) {
+			logger.error("Error Debiting Funds"+e.getMessage());
 			throw new OnlineBankingException(Messages.FUNDS_TRANSFER_ERROR);
 		}
 		return false;
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	getAllAccounts(int userId)
+	 - Input Parameters	:	int userId
+	 - Return Type		:	ArrayList<Integer>
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	13/10/2018
+	 - Description		:	Returns List of all the bank accounts of a user
+	 ********************************************************************************************************/
 	@Override
 	public ArrayList<Integer> getAllAccounts(int userId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
@@ -366,15 +480,27 @@ public class CustomerDaoImpl implements ICustomerDao {
 			ResultSet resSet = pt.executeQuery();
 			ArrayList<Integer> accList = new ArrayList<Integer>();
 			while (resSet.next()) {
+			
 				accList.add(resSet.getInt(1));
 			}
 			return accList;
 
 		} catch (SQLException e) {
+			
 			throw new OnlineBankingException(Messages.FUNDS_TRANSFER_ERROR);
 		}
 
 	}
+	
+	/*******************************************************************************************************
+	 - Function Name	: creditFunds(long accountID, double transferAmount)
+	 - Input Parameters	: long accountID, double transferAmount
+	 - Return Type		: boolean
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Creation Date	: 13/10/2018
+	 - Description		: Credits Funds to  payee acount
+	 ********************************************************************************************************/
 
 	@Override
 	public boolean creditFunds(long accountID, double transferAmount) throws OnlineBankingException {
@@ -387,13 +513,27 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			int res = pt.executeUpdate();
 			if (res == 1) {
+				logger.info("Account Credit Success for :"+accountID);
 				return true;
 			}
 		} catch (SQLException e) {
+			logger.error("Error Crediting Funds"+e.getMessage());
 			throw new OnlineBankingException(Messages.FUNDS_TRANSFER_ERROR);
 		}
 		return false;
 	}
+	
+	
+	
+	/*******************************************************************************************************
+	 - Function Name	: recordFundTransfer(long fromaccount, long toaccount,double transferAmount)
+	 - Input Parameters	: long fromaccount, long toaccount, double transferAmount
+	 - Return Type		: int
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Creation Date	: 13/10/2018
+	 - Description		: Returns Fund Transfer Id 
+	 ********************************************************************************************************/
 
 	@Override
 	public int recordFundTransfer(long fromaccount, long toaccount,
@@ -412,6 +552,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			if (result == 1) {
 				ResultSet res = pt2.executeQuery();
 				if (res.next()) {
+					logger.info("Record Fund Transfer success");
 					return res.getInt(1);
 				} else {
 					return 0;
@@ -420,6 +561,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				return 0;
 			} 
 			} catch (SQLException e) {
+				logger.error("Error Transferring Funds"+e.getMessage());
 				throw new OnlineBankingException(Messages.FUNDS_TRANSFER_ERROR);
 			}
 		}
@@ -448,6 +590,18 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	: recordTransaction(long accountId, int fundTransferId,
+						  String type, double transferAmount)
+	 - Input Parameters	: long accountId, int fundTransferId,
+						  String type, double transferAmount
+	 - Return Type		: int
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Creation Date	: 13/10/2018
+	 - Description		: Records transaction
+	 ********************************************************************************************************/
+
 	@Override
 	public int recordTransaction(long accountId, int fundTransferId,
 			String type, double transferAmount) throws OnlineBankingException {
@@ -467,6 +621,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 			if (result == 1) {
 				ResultSet res = pt2.executeQuery();
 				if (res.next()) {
+					logger.info("Transaction Record success");
 					return res.getInt(1);
 				} else {
 					return 0;
@@ -476,10 +631,20 @@ public class CustomerDaoImpl implements ICustomerDao {
 			}
 
 		} catch (SQLException e) {
+			logger.error("Error Recording Transaction"+e.getMessage());
 			throw new OnlineBankingException(Messages.FUNDS_TRANSFER_ERROR);
 		}
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	addPayee(Payee payee)
+	 - Input Parameters	:	Payee payee
+	 - Return Type		:	void
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	13/10/2018
+	 - Description		:	Adds Beneficiary to the user account
+	 ********************************************************************************************************/
 	@Override
 	public void addPayee(Payee payee) throws OnlineBankingException {
 		
@@ -490,12 +655,25 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setLong(1, payee.getAccountId());
 			pt.setLong(2, payee.getPayeeAccountId());
 			pt.setString(3, payee.getNickName());
-			pt.executeUpdate();
+			if(pt.executeUpdate()>0){
+				logger.info("Payee Added Successfully");
+			}
 		} catch (SQLException e) {
+			logger.error("Error Adding Payee"+e.getMessage());
 			throw new OnlineBankingException(Messages.SQL_ADD_PAYEE);
 		}
 	}
 
+
+	/*******************************************************************************************************
+	 - Function Name	:	getUserTransPassword(long userId)
+	 - Input Parameters	:	long userId
+	 - Return Type		:	String
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	13/10/2018
+	 - Description		:	Retrieves transaction password for the requested user
+	 ********************************************************************************************************/
 	@Override
 	public String getUserTransPassword(long userId) throws OnlineBankingException {
 		String pass=null;
@@ -517,6 +695,16 @@ public class CustomerDaoImpl implements ICustomerDao {
 		return pass;
 
 	}
+	
+	/*******************************************************************************************************
+	 - Function Name	:	completeProfile(ArrayList<String> userData, int userId)
+	 - Input Parameters	:	ArrayList<String> userData, int userId
+	 - Return Type		:	void
+	 - Throws			:  	OnlineBankingException
+	 - Author			:	CAPGEMINI
+	 - Creation Date	:	13/10/2018
+	 - Description		:	Completes User Profile on First Time login
+	 ********************************************************************************************************/
 
 	@Override
 	public void completeProfile(ArrayList<String> userData, int userId) throws OnlineBankingException{
@@ -530,9 +718,12 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setString(3, userData.get(3));
 			pt.setInt(4, userId);
 			
-			pt.executeUpdate();
+			if(pt.executeUpdate()>0){
+				logger.info("First Time User Profile Completed");
+			}
 		
 		} catch (SQLException e) {
+			logger.error("Error Completing Profile"+e.getMessage());
 			throw new OnlineBankingException(Messages.UPDATE_FAILED);
 		}
 

@@ -51,6 +51,7 @@ public class UserClient {
 				if (doNewUserActivity(scan, userId)) {
 					System.out
 							.println("Thank you for completing your profile!");
+					
 					doUserActivity(scan, userId);
 				} else {
 					System.out
@@ -228,6 +229,7 @@ public class UserClient {
 		}
 	}
 
+	
 	private String[] doPassInputAndValidate(Scanner scan, int userId) {
 		countPassTries = 0;
 
@@ -257,6 +259,12 @@ public class UserClient {
 		return res;
 	}
 
+	
+
+	/*
+	 * This function is to place a request for Cheque Book for any user account,
+	 * it generates a requestNumber used to track the service request
+	 */
 	private void doChequebookRequest(Scanner scan, int userId) {
 		System.out.println("Select Account to request ChequeBook for it:");
 
@@ -283,6 +291,12 @@ public class UserClient {
 		}
 	}
 
+	
+	/*
+	 * This function is for updating the user details like mobile number and address, 
+	 * it takes the input from user and calls service layer to update the records 
+	 * if update is success it return true
+	 */
 	private void doDetailsUpdate(Scanner scan, int ar) {
 
 		try {
@@ -304,7 +318,7 @@ public class UserClient {
 			String address = scan.nextLine();
 
 			/*
-			 * Validating Entered Details and if validated, Updating
+			 * Validating Entered Details and if validated, Updating the record
 			 */
 			cService.validate(mobile, address);
 			customer.setMobile(mobile);
@@ -324,6 +338,13 @@ public class UserClient {
 
 	}
 
+	
+
+	/*
+	 * This function is to track a service requested by the user, it accepts a request number or account number
+	 * and calls the service layer to get the service request details and 
+	 * then populates the ServiceTracker bean object or a requestList with the request details.
+	 */
 	private void doTrackService(Scanner scan, int userId) {
 
 		int sNum = getServiceChoice(scan);
@@ -537,6 +558,14 @@ public class UserClient {
 		}
 		return choice;
 	}
+	
+	
+
+	/*
+	 * This function is to perform Fund Transfer within different accounts of same user to other user accounts in same bank
+	 * User can also manage beneficiary of his account and then perform transactions
+	 * based on the user choice, appropriated service layer methods are invoked and output is displayed
+	 */
 
 	private static void fundTransfer(Scanner scan, long userId) {
 		int choice = 0, count = 0, transactionId;

@@ -46,9 +46,9 @@ public class AdminDAOImpl implements IAdminDAO {
 		     pstm2.executeUpdate();
 	          
 	          
-				} catch (SQLException e ) {
+				} catch (SQLException e) {
 
-		          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
+		          throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 					
 				}
 				
@@ -82,7 +82,7 @@ public class AdminDAOImpl implements IAdminDAO {
             
 		} catch (SQLException e ) {
 
-          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 			
 		}
 		
@@ -139,7 +139,7 @@ public class AdminDAOImpl implements IAdminDAO {
             
 				} catch (SQLException e ) {
 
-			          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
+					throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 						
 					} 
 		
@@ -195,7 +195,7 @@ public class AdminDAOImpl implements IAdminDAO {
             
 		} catch (SQLException e ) {
 
-	          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 				
 			} 
 		
@@ -223,7 +223,7 @@ public class AdminDAOImpl implements IAdminDAO {
 		
 		} catch (SQLException e ) {
 
-	          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 				
 			} 
 		
@@ -260,7 +260,7 @@ public class AdminDAOImpl implements IAdminDAO {
 		
 		}	catch (SQLException e ) {
 
-		          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 					
 				} 
 		
@@ -298,7 +298,7 @@ public class AdminDAOImpl implements IAdminDAO {
 
 		}	catch (SQLException e ) {
 
-		          throw new OnlineBankingException(Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 					
 				} 
 		return customer;

@@ -204,11 +204,8 @@ public class CustomerDaoImpl implements ICustomerDao {
 				transaction.add(tran);
 				count++;
 			}
-		} catch (OnlineBankingException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new OnlineBankingException(
-					Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 		}
 
 		if (count == 1) {
@@ -309,11 +306,8 @@ public class CustomerDaoImpl implements ICustomerDao {
 
 			}
 
-		} catch (OnlineBankingException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
-			throw new OnlineBankingException(
-					Messages.CONNECTION_ESTABILISHED_FAILURE);
+			throw new OnlineBankingException(Messages.SQL_EXCEPTION_ERROR);
 		}
 
 		return transaction;

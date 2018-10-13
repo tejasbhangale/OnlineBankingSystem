@@ -41,5 +41,8 @@ public class Messages {
 	
 	//Payee update failed 
 	public static final String PAYEE_UPDATE_FAILED = "Failed to add Payee!!! Please try afte some time";
+	
+	//Admin
+	public static final String SQL_EXCEPTION_ERROR = "Error while fetching data";
 }
 

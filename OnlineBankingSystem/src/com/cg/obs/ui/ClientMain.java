@@ -2,8 +2,8 @@ package com.cg.obs.ui;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.cg.obs.bean.User;
@@ -14,17 +14,24 @@ import com.cg.obs.util.OBSServiceFactory;
 
 public class ClientMain {
 
+
 	private static ILoginService loginService = OBSServiceFactory
 			.getLoginService();
 	static Scanner scan = new Scanner(System.in);
-	private Logger log = Logger.getLogger("C");
+	
+	public static Logger log = Logger.getLogger("MainUI");
+	
+	
 	
 	
 	public static void main(String[] args) {
 
 		
+		
 		PropertyConfigurator.configure("res/log4j.properties");
 
+		log.info("Banking Application Started");
+		
 		int choice = 0;
 
 		while (choice != 3) {
@@ -36,10 +43,13 @@ public class ClientMain {
 				choice = scan.nextInt();
 			}catch(InputMismatchException e){
 				scan.next();
+				log.error("Invalid option entered");
 				System.err.println("Kindly enter correct option!!!");
 			}
 			
 			if (choice == 1) {
+				
+				log.info("Logging in as Admin");
 				System.out.print("Enter UserName :");
 				String adminUserName = scan.next();
 				System.out.print("Enter Password :");
@@ -50,21 +60,23 @@ public class ClientMain {
 							adminPassword);
 
 					if (success) {
+						log.info("Admin logged in successfully");
 						System.out.println("Successfully logged in");
 						AdminConsole admin = new AdminConsole();
 						admin.adminConsole();
 					}
 
 				} catch (OnlineBankingException e) {
+					log.error("Exception occurred");
 					System.err.println(e.getMessage());
 				}
 
 			} else if (choice == 2) {
-				
+				log.info("Showing login options to the customer");
 				int loginChoice=showLoginOptionsForCustomer();
 				
 				if(loginChoice==1){
-
+					
 					int loginAttempts = 0;
 					String customerUserName = null;
 					String customerPassword = null;
@@ -75,11 +87,13 @@ public class ClientMain {
 					boolean credFlag = false;
 					try {
 						customerId = Integer.parseInt(customerUserName);
+						log.info("Validating User");
 						userIdValid = loginService.validateUserId(customerId);
 					} catch (NumberFormatException e1) {
+						log.error("Enter valid format for User ID");
 						System.err.println("User ID must be in specified format only");
 					} catch (OnlineBankingException e1) {
-
+						log.error("Exception occurred");
 						System.err.println(e1.getMessage());
 					}
 					if (userIdValid) {
@@ -88,10 +102,12 @@ public class ClientMain {
 							System.out.println("Enter Password :");
 							customerPassword = scan.next();
 							loginAttempts++;
+							log.info("Login Attempts incremented");
 							try {
 								credFlag = loginService.validatePassword(
 										customerId, customerPassword);
 							} catch (OnlineBankingException e) {
+								log.error("Exception occurred");
 								System.err.println(e.getMessage());
 							}
 
@@ -99,6 +115,7 @@ public class ClientMain {
 						if (credFlag && userIdValid) {
 							int user_id = 0;
 							try {
+								log.info("Getting User Credentials");
 								user_id = loginService.getUserLogin(customerId,
 										customerPassword);
 							} catch (OnlineBankingException e) {
@@ -106,16 +123,21 @@ public class ClientMain {
 							}
 							if (user_id != 0) {
 								UserClient userClient = new UserClient();
+								log.info("Moving to client console");
 								userClient.clientConsole(user_id);
 								//System.out.println("client login done");
 							}
+							
 						} else if (loginAttempts == 3) {
 							try {
+								
 								boolean success = loginService
 										.lockUserAccount(customerId);
 							} catch (OnlineBankingException e) {
 								System.err.println(e.getMessage());
 							}
+							
+							log.error("Login Attempts exceeded Account Locked");
 							System.err
 									.println("Invalid Login attempts exceeded!!! Your account has been locked");
 						}
@@ -137,6 +159,7 @@ public class ClientMain {
 							if(user.getSecretAnswer().equals(secretAnswer)){
 								System.out.println("Answer validation successfull");
 								String newPassword="#sbq500";
+								log.info("Setting one time password");
 								boolean success=loginService.setOneTimePassword(newPassword,id);
 								if(success){
 									System.out.println("\nYour one time login password is: #sbq500. Kindly login using this passoword and create new password for future use.");
@@ -146,12 +169,14 @@ public class ClientMain {
 								}
 					
 							}else{
+								log.error("Invalid Answer");
 								System.err.println("\nInvalid answer..Try again");
 							}
 						}else{
 							System.err.println("\nUser ID does not exist");
 						}
 					}catch(NullPointerException ne){
+						
 						System.err.println(ne.getMessage());
 					} catch (OnlineBankingException e) {
 						System.err.println(e.getMessage());
@@ -161,6 +186,7 @@ public class ClientMain {
 
 		}
 		scan.close();
+		log.info("Exiting the application");
 		System.out.println("Program Terminated");
 	}
 

@@ -9,33 +9,31 @@ import java.util.List;
 import com.cg.obs.bean.Customer;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
+
 import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSDaoFactory;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.cg.obs.bean.Customer;
 import com.cg.obs.bean.Payee;
 import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
-import com.cg.obs.dao.ICustomerDao;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.exception.OnlineBankingException;
-import com.cg.obs.util.OBSDaoFactory;
+
 
 public class CustomerServiceImpl implements ICustomerService {
 
 	private static ICustomerDao cDao = OBSDaoFactory.getCustomerDao();
 
+
+	/*******************************************************************************************************
+	 - Function Name	: validate(long mobile, String address)
+	 - Input Parameters	: long mobile, String address
+	 - Return Type		: void
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: validates the mobile number and address
+	 ********************************************************************************************************/
+	
 	@Override
 	public void validate(long mobile, String address)
 			throws OnlineBankingException {
@@ -60,7 +58,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public Customer getCustomerDetails(int id) throws OnlineBankingException {
+	public Customer getCustomerDetails(long id) throws OnlineBankingException {
 		return cDao.getCustomerDetails(id);
 	}
 
@@ -76,7 +74,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	public String[] checkPass(String[] pass, int userId)
+	public String[] checkPass(String[] pass, long userId)
 			throws OnlineBankingException {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!cDao.checkOldPass(pass[0], userId)) {
@@ -95,26 +93,57 @@ public class CustomerServiceImpl implements ICustomerService {
 		}
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	: updatePassword(String newPass, int id)
+	 - Input Parameters	: String newPass, int id
+	 - Return Type		: int
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to initiates the request for change password for requested userId 
+	 ********************************************************************************************************/
 	@Override
-	public void updatePassword(String newPass, int id)
+	public void updatePassword(String newPass, long id)
 			throws OnlineBankingException {
 		cDao.updatePassword(newPass, id);
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	: requestChequeBook(int accNum)
+	 - Input Parameters	: int accNum
+	 - Return Type		: int
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to the request for checkbook for a particular bank account number
+	 ********************************************************************************************************/
 	@Override
 	public int requestChequeBook(int accNum) throws OnlineBankingException {
 		return cDao.requestChequeBook(accNum);
 	}
 	
 		
-	
+	/*******************************************************************************************************
+	 - Function Name	: getMiniStatement(long accNum) 
+	 - Input Parameters	: long accNum
+	 - Return Type		: List<Transactions>
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to produce mini statement for the requested account number containing first 10 transactions 
+	 ********************************************************************************************************/
 	@Override
-	public List<Transactions> getMiniStatement(int ar) throws OnlineBankingException {
-		return cDao.getMiniStatement(ar);
+	public List<Transactions> getMiniStatement(long accNum) throws OnlineBankingException {
+		return cDao.getMiniStatement(accNum);
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	: getRequestStatus(int reqNum, int userId)
+	 - Input Parameters	: int reqNum, int userId
+	 - Return Type		: ServiceTracker
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to initiates the request for tracking service request status
+	 ********************************************************************************************************/
 	@Override
-	public ServiceTracker getRequestStatus(int reqNum, int userId) throws OnlineBankingException {
+	public ServiceTracker getRequestStatus(int reqNum, long userId) throws OnlineBankingException {
 		return cDao.getRequestStatus(reqNum, userId);
 	}
 
@@ -123,11 +152,21 @@ public class CustomerServiceImpl implements ICustomerService {
 		return cDao.getAllRequestStatus(accNum);
 
 	}
+	
+	
+	/*******************************************************************************************************
+	 - Function Name	:  getDetailedStatement(long accNum, Date startDate, Date endDate)
+	 - Input Parameters	: long accNum, Date startDate,Date endDate
+	 - Return Type		: List<Transactions>
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to produce detailed statement for the requested account number
+	 ********************************************************************************************************/
 
 	@Override
-	public List<Transactions> getDetailedStatement(int ar, Date startDate,
+	public List<Transactions> getDetailedStatement(long accNum, Date startDate,
 			Date endDate) throws OnlineBankingException {
-		return cDao.getDetailedStatement(ar, startDate, endDate);
+		return cDao.getDetailedStatement(accNum, startDate, endDate);
 	}
 
 	@Override
@@ -145,6 +184,17 @@ public class CustomerServiceImpl implements ICustomerService {
 	public List<Payee> getPayeeList(long id) throws OnlineBankingException {
 		return cDao.getPayeeList(id);
 	}
+	
+	
+
+	/*******************************************************************************************************
+	 - Function Name	: transferfunds(long fromaccount, long toaccount, double transferAmount)
+	 - Input Parameters	: long fromaccount, long toaccount, double transferAmount
+	 - Return Type		: int
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to initiate fund transfer request and record transaction
+	 ********************************************************************************************************/
 
 	@Override
 	public int transferfunds(long fromaccount, long toaccount, double transferAmount) throws OnlineBankingException {
@@ -170,6 +220,16 @@ public class CustomerServiceImpl implements ICustomerService {
 		cDao.recordTransaction(toaccount,fundTransferId,"c",transferAmount);
 		return transactionId;
 	}
+	
+
+	/*******************************************************************************************************
+	 - Function Name	: addPayee(Payee payee)
+	 - Input Parameters	: Payee payee
+	 - Return Type		: boolean
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to add beneficiary information for the requested user account
+	 ********************************************************************************************************/
 
 	@Override
 	public boolean addPayee(Payee payee) throws OnlineBankingException {
@@ -199,6 +259,18 @@ public class CustomerServiceImpl implements ICustomerService {
 		return payeeFlag;
 	}
 
+	
+
+	/*******************************************************************************************************
+	 - Function Name	: transactionAuthentication(long userId,String verifyPass)
+	 - Input Parameters	: long userId,String verifyPass
+	 - Return Type		: boolean
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to authenticate the user credentials for performing transaction
+	 ********************************************************************************************************/
+
+	
 	@Override
 	public boolean transactionAuthentication(long userId,String verifyPass) throws OnlineBankingException {
 		
@@ -209,19 +281,38 @@ public class CustomerServiceImpl implements ICustomerService {
 		return false;
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	: getAllAccounts(int userId)
+	 - Input Parameters	: int userId
+	 - Return Type		: ArrayList<Integer>
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to fetch all the registered account of user
+	 ********************************************************************************************************/
 
 	@Override
-	public ArrayList<Integer> getAllAccounts(int userId) throws OnlineBankingException {
+	public ArrayList<Integer> getAllAccounts(long userId) throws OnlineBankingException {
 		return cDao.getAllAccounts(userId);
 	}
 
 	@Override
-	public boolean isFirstTimeUser(int userId) throws OnlineBankingException {
+	public boolean isFirstTimeUser(long userId) throws OnlineBankingException {
 		return cDao.isFirstTimeUser(userId);
 	}
 
+	
+	
+	/*******************************************************************************************************
+	 - Function Name	: validateUserData(ArrayList<String> userData, int userId)
+	 - Input Parameters	: ArrayList<String> userData, int userId
+	 - Return Type		: void
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: validates the userData
+	 ********************************************************************************************************/
+	
 	@Override
-	public boolean validateUserData(ArrayList<String> userData, int userId)
+	public boolean validateUserData(ArrayList<String> userData, long userId)
 			throws OnlineBankingException {
 		ArrayList<String> errors = new ArrayList<String>();
 
@@ -245,9 +336,19 @@ public class CustomerServiceImpl implements ICustomerService {
 		}
 
 	}
+	
+	
+	/*******************************************************************************************************
+	 - Function Name	: completeProfile(ArrayList<String> userData,int userId)
+	 - Input Parameters	: ArrayList<String> userData, int userId
+	 - Return Type		: void
+	 - Throws		    : OnlineBankingException
+	 - Author	      	: CAPGEMINI
+	 - Description		: calls dao method to complete user profile for first time user
+	 ********************************************************************************************************/
 
 	@Override
-	public void completeProfile(ArrayList<String> userData,int userId) throws OnlineBankingException {
+	public void completeProfile(ArrayList<String> userData,long userId) throws OnlineBankingException {
 		cDao.completeProfile(userData,userId);
 	}
 

@@ -39,6 +39,11 @@ public class Messages {
 	//exit
 	public static final String EXIT_MESSAGE = "Thank you for using ONLINE BANKING SYSTEM!!!";
 	
+	//Payee update failed 
+	public static final String PAYEE_UPDATE_FAILED = "Failed to add Payee!!! Please try afte some time";
+	
+	//Admin
+	public static final String SQL_EXCEPTION_ERROR = "Error while fetching data";
 	
 	// SQL Exception
 	public static final String SQL_ADD_PAYEE= "Failed to add Payee!!! Please try after some time";
@@ -50,5 +55,6 @@ public class Messages {
 	public static final String PAYEELIST_FETCH = "Failed to get Payee list!!! Please try after some time";
 	public static final String FORGOT_PASSWORD = "Unable to change password due to server issue!!! Please try after some time ";
 	public static final String CHANGE_LOCK_STATUS = "Unable to change status due to server issue!!! Please try after some time ";
+
 }
 

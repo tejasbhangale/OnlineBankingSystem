@@ -14,25 +14,25 @@ import com.cg.obs.exception.OnlineBankingException;
 
 public interface ICustomerDao {
 
-	public Customer getCustomerDetails(int id) throws OnlineBankingException;
+	public Customer getCustomerDetails(long id) throws OnlineBankingException;
 
 	public boolean updateCustomerDetails(Customer customer) throws OnlineBankingException;
 
-	public boolean checkOldPass(String oldPass, int id) throws OnlineBankingException;
+	public boolean checkOldPass(String oldPass, long userId) throws OnlineBankingException;
 
-	public void updatePassword(String newPass, int id) throws OnlineBankingException;
+	public void updatePassword(String newPass, long id) throws OnlineBankingException;
 
 	public int requestChequeBook(int id) throws OnlineBankingException;
 
 	public List<Integer> getAccountList(long id) throws OnlineBankingException;
 	
-	public List<Transactions> getMiniStatement(int ar) throws OnlineBankingException;
+	public List<Transactions> getMiniStatement(long accNum) throws OnlineBankingException;
 
-	public ServiceTracker getRequestStatus(int reqNum,int userId) throws OnlineBankingException;
+	public ServiceTracker getRequestStatus(int reqNum,long userId) throws OnlineBankingException;
 
 	public ArrayList<ServiceTracker> getAllRequestStatus(int accNum) throws OnlineBankingException;
 
-	public List<Transactions> getDetailedStatement(int ar, Date startDate,
+	public List<Transactions> getDetailedStatement(long accNum, Date startDate,
 			Date endDate) throws OnlineBankingException;
 
 	public double getAccBalance(long accountId) throws OnlineBankingException;
@@ -53,10 +53,10 @@ public interface ICustomerDao {
 
 	public String getUserTransPassword(long userId) throws OnlineBankingException;
 
-	public ArrayList<Integer> getAllAccounts(int userId) throws OnlineBankingException;
+	public ArrayList<Integer> getAllAccounts(long userId) throws OnlineBankingException;
 
-	public boolean isFirstTimeUser(int userId) throws OnlineBankingException;
+	public boolean isFirstTimeUser(long userId) throws OnlineBankingException;
 
-	public void completeProfile(ArrayList<String> userData, int userId) throws OnlineBankingException;
+	public void completeProfile(ArrayList<String> userData, long userId) throws OnlineBankingException;
 
 }

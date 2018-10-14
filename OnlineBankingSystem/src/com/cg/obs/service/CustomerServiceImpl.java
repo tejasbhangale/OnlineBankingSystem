@@ -293,7 +293,13 @@ public class CustomerServiceImpl implements ICustomerService {
 	public boolean validateUserData(ArrayList<String> userData, long userId)
 			throws OnlineBankingException {
 		ArrayList<String> errors = new ArrayList<String>();
-
+		/*
+		 * For userData ArrayList
+		 * 0: old user password
+		 * 1: new transaction password
+		 * 2: secret question
+		 * 3: secret answer
+		 */
 		if (!cDao.checkOldPass((userData.get(0)), userId)) {
 			errors.add("Invalid old password!");
 		}

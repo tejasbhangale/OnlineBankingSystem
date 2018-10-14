@@ -40,7 +40,7 @@ public interface ICustomerService {
 
 	public int transferfunds(long fromaccount, long toaccount, double transferAmount) throws OnlineBankingException;
 
-	public boolean addPayee(Payee payee) throws OnlineBankingException;
+	public boolean addPayee(Payee payee, long userId) throws OnlineBankingException;
 
 	public boolean transactionAuthentication(long userId, String verifyPass) throws OnlineBankingException;
 	

@@ -83,5 +83,7 @@ public interface IQueryMapper {
 
 	public static final String COMPLETE_USER_PROFILE = "UPDATE USER_TABLE SET transaction_password=?,secret_question=?,secret_answer=? WHERE USER_ID=?";
 
+	public static final String VALID_ACCOUNT = "SELECT account_id FROM account_master WHERE account_id=?";
+
 
 }

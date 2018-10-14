@@ -57,6 +57,8 @@ public class Messages {
 	public static final String CHANGE_LOCK_STATUS = "Unable to change status due to server issue!!! Please try after some time ";
 	public static final String DB_CONNECTION = "Technical issue occured!!! Check after some time";
 	public static final String FUNDS_ROLLBACK = "Technical issue occured!!! Unable to transfer/revert back funds.Please try after some time";
+	public static final String PAYEE_ACCOUNT_ID_INVALID = "Payee account does not exists!!!";
+	public static final String INVALID_TRANSFER_AMOUNT = "Invalid Transfer Amount Entered";
 
 }
 

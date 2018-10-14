@@ -121,3 +121,204 @@
 2018-10-13-main-INFO -DB        :Driver Loaded
 2018-10-13-main-INFO -DB        :Driver Loaded
 2018-10-13-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Logging in as Admin
+2018-10-14-main-INFO -MainUI    :Admin logged in successfully
+2018-10-14-main-INFO -Admin     :Admin Console started...
+2018-10-14-main-INFO -Admin     :Getting account status
+2018-10-14-main-INFO -Admin     :Getting User lock status
+2018-10-14-main-INFO -Admin     :User account is unlicked
+2018-10-14-main-INFO -Admin     :Exiting Admin console
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-ERROR-MainUI    :Exception occurred
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-ERROR-MainUI    :Exception occurred
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-ERROR-root      :Error Fetching Payee ListORA-00933: SQL command not properly ended
+
+2018-10-14-main-ERROR-root      :Error Fetching Payee ListORA-00933: SQL command not properly ended
+
+2018-10-14-main-ERROR-root      :Error Fetching Payee ListORA-00933: SQL command not properly ended
+
+2018-10-14-main-ERROR-root      :Error Fetching Payee ListORA-00933: SQL command not properly ended
+
+2018-10-14-main-ERROR-root      :Error Fetching Payee ListORA-00933: SQL command not properly ended
+
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-ERROR-MainUI    :Enter valid format for User ID
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -MainUI    :Exiting the application
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -MainUI    :Exiting the application
+2018-10-14-main-INFO -MainUI    :Exiting the application
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Exiting the application
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-ERROR-MainUI    :Enter valid format for User ID
+2018-10-14-main-INFO -MainUI    :Logging in as Admin
+2018-10-14-main-INFO -MainUI    :Admin logged in successfully
+2018-10-14-main-INFO -Admin     :Admin Console started...
+2018-10-14-main-INFO -Admin     :Getting account status
+2018-10-14-main-INFO -Admin     :Getting User lock status
+2018-10-14-main-INFO -Admin     :User account is unlicked
+2018-10-14-main-INFO -Admin     :Getting account status
+2018-10-14-main-INFO -Admin     :Getting User lock status
+2018-10-14-main-INFO -Admin     :User account is unlicked
+2018-10-14-main-INFO -Admin     :Exiting Admin console
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-ERROR-MainUI    :Invalid option entered
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -root      :Record Fund Transfer success
+2018-10-14-main-INFO -root      :Transaction Record success
+2018-10-14-main-INFO -root      :Account Debit Success for :1007
+2018-10-14-main-INFO -root      :Account Credit Success for :1004
+2018-10-14-main-INFO -root      :Transaction Record success
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Logging in as Admin
+2018-10-14-main-INFO -MainUI    :Admin logged in successfully
+2018-10-14-main-INFO -Admin     :Admin Console started...
+2018-10-14-main-INFO -Admin     :Getting account status
+2018-10-14-main-INFO -Admin     :Getting User lock status
+2018-10-14-main-INFO -Admin     :User account is unlicked
+2018-10-14-main-INFO -Admin     :Exiting Admin console
+2018-10-14-main-INFO -MainUI    :Logging in as Admin
+2018-10-14-main-ERROR-MainUI    :Exception occurred
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -root      :Payee Added Successfully
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-ERROR-MainUI    :Exception occurred
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -MainUI    :Banking Application Started
+2018-10-14-main-INFO -MainUI    :Showing login options to the customer
+2018-10-14-main-INFO -MainUI    :Validating User
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -MainUI    :Login Attempts incremented
+2018-10-14-main-INFO -MainUI    :Getting User Credentials
+2018-10-14-main-INFO -MainUI    :Moving to client console
+2018-10-14-main-INFO -MainUI    :Exiting the application
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -root      :Record Fund Transfer success
+2018-10-14-main-INFO -root      :Transaction Record success
+2018-10-14-main-INFO -root      :Account Debit Success for :1001
+2018-10-14-main-INFO -root      :Account Credit Success for :1002
+2018-10-14-main-INFO -root      :Transaction Record success
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -DB        :Driver Loaded
+2018-10-14-main-INFO -root      :Record Fund Transfer success
+2018-10-14-main-INFO -root      :Transaction Record success
+2018-10-14-main-INFO -root      :Account Debit Success for :1001
+2018-10-14-main-INFO -root      :Account Credit Success for :1002
+2018-10-14-main-INFO -root      :Transaction Record success

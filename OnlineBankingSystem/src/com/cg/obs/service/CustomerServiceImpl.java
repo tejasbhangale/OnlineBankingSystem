@@ -11,6 +11,7 @@ import com.cg.obs.bean.ServiceTracker;
 import com.cg.obs.bean.Transactions;
 import com.cg.obs.dao.ICustomerDao;
 import com.cg.obs.exception.OnlineBankingException;
+import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSDaoFactory;
 
 
@@ -208,34 +209,35 @@ public class CustomerServiceImpl implements ICustomerService {
 	 ********************************************************************************************************/
 
 	@Override
-	public boolean addPayee(Payee payee) throws OnlineBankingException {
-		boolean payeeFlag=false;
-		System.out.println("acc: " + payee.getAccountId());
-		List<Payee> payeeList = getPayeeList(payee.getAccountId());
-		System.out.println(payeeList);
-		/*List<Payee> payeeList=getPayeeList(payee.getAccountId());
-		List<Integer> accountList=getAccountList(payee.getAccountId());
-		payee.setAccountId(accountList.get(0));
+	public boolean addPayee(Payee payee,long userId) throws OnlineBankingException {
+		boolean payeeFlag=true;
+		//boolean payeeExist=false;
+		List<Payee> payeeList = getPayeeList(userId);
 		int i,count =payeeList.size();
-		if(count>0){
-			for(i=0;i<count;i++){
-				System.out.println(payeeList.get(i).getPayeeAccountId()+"     "+payee.getPayeeAccountId());
-				if(payeeList.get(i).getPayeeAccountId()==payee.getPayeeAccountId()){
-					
-					payeeFlag=false;
-					break;
+		if(isValidAccount(payee.getPayeeAccountId())){
+			
+			if(count>0){
+				for(i=0;i<count;i++){
+					if(payeeList.get(i).getPayeeAccountId()==payee.getPayeeAccountId()){
+						payeeFlag=true;
+						break;
+					}
 				}
-		}
-		}
-			else{ 
+			}
+			if(payeeFlag){ 
 				cDao.addPayee(payee);
 				payeeFlag=true;
-			}
-		*/
+			}	
+		}else{
+			throw new OnlineBankingException(Messages.PAYEE_ACCOUNT_ID_INVALID);
+		}
+
 		return payeeFlag;
 	}
 
-	
+	private boolean isValidAccount(long accountId) throws OnlineBankingException{
+		return cDao.isValidAccount(accountId);
+	}
 
 	/*******************************************************************************************************
 	 - Function Name	: transactionAuthentication(long userId,String verifyPass)

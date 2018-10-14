@@ -55,4 +55,6 @@ public interface ICustomerDao {
 	public int transferfunds(long fromaccount, long toaccount,
 			double transferAmount) throws OnlineBankingException;
 
+	public boolean isValidAccount(long accountId) throws OnlineBankingException;
+
 }

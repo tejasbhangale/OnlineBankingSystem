@@ -173,7 +173,6 @@ public class UserClient {
 		ArrayList<String> userData = doInputGet(scan);
 		try {
 			cService.validateUserData(userData, userId);
-			System.out.println("Data Validated");
 			cService.completeProfile(userData, userId);
 			return true;
 		} catch (OnlineBankingException e) {
@@ -188,20 +187,21 @@ public class UserClient {
 		System.out.println("It seems it is your first time here.");
 		System.out
 				.println("Please complete your profile to enhance your experience here.");
-		System.out.println("Here's a few things we'ed like to ask");
+		System.out.println("\nHere's a few things we'ed like to ask");
 
 		System.out.println("\nFirst, we need to change your old password!");
-		System.out.println("So,Enter your old pass to verify your identity:");
+		System.out.println("\nEnter your old password: ");
 
 		inpData.add(scan.next());
 
 		System.out
-				.println("Great!, Now its time to set up your transaction password, enter it:");
+				.println("Great!, Now its time to set up your transaction password");
+		System.out.println("Enter new transaction password: ");
 		inpData.add(scan.next());
 
-		System.out.println("You're doing great! Enter your secret question");
-		System.out
-				.println("(Needed in-case you forget your password and need to change it):");
+		System.out.println("You're doing fantastic! Now, We need a secret question");
+		System.out.println("(Needed in-case you forget your password and need to change it):");
+		System.out.println("\nEnter your secret question:");
 		scan.nextLine();
 		inpData.add(scan.nextLine());
 		System.out.println("Lastly, enter the answer to this question:");
@@ -611,26 +611,27 @@ public class UserClient {
 				toaccount=selfaccounts.get(scan.nextInt()-1);
 				System.out.println("Enter Amount to be transferred:");
 				transferAmount=scan.nextDouble();
-				
-					
-
-					if (fromaccount == toaccount) {
-						System.err.println("Same account has been selected");
-
-					} else if (cService.checkfunds(fromaccount, transferAmount)) {
-						if (verifyTransactionPassword(scan, userId)) {
-							transactionId = cService.transferfunds(fromaccount,
-									toaccount, transferAmount);
-							System.out
-									.println("Transaction Id is :"
-											+ transactionId);
+				if(transferAmount>0){
+						if (fromaccount == toaccount) {
+							System.err.println("Same account has been selected");
+	
+						} else if (cService.checkfunds(fromaccount, transferAmount)) {
+							if (verifyTransactionPassword(scan, userId)) {
+								transactionId = cService.transferfunds(fromaccount,
+										toaccount, transferAmount);
+								System.out
+										.println("Transaction Id is :"
+												+ transactionId);
+							} else {
+								System.err
+										.println("Transaction Authentication Failure!!!");
+							}
+	
 						} else {
-							System.err
-									.println("Transaction Authentication Failure!!!");
+							System.err.println("Insufficient funds to transfer");
 						}
-
-					} else {
-						System.err.println("Insufficient funds to transfer");
+					}else{
+						System.err.println(Messages.INVALID_TRANSFER_AMOUNT);
 					}
 				} catch (InputMismatchException e) {
 					scan.next();
@@ -681,24 +682,28 @@ public class UserClient {
 							System.out
 									.println("Enter Amount to be transferred:");
 							transferAmount = scan.nextDouble();
-
-							if (cService
-									.checkfunds(fromaccount, transferAmount)) {
-								if (verifyTransactionPassword(scan, userId)) {
-									transactionId = cService.transferfunds(
-											fromaccount, toaccount,
-											transferAmount);
-									System.out
-											.println("Transaction Id is :"
-													+ transactionId);
+							if(transferAmount>0){
+								if (cService
+										.checkfunds(fromaccount, transferAmount)) {
+									if (verifyTransactionPassword(scan, userId)) {
+										transactionId = cService.transferfunds(
+												fromaccount, toaccount,
+												transferAmount);
+										System.out
+												.println("Transaction Id is :"
+														+ transactionId);
+									} else {
+										System.err
+												.println("Transaction Authentication Failure!!!");
+									}
 								} else {
-									System.err
-											.println("Transaction Authentication Failure!!!");
+									System.out
+											.println("Insufficient funds to transfer");
 								}
-							} else {
-								System.out
-										.println("Insufficient funds to transfer");
+							}else{
+								System.err.println(Messages.INVALID_TRANSFER_AMOUNT);
 							}
+							
 						} catch (InputMismatchException e) {
 							scan.next();
 							System.err
@@ -749,14 +754,15 @@ public class UserClient {
 			if (payeeAccountId1 == payeeAccountId2) {
 				System.out.println("Enter the nick name for the payee:");
 				scan.nextLine();
-
+				
 				String payeeNickname = scan.nextLine();
-				Payee payee = new Payee(userId, payeeAccountId2, payeeNickname);
+				long accId = cService.getAllAccounts(userId).get(0);
+				Payee payee = new Payee(accId, payeeAccountId2, payeeNickname);
 				System.out
 						.println("Enter the URN(Unique Registration Number) to confirm the Payee :");
 				String urn = scan.next();
 				if (urn.equals("abc345")) {
-					if (cService.addPayee(payee)) {
+					if (cService.addPayee(payee,userId)) {
 						System.out.println("Payee with account ID: "
 								+ payeeAccountId2 + " with nick name as "
 								+ payeeNickname + " is added");

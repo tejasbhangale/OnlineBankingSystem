@@ -652,6 +652,23 @@ public class CustomerDaoImpl implements ICustomerDao {
 		}
 	}
 
+	@Override
+	public boolean isValidAccount(long accountId) throws OnlineBankingException {
+		boolean payeeExist=false;
+		try (Connection connection = ConnectionProvider.DEFAULT_INSTANCE
+				.getConnection();
+				PreparedStatement pt = connection
+						.prepareStatement(IQueryMapper.VALID_ACCOUNT);) {
+			pt.setLong(1, accountId);
+			ResultSet resultSet = pt.executeQuery();
+			payeeExist=resultSet.next();
+		} catch (SQLException e) {
+			logger.error("Error Adding Payee"+e.getMessage());
+			throw new OnlineBankingException(Messages.SQL_ADD_PAYEE);
+		}
+		return payeeExist;
+	}
+	
 
 	/*******************************************************************************************************
 	 - Function Name	:	getUserTransPassword(long userId)

@@ -150,7 +150,7 @@ public class LoginServiceImpl implements ILoginService {
 	 ********************************************************************************************************/
 	@Override
 	public boolean setOneTimePassword(String newPassword,long userId) throws OnlineBankingException {
-		// TODO Auto-generated method stub
+		
 		return loginDao.setOneTimePassword(newPassword,userId);
 	}	
 

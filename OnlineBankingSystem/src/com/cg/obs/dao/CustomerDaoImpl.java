@@ -293,7 +293,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				sTrack = new ServiceTracker();
 				sTrack.setService_id(res.getInt(1));
 				sTrack.setServiceDescription(res.getString(2));
-				sTrack.setAccountId(res.getInt(3));
+				sTrack.setAccountId(res.getLong(3));
 				sTrack.setServiceRaisedDate(res.getDate(4));
 				sTrack.setStatus(res.getString(5));
 			}
@@ -322,7 +322,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				ServiceTracker sTrack = new ServiceTracker();
 				sTrack.setService_id(resSet.getInt(1));
 				sTrack.setServiceDescription(resSet.getString(2));
-				sTrack.setAccountId(resSet.getInt(3));
+				sTrack.setAccountId(resSet.getLong(3));
 				sTrack.setServiceRaisedDate(resSet.getDate(4));
 				sTrack.setStatus(resSet.getString(5));
 				reqList.add(sTrack);

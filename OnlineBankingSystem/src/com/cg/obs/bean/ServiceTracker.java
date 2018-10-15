@@ -5,7 +5,7 @@ import java.sql.Date;
 public class ServiceTracker {
 	private int serviceId;
 	private String serviceDescription;
-	private int accountId;
+	private Long accountId;
 	private Date serviceRaisedDate;
 	private String status;
 
@@ -25,11 +25,11 @@ public class ServiceTracker {
 		this.serviceDescription = serviceDescription;
 	}
 
-	public int getAccountId() {
+	public Long getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(int accountId) {
+	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
 	}
 
@@ -51,11 +51,11 @@ public class ServiceTracker {
 
 	public ServiceTracker() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public ServiceTracker(int service_id, String serviceDescription,
-			int accountId, Date serviceRaisedDate, String status) {
+			Long accountId, Date serviceRaisedDate, String status) {
 		super();
 		this.serviceId = service_id;
 		this.serviceDescription = serviceDescription;

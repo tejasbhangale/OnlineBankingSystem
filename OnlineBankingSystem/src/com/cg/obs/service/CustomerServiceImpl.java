@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public List<Integer> getAccountList(long userId) throws OnlineBankingException {
-		// TODO Auto-generated method stub
+		
 		return cDao.getAccountList(userId);
 	}
 	@Override

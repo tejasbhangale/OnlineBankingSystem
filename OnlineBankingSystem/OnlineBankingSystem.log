@@ -436,3 +436,12 @@ ORA-12505, TNS:listener does not currently know of SID given in connect descript
 2018-10-15-main-INFO -root      :Account Debit Success for :1001
 2018-10-15-main-INFO -root      :Account Credit Success for :1003
 2018-10-15-main-INFO -root      :Transaction Record success
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-INFO -MainUI    :Getting User Credentials
+2018-10-15-main-INFO -MainUI    :Moving to client console
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Logging in as Admin

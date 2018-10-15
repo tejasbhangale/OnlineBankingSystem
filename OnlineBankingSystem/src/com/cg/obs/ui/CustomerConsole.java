@@ -21,17 +21,17 @@ import com.cg.obs.service.ICustomerService;
 import com.cg.obs.util.Messages;
 import com.cg.obs.util.OBSServiceFactory;
 
-public class UserClient {
+public class CustomerConsole {
 
 	private static ICustomerService cService = OBSServiceFactory
 			.getCustomerBean();
 
 	public static int countPassTries = 0;
-	static UserClient user = new UserClient();
+	static CustomerConsole user = new CustomerConsole();
 	Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		UserClient user = new UserClient();
+		CustomerConsole user = new CustomerConsole();
 		Scanner sc2 = new Scanner(System.in);
 		System.out.println("Enter User_id");
 		user.clientConsole(sc2.nextInt());
@@ -40,7 +40,7 @@ public class UserClient {
 	}
 
 
-	public UserClient() {
+	public CustomerConsole() {
 		PropertyConfigurator.configure("res//log4j.properties");
 	}
 
@@ -425,9 +425,30 @@ public class UserClient {
 			if (transaction == null) {
 				System.out.println("No Transaction found for given Account");
 			} else {
+				System.out.println("\n");
+				
+				String leftAlignFormat = "| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n";
+				
+				System.out.format(
+						 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+						);
+				System.out.format(
+						 "| Transaction Id  | Description     | Date            | Type            |  Amount         |   Account Number|%n"
+						);
+				System.out.format(
+						 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+						);
 				for (Transactions transactions : transaction) {
-					System.out.println(transactions);
+					System.out.format(leftAlignFormat,transactions.getTransactionId(),transactions.getTransactionDesc(),
+							transactions.getDateOfTransaction(),transactions.getTransactionType(),transactions.getTransactionAmount()
+							,transactions.getAccountId());
 				}
+				
+				System.out.format(
+						 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+						);
+				System.out.println("\n");
+				
 			}
 		} catch (OnlineBankingException e) {
 			System.out.println(e.getMessage());
@@ -469,11 +490,32 @@ public class UserClient {
 
 				} else {
 
-					for (Transactions tra : list) {
-
-						System.out.println(tra.toString());
-
+					
+					System.out.println("\n");
+					
+					String leftAlignFormat = "| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n";
+					
+					System.out.format(
+							 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+							);
+					System.out.format(
+							 "| Transaction Id  | Description     | Date            | Type            |  Amount         |   Account Number|%n"
+							);
+					System.out.format(
+							 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+							);
+					for (Transactions transactions : list) {
+						System.out.format(leftAlignFormat,transactions.getTransactionId(),transactions.getTransactionDesc(),
+								transactions.getDateOfTransaction(),transactions.getTransactionType(),transactions.getTransactionAmount()
+								,transactions.getAccountId());
 					}
+					
+					System.out.format(
+							 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+							);
+					System.out.println("\n");
+					
+					
 				}
 			} else {
 				System.err

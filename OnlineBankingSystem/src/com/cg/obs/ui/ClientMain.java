@@ -120,7 +120,7 @@ public class ClientMain {
 								System.err.println(e.getMessage());
 							}
 							if (userId != 0) {
-								UserClient userClient = new UserClient();
+								CustomerConsole userClient = new CustomerConsole();
 								log.info("Moving to client console");
 								userClient.clientConsole(userId);
 								//System.out.println("client login done");

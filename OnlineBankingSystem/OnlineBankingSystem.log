@@ -322,3 +322,28 @@
 2018-10-14-main-INFO -root      :Account Debit Success for :1001
 2018-10-14-main-INFO -root      :Account Credit Success for :1002
 2018-10-14-main-INFO -root      :Transaction Record success
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-ERROR-DB        :java.sql.SQLException: Listener refused the connection with the following error:
+ORA-12505, TNS:listener does not currently know of SID given in connect descriptor
+ 
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-ERROR-DB        :java.sql.SQLException: Listener refused the connection with the following error:
+ORA-12505, TNS:listener does not currently know of SID given in connect descriptor
+ 
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded

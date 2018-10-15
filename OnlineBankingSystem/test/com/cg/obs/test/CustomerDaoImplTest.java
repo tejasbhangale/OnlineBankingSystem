@@ -72,7 +72,7 @@ public class CustomerDaoImplTest {
 			tranList = (new CustomerDaoImpl()).getMiniStatement(1001);
 			assertNotNull(tranList);
 			//checking if same object retrieved, tran.get(0) gets the latest transaction 
-			assertEquals(dummyTran.toString(), tranList.get(0).toString());
+			assertEquals(dummyTran.toString(), tranList.get(tranList.size()-1).toString());
 		} catch (OnlineBankingException e) {
 			fail(e.getMessage());
 		}

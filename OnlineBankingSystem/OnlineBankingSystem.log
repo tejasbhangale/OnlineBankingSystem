@@ -439,3 +439,14 @@ ORA-12505, TNS:listener does not currently know of SID given in connect descript
 
 2018-10-15-main-INFO -root      :Payee Added Successfully
 2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Logging in as Admin
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Admin logged in successfully
+2018-10-15-main-INFO -Admin     :Admin Console started...
+2018-10-15-main-INFO -Admin     :Exiting Admin console
+2018-10-15-main-INFO -MainUI    :Logging in as Admin
+2018-10-15-main-INFO -MainUI    :Admin logged in successfully
+2018-10-15-main-INFO -Admin     :Admin Console started...
+2018-10-15-main-INFO -Admin     :Getting transaction details for Admin
+2018-10-15-main-INFO -Admin     :Getting user transaction details

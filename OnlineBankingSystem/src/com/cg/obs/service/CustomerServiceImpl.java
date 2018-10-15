@@ -269,7 +269,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	 ********************************************************************************************************/
 
 	@Override
-	public ArrayList<Integer> getAllAccounts(long userId) throws OnlineBankingException {
+	public ArrayList<Long> getAllAccounts(long userId) throws OnlineBankingException {
 		return cDao.getAllAccounts(userId);
 	}
 

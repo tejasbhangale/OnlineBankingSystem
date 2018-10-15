@@ -44,7 +44,7 @@ public interface ICustomerService {
 
 	public boolean transactionAuthentication(long userId, String verifyPass) throws OnlineBankingException;
 	
-	public ArrayList<Integer> getAllAccounts(long userId) throws OnlineBankingException;
+	public ArrayList<Long> getAllAccounts(long userId) throws OnlineBankingException;
 
 	public boolean isFirstTimeUser(long userId) throws OnlineBankingException;
 

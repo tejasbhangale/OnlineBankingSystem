@@ -373,3 +373,4 @@ ORA-12505, TNS:listener does not currently know of SID given in connect descript
 2018-10-15-main-ERROR-root      :Error Adding PayeeORA-00001: unique constraint (SYSTEM.SYS_C007341) violated
 
 2018-10-15-main-INFO -root      :Payee Added Successfully
+2018-10-15-main-INFO -DB        :Driver Loaded

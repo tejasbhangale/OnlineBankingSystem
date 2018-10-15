@@ -17,7 +17,7 @@ public interface IQueryMapper {
 	
 	public static final String INSERT_USER_TABLE = "INSERT INTO User_Table VALUES (?,?,?,?,?,?)";	
 
-	public static final String GET_TRANSACTION_DETAILS = "SELECT * from Transactions where Date_of_Transaction>=? AND Date_of_Transaction<=?";
+	public static final String GET_TRANSACTION_DETAILS = "SELECT * from Transactions where Date_of_Transaction>=? AND Date_of_Transaction<=? Order By DATE_OF_TRANSACTION desc";
 
 	public static final String GET_CUSTOMER_DETAILS = "SELECT USER_ID,CUSTOMER_NAME,MOBILE,EMAIL,ADDRESS,PANCARD from Customer where USER_ID=?";
 	

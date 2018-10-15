@@ -281,11 +281,31 @@ public class AdminConsole {
 				} else {
 
 					System.out.println("Transaction Details \n");
-					for (Transactions tra : list) {
-
-						System.out.println(tra.toString());
-
+					
+					System.out.println("\n");
+					
+					String leftAlignFormat = "| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n";
+					
+					System.out.format(
+							 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+							);
+					System.out.format(
+							 "| Transaction Id  | Description     | Date            | Type            |  Amount         |   Account Number|%n"
+							);
+					System.out.format(
+							 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+							);
+					for (Transactions transactions : list) {
+						System.out.format(leftAlignFormat,transactions.getTransactionId(),transactions.getTransactionDesc(),
+								transactions.getDateOfTransaction(),transactions.getTransactionType(),transactions.getTransactionAmount()
+								,transactions.getAccountId());
 					}
+					
+					System.out.format(
+							 "+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+%n"
+							);
+					System.out.println("\n");
+					
 				}
 			} else {
 				

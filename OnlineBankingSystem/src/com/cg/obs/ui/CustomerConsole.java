@@ -150,9 +150,9 @@ public class CustomerConsole {
 
 
 	private long getAccountNumberFromUser(long userId) {
-		HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
+		HashMap<Integer, Long> mapAcc = printAndGetAllAccounts(userId);
 		try {
-			int accNum = mapAcc.get(sc.nextInt());
+			long accNum = mapAcc.get(sc.nextInt());
 			return accNum;
 		} catch (InputMismatchException e) {
 			System.err.println(Messages.INCORRECT_INPUT_TYPE);
@@ -272,7 +272,7 @@ public class CustomerConsole {
 		System.out.println("Select Account to request ChequeBook for it:");
 
 		try {
-			HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
+			HashMap<Integer, Long> mapAcc = printAndGetAllAccounts(userId);
 			int requestNumber = cService.requestChequeBook(mapAcc.get(scan
 					.nextInt()));
 
@@ -373,7 +373,7 @@ public class CustomerConsole {
 			System.out.println("Select Account to Track Service for it:");
 
 			try {
-				HashMap<Integer, Integer> mapAcc = printAndGetAllAccounts(userId);
+				HashMap<Integer, Long> mapAcc = printAndGetAllAccounts(userId);
 				ArrayList<ServiceTracker> requestList = cService
 						.getAllRequestStatus(mapAcc.get(scan.nextInt()));
 				if (requestList.isEmpty() | requestList == null)
@@ -398,11 +398,11 @@ public class CustomerConsole {
 
 	}
 
-	private HashMap<Integer, Integer> printAndGetAllAccounts(long userId) {
-		ArrayList<Integer> accNums;
+	private HashMap<Integer, Long> printAndGetAllAccounts(long userId) {
+		ArrayList<Long> accNums;
 		try {
 			accNums = cService.getAllAccounts(userId);
-			HashMap<Integer, Integer> mapAcc = new HashMap<Integer, Integer>();
+			HashMap<Integer, Long> mapAcc = new HashMap<Integer, Long>();
 			AtomicInteger index = new AtomicInteger(1);
 			accNums.forEach((acc) -> {
 				int ind = index.getAndIncrement();

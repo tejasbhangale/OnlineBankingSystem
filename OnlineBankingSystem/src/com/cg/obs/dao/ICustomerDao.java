@@ -46,7 +46,7 @@ public interface ICustomerDao {
 
 	public String getUserTransPassword(long userId) throws OnlineBankingException;
 
-	public ArrayList<Integer> getAllAccounts(long userId) throws OnlineBankingException;
+	public ArrayList<Long> getAllAccounts(long userId) throws OnlineBankingException;
 
 	public boolean isFirstTimeUser(long userId) throws OnlineBankingException;
 

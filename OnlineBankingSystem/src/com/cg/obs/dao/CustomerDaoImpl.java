@@ -270,8 +270,8 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 	
 	/*******************************************************************************************************
-	 - Function Name	: getRequestStatus(int reqNum, int userId)
-	 - Input Parameters	: int reqNum, int userId
+	 - Function Name	: getRequestStatus(int reqNum, long userId)
+	 - Input Parameters	: int reqNum, long userId
 	 - Return Type		: ServiceTracker
 	 - Throws		    : OnlineBankingException
 	 - Author	      	: CAPGEMINI
@@ -456,15 +456,15 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	/*******************************************************************************************************
-	 - Function Name	:	getAllAccounts(int userId)
-	 - Input Parameters	:	int userId
+	 - Function Name	:	getAllAccounts(long userId)
+	 - Input Parameters	:	long userId
 	 - Return Type		:	ArrayList<Integer>
 	 - Throws			:  	OnlineBankingException
 	 - Author			:	CAPGEMINI
 	 - Description		:	Returns List of all the bank accounts of a user
 	 ********************************************************************************************************/
 	@Override
-	public ArrayList<Integer> getAllAccounts(long userId) throws OnlineBankingException {
+	public ArrayList<Long> getAllAccounts(long userId) throws OnlineBankingException {
 		try (Connection conn = ConnectionProvider.DEFAULT_INSTANCE
 				.getConnection();
 				PreparedStatement pt = conn
@@ -473,10 +473,10 @@ public class CustomerDaoImpl implements ICustomerDao {
 			pt.setLong(1, userId);
 
 			ResultSet resSet = pt.executeQuery();
-			ArrayList<Integer> accList = new ArrayList<Integer>();
+			ArrayList<Long> accList = new ArrayList<Long>();
 			while (resSet.next()) {
 			
-				accList.add(resSet.getInt(1));
+				accList.add(resSet.getLong(1));
 			}
 			return accList;
 
@@ -768,7 +768,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 				String failedDesc=("FT:" + fundTransferId+" REVERTED");
 				if(debitSuccess && !creditSuccess){
 					connection.rollback();
-
+					
 					fromTransactionId=recordTransaction(fromaccount, failedDesc, "c", transferAmount);
 				}
 

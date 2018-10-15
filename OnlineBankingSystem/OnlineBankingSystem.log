@@ -347,3 +347,29 @@ ORA-12505, TNS:listener does not currently know of SID given in connect descript
 2018-10-15-main-INFO -DB        :Driver Loaded
 2018-10-15-main-INFO -DB        :Driver Loaded
 2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -root      :Placed ChequeBook Request
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-ERROR-root      :Error Recording TransactionORA-02289: sequence does not exist
+
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-ERROR-root      :Error Recording TransactionORA-02289: sequence does not exist
+
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-ERROR-root      :Error Recording TransactionORA-02289: sequence does not exist
+
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-ERROR-root      :Error Recording TransactionORA-02289: sequence does not exist
+
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-INFO -root      :Transaction Record success
+2018-10-15-main-INFO -root      :Account Debit Success for :1001
+2018-10-15-main-INFO -root      :Account Credit Success for :1002
+2018-10-15-main-INFO -root      :Transaction Record success
+2018-10-15-main-ERROR-root      :Error Adding PayeeORA-00001: unique constraint (SYSTEM.SYS_C007341) violated
+
+2018-10-15-main-INFO -root      :Payee Added Successfully

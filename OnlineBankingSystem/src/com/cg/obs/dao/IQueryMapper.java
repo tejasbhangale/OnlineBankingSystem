@@ -17,9 +17,9 @@ public interface IQueryMapper {
 	
 	public static final String INSERT_USER_TABLE = "INSERT INTO User_Table VALUES (?,?,?,?,?,?)";	
 
-	public static final String GET_TRANSACTION_DETAILS = "SELECT * from Transactions where Date_of_Transaction>=? AND Date_of_Transaction<=?";
+	public static final String GET_TRANSACTION_DETAILS = "SELECT * from Transactions where Date_of_Transaction>=? AND Date_of_Transaction<=? Order By DATE_OF_TRANSACTION desc";
 
-	public static final String GET_CUSTOMER_DETAILS = "SELECT * from Customer where USER_ID=?";
+	public static final String GET_CUSTOMER_DETAILS = "SELECT USER_ID,CUSTOMER_NAME,MOBILE,EMAIL,ADDRESS,PANCARD from Customer where USER_ID=?";
 	
 	public static final String UPDATE_CUSTOMER_DETAILS = "UPDATE CUSTOMER SET MOBILE=?,ADDRESS=? WHERE USER_ID=?";
 
@@ -45,9 +45,9 @@ public interface IQueryMapper {
 
 	public static final String GET_MINI_STATEMENT = "SELECT * from Transactions where Account_Id=? Order By DATE_OF_TRANSACTION desc";
 
-	public static final String GET_REQUEST_STATUS = "select * from service_tracker s where s.service_id=? and s.account_id in (select a.account_id from account_master a where a.user_id=?)";
+	public static final String GET_REQUEST_STATUS = "select SERVICE_ID,SERVICE_DESCRIPTION,ACCOUNT_ID,SERVICE_RAISED_DATE,SERVICE_STATUS from service_tracker s where s.service_id=? and s.account_id in (select a.account_id from account_master a where a.user_id=?)";
 
-	public static final String GET_ALL_REQUESTS = "SELECT * from SERVICE_TRACKER WHERE ACCOUNT_ID=? AND SERVICE_RAISED_DATE>(SYSDATE-180)";
+	public static final String GET_ALL_REQUESTS = "SELECT SERVICE_ID,SERVICE_DESCRIPTION,ACCOUNT_ID,SERVICE_RAISED_DATE,SERVICE_STATUS from SERVICE_TRACKER WHERE ACCOUNT_ID=? AND SERVICE_RAISED_DATE>(SYSDATE-180)";
 	
 	public static final String GET_DETAILED_STATEMENT = "SELECT * from Transactions where Account_ID=? AND Date_of_Transaction>=? AND Date_of_Transaction<=? Order By Date_of_Transaction desc";
 

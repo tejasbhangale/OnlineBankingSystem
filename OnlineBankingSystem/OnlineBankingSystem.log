@@ -347,3 +347,92 @@ ORA-12505, TNS:listener does not currently know of SID given in connect descript
 2018-10-15-main-INFO -DB        :Driver Loaded
 2018-10-15-main-INFO -DB        :Driver Loaded
 2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-INFO -MainUI    :Getting User Credentials
+2018-10-15-main-INFO -MainUI    :Logging in as Admin
+2018-10-15-main-INFO -MainUI    :Admin logged in successfully
+2018-10-15-main-INFO -Admin     :Admin Console started...
+2018-10-15-main-INFO -Admin     :Getting account status
+2018-10-15-main-INFO -Admin     :Getting User lock status
+2018-10-15-main-INFO -Admin     :User account is unlicked
+2018-10-15-main-INFO -Admin     :Exiting Admin console
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-INFO -MainUI    :Getting User Credentials
+2018-10-15-main-INFO -MainUI    :Moving to client console
+2018-10-15-main-INFO -MainUI    :Exiting the application
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-INFO -MainUI    :Getting User Credentials
+2018-10-15-main-INFO -MainUI    :Moving to client console
+2018-10-15-main-INFO -root      :Payee Added Successfully
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-ERROR-root      :Error Recording TransactionORA-02289: sequence does not exist
+
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-ERROR-MainUI    :Invalid option entered
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-INFO -MainUI    :Getting User Credentials
+2018-10-15-main-INFO -MainUI    :Moving to client console
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-ERROR-root      :Error Recording TransactionORA-02289: sequence does not exist
+
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-ERROR-MainUI    :Exception occurred
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-ERROR-MainUI    :Exception occurred
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-ERROR-MainUI    :Exception occurred
+2018-10-15-main-ERROR-MainUI    :Login Attempts exceeded Account Locked
+2018-10-15-main-INFO -MainUI    :Logging in as Admin
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-INFO -MainUI    :Getting User Credentials
+2018-10-15-main-INFO -MainUI    :Logging in as Admin
+2018-10-15-main-INFO -MainUI    :Admin logged in successfully
+2018-10-15-main-INFO -Admin     :Admin Console started...
+2018-10-15-main-INFO -Admin     :Getting account status
+2018-10-15-main-INFO -Admin     :Getting User lock status
+2018-10-15-main-INFO -Admin     :User account is unlicked
+2018-10-15-main-INFO -Admin     :Exiting Admin console
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-INFO -MainUI    :Getting User Credentials
+2018-10-15-main-INFO -MainUI    :Moving to client console
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-ERROR-root      :Error Recording TransactionORA-02289: sequence does not exist
+
+2018-10-15-main-INFO -MainUI    :Banking Application Started
+2018-10-15-main-INFO -MainUI    :Showing login options to the customer
+2018-10-15-main-INFO -MainUI    :Validating User
+2018-10-15-main-INFO -DB        :Driver Loaded
+2018-10-15-main-INFO -MainUI    :Login Attempts incremented
+2018-10-15-main-INFO -MainUI    :Getting User Credentials
+2018-10-15-main-INFO -MainUI    :Moving to client console
+2018-10-15-main-INFO -root      :Record Fund Transfer success
+2018-10-15-main-INFO -root      :Transaction Record success
+2018-10-15-main-INFO -root      :Account Debit Success for :1001
+2018-10-15-main-INFO -root      :Account Credit Success for :1003
+2018-10-15-main-INFO -root      :Transaction Record success
